@@ -123,9 +123,9 @@
     </div>
   </div>
   <!-- <section> -->
-    <!-- <div class="container mx-auto">
+    <div class="container mx-auto">
       <BarChart :data="barChartData" :options="barChartOptions" :height="200" :width="500" style="display: block; width: 1000px; height: 384px;"/>
-    </div> -->
+    </div>
   <!-- </section> -->
   <div class="container mx-auto py-4">
     <div class="flex flex-col">
@@ -219,12 +219,12 @@
                   <a class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="fetchSomething(page=page+4)">
                     {{ page+4 }}
                   </a> -->
-                  <!-- <a v-if="page>1" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="fetchSomething(page=prev+1)">
+                  <a v-if="page>1" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="fetchSomething(page=prev+1)">
                     {{ page }}
-                  </a> -->
-                  <!-- <a v-else class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="fetchSomething(page=page+1)">
+                  </a>
+                  <a v-else class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="fetchSomething(page=page+1)">
                     {{ page+1 }}
-                  </a> -->
+                  </a>
                   <a v-if="page>=1 && page < ip.data.count/100" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" v-on:click="fetchSomething(page=page+1)">
                     Next
                   </a>
@@ -237,7 +237,7 @@
       </div>
     </div>
   </div>
-  <!-- <p v-for="event in statedata.data.data" :key="event.id" :event="event">{{ event.state }}</p> -->
+  <p v-for="event in statedata.data.data" :key="event.id" :event="event">{{ event.state }}</p>
   </div>
 </template>
 

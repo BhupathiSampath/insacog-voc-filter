@@ -1,80 +1,311 @@
 <template>
-  <div class="box-border p-4 border-4">
-  <div class="container mx-auto">
-  <input class="shadow appearance-none border rounded w-50 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="strain" type="text" placeholder="Strain" v-model="strain" />
-  <input v-model="state" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="State">
-  <input v-model="lineage" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Lineage">
-  <input v-model="mutation_deletion" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Mutaion and deletion">
-  <input v-model="date" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Date">
-  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" v-on:click="fetchSomething">Button</button>
-  <table class="table-auto border-separate border border-gray-400">
-    <thead>
-      <tr class="odd:bg-white even:bg-gray-100">
-        <th class="border border-gray-300">Date</th>
-        <th class="border border-gray-300">Strain</th>
-        <th class="border border-gray-300">State</th>
-        <th class="border border-gray-300">Lineage</th>
-        <th class="border border-gray-300">Gene</th>
-        <th class="border border-gray-300">Reference</th>
-        <th class="border border-gray-300">AA Position</th>
-        <th class="border border-gray-300">Mutation</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="odd:bg-white even:bg-gray-100" v-for="event in ip.data.results" :key="event.id" :event="event">
-        <td class="border border-gray-300">{{ event.date}}</td>
-        <td class="border border-gray-300">{{ event.strain}}</td>
-        <td class="border border-gray-300">{{ event.state }}</td>
-        <td class="border border-gray-300">{{ event.lineage}}</td>
-        <td class="border border-gray-300">{{ event.gene}}</td>
-        <td class="border border-gray-300">{{ event.reference_id }}</td>
-        <td class="border border-gray-300">{{ event.amino_acid_position}}</td>
-        <td class="border border-gray-300">{{ event.mutation}}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div>
+  <div class="max-w-full px-10 mx-2 sm:mx-auto sm:px-6 lg:px-10">
+    <div  class="px-12">
+      <input class="shadow appearance-none border rounded w-50 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="strain" type="text" placeholder="Strain" v-model="strain" v-on:keyup.enter="fetchSomething()"/>
+      <input class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="state" placeholder="State" v-model="state" v-on:keyup.enter="fetchSomething()"/>
+      <input v-model="lineage" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="lineage" type="text" placeholder="Lineage" v-on:keyup.enter="fetchSomething()">
+      <input v-model="mutation_deletion" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="mutation_deletion" type="text" placeholder="mutation_deletion" v-on:keyup.enter="fetchSomething()">
+      <input v-model="date" class="shadow appearance-none border w-40 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="date" type="text" placeholder="Date" v-on:keyup.enter="fetchSomething()">
+      <select class="shadow appearance-none border rounded w-50 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline cursor-pointer" v-on:keyup.enter="fetchSomething()" v-model="days" name="days">
+        <option value="36500" name="days">All data</option>
+        <option value="7">Last week</option>
+        <option value="14" >Last 2 weeks</option>
+        <option value="21">Last 3 weeks</option>
+        <option value="30">Last month</option>
+        <option value="60">Last 2 months</option>
+        <option value="90">Last 3 months</option>
+        <option value="120">Last 4 months</option>
+        <option value="150">Last 5 months</option>
+        <option value="182">Last 6 months</option>
+        <option value="365">This year</option>
+      </select>
+      <button class="bg-blue-500 hover:bg-blue-700 content-left text-white font-bold py-2 px-4 rounded" v-on:click="fetchSomething">Get Data</button>
+    </div>
+    <div class="md:grid px-12 md:grid-cols-2 md:gap-20 py-1">
+      <button class="bg-green-300 hover:bg-green-700 content-left text-white font-bold py-2 px-4 rounded" id="show" v-on:click="handlechange">Advance filter</button>
+      <button class="bg-green-300 hover:bg-green-700 content-left text-white font-bold py-2 px-4 rounded" id="show" v-on:click="downloadFile">Download</button>
+    </div>
+    <div id="book" hidden>
+      <div  class="px-12">
+        <input class="shadow appearance-none border rounded w-50 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="gene" type="text" placeholder="gene" v-model="gene" v-on:keyup.enter="fetchSomething()"/>
+        <input class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="reference_id" placeholder="reference id" v-model="reference_id" v-on:keyup.enter="fetchSomething()"/>
+        <input v-model="amino_acid_position" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="amino_acid_position" type="text" placeholder="amino_acid_position" v-on:keyup.enter="fetchSomething()">
+        <input v-model="mutation" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="mutation" type="text" placeholder="mutation" v-on:keyup.enter="fetchSomething()">
+        <input v-model="start_date" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="start_date" type="date" placeholder="start_date" v-on:keyup.enter="fetchSomething()">
+        <input v-model="end_date" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="end_date" type="date" placeholder="end_date" v-on:keyup.enter="fetchSomething()">
+        <button  class="bg-blue-500 hover:bg-blue-700 content-left text-white font-bold py-2 px-4 rounded" v-on:click="fetchSomething">Get Data</button>
+      </div>
+    </div>
   </div>
+  <section>
+    <div class="container mx-auto">
+      <BarChart :data="barChartData" :options="barChartOptions" :height="500" :width="2000" style="display: block; width: 1500px; height: 384px;"/>
+    </div>
+  </section>
+  <div class="container mx-auto py-4">
+    <div class="flex flex-col">
+      <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+          <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-middle text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Date <a class="cursor-pointer font-bold" v-on:click="fetchSomething(ordering='date')">&#x2193;</a><a class="cursor-pointer font-bold" v-on:click="fetchSomething(ordering='-date')">&#x2191;</a>
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-middle text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Strain <a class="cursor-pointer" v-on:click="fetchSomething(ordering='strain')">&#x2193;</a><a class="cursor-pointer" v-on:click="fetchSomething(ordering='-strain')">&#x2191;</a>
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-middle text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    State <a class="cursor-pointer" v-on:click="fetchSomething(ordering='state')">&#x2193;</a><a class="cursor-pointer" v-on:click="fetchSomething(ordering='-state')">&#x2191;</a>
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-middle text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Lineage <a class="cursor-pointer" v-on:click="fetchSomething(ordering='lineage')">&#x2193;</a><a class="cursor-pointer" v-on:click="fetchSomething(ordering='-ordering')">&#x2191;</a>
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-middle text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Gene <a class="cursor-pointer" v-on:click="fetchSomething(ordering='gene')">&#x2193;</a><a class="cursor-pointer" v-on:click="fetchSomething(ordering='-gene')">&#x2191;</a>
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-middle text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Reference <a class="cursor-pointer" v-on:click="fetchSomething(ordering='reference_id')">&#x2193;</a><a class="cursor-pointer" v-on:click="fetchSomething(ordering='-reference_id')">&#x2191;</a>
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-middle text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    AA Position <a class="cursor-pointer" v-on:click="fetchSomething(ordering='amino_acid_position')">&#x2193;</a><a class="cursor-pointer" v-on:click="fetchSomething(ordering='-amino_acid_position')">&#x2191;</a>
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-middle text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Mutaion <a class="cursor-pointer" v-on:click="fetchSomething(ordering='mutation')">&#x2193;</a><a class="cursor-pointer" v-on:click="fetchSomething(ordering='-mutation')">&#x2191;</a>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y text-middle divide-gray-200">
+                <tr v-for="event in ip.data.results" :key="event.id" :event="event">
+                  <td class="px-10 text-middle whitespace-nowrap">
+                    {{ event.date}}
+                  </td>
+                  <td class="px-10 whitespace-nowrap text-sm font-medium">
+                    {{ event.strain}}
+                  </td>
+                  <td class="px-10 whitespace-nowrap text-middle text-sm font-medium">
+                    {{ event.state}}
+                  </td>
+                  <td class="px-10 py-4 whitespace-nowrap text-sm font-medium">
+                    {{ event.lineage}}
+                  </td>
+                  <td class="px-10 py-4 whitespace-nowrap text-sm font-medium">
+                    {{ event.gene}}
+                  </td>
+                  <td class="px-10 py-4 whitespace-nowrap">
+                    {{ event.reference_id}}
+                  </td>
+                  <td class="px-10 py-4 whitespace-nowrap text-sm font-medium">
+                    {{ event.amino_acid_position}}
+                  </td>
+                  <td class="px-10  whitespace-nowrap text-middle text-sm font-medium">
+                    {{ event.mutation}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+              <div>
+                <p class="text-sm text-gray-700">
+                  Showing
+                  <span class="font-medium">{{ this.page }}</span>
+                  of
+                  <span class="font-medium">{{ip.data.count/100+1 ^ 0}}</span>
+                  pages
+                </p>
+              </div>
+              <div>
+                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px cursor-pointer" aria-label="Pagination">
+                  <a v-if="page>1" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" v-on:click="fetchSomething(page = page-1)">
+                    Previous
+                  </a>
+                  <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
+                  <a aria-current="page" class="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="fetchSomething(page=1)">
+                    1
+                  </a>
+                  <!-- <a class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="fetchSomething(page=page+2)">
+                    {{ page+2 }}
+                  </a>
+                  <a class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="fetchSomething(page=page+3)">
+                    {{ page+3 }}
+                  </a>
+                  <a class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="fetchSomething(page=page+4)">
+                    {{ page+4 }}
+                  </a> -->
+                  <!-- <a v-if="page>1" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="fetchSomething(page=prev+1)">
+                    {{ page }}
+                  </a> -->
+                  <!-- <a v-else class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="fetchSomething(page=page+1)">
+                    {{ page+1 }}
+                  </a> -->
+                  <a v-if="page>=1 && page < ip.data.count/100" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" v-on:click="fetchSomething(page=page+1)">
+                    Next
+                  </a>
+                </nav>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <p v-for="event in statedata.data.data" :key="event.id" :event="event">{{ event.state }}</p> -->
   </div>
 </template>
 
 <script>
+import moment from 'moment'
+import $ from 'jquery'
 import axios from 'axios'
-let page = 1
+import BarChart from "~/components/BarChart.vue";
+const page = 1
+const count = ''
 export default {
+  components: { BarChart },
+  
   data () {
     return {
-      // events: [],
+      arrWeekNumber: [],
+      arrweekdata: [],
+      events: [],
+      days: 36500,
+      start_date: "",
+      end_date: "",
+      page: 1,
+      ordering: "",
+      count: "",
       strain: "",
       state: "",
       lineage: "",
       mutation_deletion: "",
       date: "",
-      ip: {},  
-    }
+      gene: "",
+      reference_id: "",
+      amino_acid_position: "",
+      mutation: "",
+      ip: {},
+      prev: '',
+      barChartData: {
+        labels: [
+          this.week
+        ],
+        datasets: [
+          {
+            label: "Visualizaciones",
+            data: [2, 1, 6, 3, 4, 5, 10, 7, 4, 12, 2,2, 1, 16, 3, 4, 5, 10, 14, 4, 12, 2,2, 1, 16, 3, 4, 5, 10, 14, 4, 12, 2,2, 1, 16, 3, 4, 5],
+            backgroundColor: "rgba(20, 255, 0, 0.3)",
+            borderColor: "rgba(100, 255, 0, 1)",
+            borderWidth: 2,
+          },
+        ],
+      },
+      barChartOptions: {
+        responsive: true,
+        legend: {
+          display: false,
+        },
+        title: {
+          display: true,
+          text: "State wise sequences",
+          fontSize: 24,
+          fontColor: "#6b7280",
+        },
+        tooltips: {
+          backgroundColor: "#17BF62",
+        },
+        scales: {
+          xAxes: [
+            {
+              gridLines: {
+                display: true,
+              },
+            },
+          ],
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+                max: 20,
+                min: 0,
+                stepSize: 4,
+              },
+              gridLines: {
+                display: true,
+              },
+            },
+          ],
+        },
+      },
+    } 
   },
-  async asyncData({ $axios }) {
-    const ip = await axios.get(`http://10.10.6.87/api/data/?page=${page}`)
+  async asyncData() {
+    const ip = await axios.get(`${process.env.baseUrl}/data/?page=${page}`)
+    const distribution = await axios.get(`${process.env.baseUrl}/distribution/`)
+    // const version_data = await axios.post(`https://research.nibmg.ac.in/insacog/api/files/landing-stats/`)
+    console.log(distribution.data)
+    const week = distribution.data.data.forEach(element => {
+
+      // const Week_Number = moment(element.Week_Number, "YYYY-MM").format("YYYY-MM");
+      const {
+        Week_Number,
+        week_data
+      } = element;
+      console.log(Week_Number)
+      console.log(week_data)
+    // this.arrWeekNumber.push({Week_Number, total: week_data});
+    });
+      // console.log(week.Week_Number)
       console.log(ip.data)
-      return { ip }
+      // console.log(version_data.data)
+      const count = ip.data.count
+      // const last_updated = version_data.data.last_updated.toString().split(':').at(0)
+      // const nextclade_version = version_data.data.nextclade_version.toString().split(':').at(-1)
+      // const pango_designation_version = version_data.data.pango_designation_version.toString().split(':').at(-1)
+      // const pangolearn_version = version_data.data.pangolearn_version.toString().split(':').at(-1)
+      // const constellation_version = version_data.data.constellation_version.toString().split(':').at(-1)
+      // const pangolin_version = version_data.data.pangolin_version.toString().split(':').at(-1)
+      // const genomes_sequenced = version_data.data.genomes_sequenced
+      return { ip,distribution,week, count }
   },
   methods: {
+    
+    handlechange()
+    {
+			$('#book').toggle();
+    },
     async fetchSomething() {
-      const ip = await axios.get(`http://10.10.6.87/api/data/?starin=${this.strain}&state=${this.state}&lineage=${this.lineage}&mutaion_deletion=${this.mutaion_deletion}&date=${this.data}`)
+      if (page > 1) {
+			const prev = page - 1;
+		}
+      const ip = await axios.get(`${process.env.baseUrl}/data/?page=${this.page}&start_date=${this.start_date}&end_date=${this.end_date}&days=${this.days}&strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`)
+      // const count = ip.data.count
       console.log(ip.data)
       this.ip = ip
-    }
-  },
+    },
+    async downloadFile() {
+      const csv = await axios.get(`${process.env.baseUrl}/exportcsv/?days=${this.days}&start_date=${this.start_date}&end_date=${this.end_date}&strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`)
+				const file_name = csv.data.path;
+				console.log(file_name);
+				const download_path = `${process.env.downloadUrl}/${file_name}`;
+        axios({
+              url: download_path,
+              method: 'GET',
+              responseType: 'blob',
+          }).then((response) => {
+                var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                var fileLink = document.createElement('a');
+
+                fileLink.href = fileURL;
+                fileLink.setAttribute('download', file_name);
+                document.body.appendChild(fileLink);
+                fileLink.click();
+          });
+        }
+      },
   }
-  // created () {
-  // axios
-  //   .get(`http://10.10.6.87/api/data/?page=${page}`)
-  //   .then(response => {
-  //     console.log(response.data)
-  //     this.events = response.data.results
-  //   })
-  //   .catch(error => {
-  //     console.log("error" + error.response)
-  //   })
-  // }
-// }
+
 </script>
