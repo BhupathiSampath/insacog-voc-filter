@@ -122,11 +122,11 @@
       </div>
     </div>
   </div>
-  <!-- <section> -->
-    <!-- <div class="container mx-auto">
-      <BarChart :data="barChartData" :options="barChartOptions" :height="200" :width="500" style="display: block; width: 1000px; height: 384px;"/>
-    </div> -->
-  <!-- </section> -->
+  <section>
+    <div class="container mx-auto">
+      <BarChart :key="random" :data="barChartData" :options="barChartOptions" :height="500" :width="2000" style="display: block; width: 1500px; height: 384px;"></BarChart>
+    </div>
+  </section>
   <div class="container mx-auto py-4">
     <div class="flex flex-col">
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -246,13 +246,15 @@ import $ from 'jquery'
 import axios from 'axios'
 import BarChart from "~/components/BarChart.vue";
 const page = 1
-const count = ''
 
 export default {
   components: { BarChart },
   
   data () {
     return {
+      random: 123456,
+      arrStates: [],
+      arrMutations: [],
       events: [],
       days: 36500,
       start_date: "",
@@ -270,6 +272,7 @@ export default {
       amino_acid_position: "",
       mutation: "",
       ip: {},
+      mutationdistribution: {},
       prev: '',
       // dfile: {},
       version_data: [],
@@ -284,9 +287,9 @@ export default {
         labels: [],
         datasets: [
           {
-            label: "Visualizaciones",
+            label: "count",
             data: [],
-            backgroundColor: "rgba(20, 255, 0, 0.3)",
+            backgroundColor: "blue",
             borderColor: "rgba(100, 255, 0, 1)",
             borderWidth: 2,
           },
@@ -295,12 +298,12 @@ export default {
       barChartOptions: {
         responsive: true,
         legend: {
-          display: false,
+          display: true,
         },
         title: {
           display: true,
-          text: "State wise sequences",
-          fontSize: 24,
+          text: "Weekly frequency distribution of Sequences",
+          fontSize: 18,
           fontColor: "#6b7280",
         },
         tooltips: {
@@ -310,7 +313,7 @@ export default {
           xAxes: [
             {
               gridLines: {
-                display: true,
+                display: false,
               },
             },
           ],
@@ -318,12 +321,12 @@ export default {
             {
               ticks: {
                 beginAtZero: true,
-                max: 20,
+                // max: (this.arrMutations),
                 min: 0,
-                stepSize: 4,
+                // stepSize: 50,
               },
               gridLines: {
-                display: true,
+                display: false,
               },
             },
           ],
@@ -332,11 +335,30 @@ export default {
     } 
   },
 
+ async created() {
+    const mutationdistribution = await axios.get(`${process.env.baseUrl}/statesmutationdistribution/?start_date=${this.start_date}&end_date=${this.end_date}&strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`);
+    console.log(mutationdistribution.data)
+    mutationdistribution.data.forEach(d => {
+      const {
+        state,
+        mutation_deletion__count
+      } = d;
+      this.arrMutations.push(mutation_deletion__count)
+      this.arrStates.push(state)
+    });
+    this.random = 456789
+    this.barChartData.labels = this.arrStates.slice(1,)
+    this.barChartData.datasets[0].data = this.arrMutations.slice(1,)
+    console.log(this.arrStates)
+      
+  },
 
 
 
 
   async asyncData() {
+    
+
     const ip = await axios.get(`${process.env.baseUrl}/data/?page=${page}`)
     const sequences = await axios.get(`${process.env.baseUrl}/count/`)
     
@@ -363,6 +385,24 @@ export default {
 			$('#book').toggle();
     },
     async fetchSomething() {
+
+    const mutationdistribution = await axios.get(`${process.env.baseUrl}/statesmutationdistribution/?start_date=${this.start_date}&end_date=${this.end_date}&strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`);
+    console.log(mutationdistribution.data)
+    mutationdistribution.data.forEach(d => {
+      const {
+        state,
+        mutation_deletion__count
+      } = d;
+      this.arrMutations.push(mutation_deletion__count)
+      this.arrStates.push(state)
+    });
+    this.random = 456789
+    this.barChartData.labels = this.arrStates.slice(1,)
+    this.barChartData.datasets[0].data = this.arrMutations.slice(1,)
+    console.log(this.arrStates)
+    this.mutationdistribution
+
+
       if (page > 1) {
 			const prev = page - 1;
 		}

@@ -25,8 +25,8 @@ export default {
           {
             label: "count",
             data: [],
-            backgroundColor: "rgba(20, 255, 0, 0.3)",
-            borderColor: "rgba(100, 255, 0, 1)",
+            backgroundColor: "blue",
+            borderColor: "blue",
             borderWidth: 2,
           },
         ],
@@ -43,7 +43,7 @@ export default {
           fontColor: "#6b7280",
         },
         tooltips: {
-          backgroundColor: "#17BF62",
+          backgroundColor: "blue",
         },
         scales: {
           xAxes: [
@@ -57,7 +57,7 @@ export default {
             {
               ticks: {
                 beginAtZero: true,
-                max: 5000,
+                // max: 5000,
                 min: 0,
                 // stepSize: 50,
               },
@@ -72,9 +72,6 @@ export default {
   },
   async created() {
     const { data } = await axios.get(`${process.env.baseUrl}/distribution/`);
-    // data.array.forEach(element => {
-    // console.log(data.Week_Number)
-    // });
     data.forEach(d => {
       // const weeks = (d.Week_Number);
       // const count = (d.week_data)
