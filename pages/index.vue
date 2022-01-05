@@ -27,7 +27,7 @@
                 <div class="sm:flex sm:items-start">
                     <div class="text-center sm:mt-0 sm:ml-2 sm:text-left">
                         <h3 class="text-sm leading-6 font-medium text-gray-400">Genomes Sequenced</h3>
-                        <p class="font-bold text-black">{{ genomes_sequenced }}</p>
+                        <p class="font-bold text-black">{{ unisequences }}</p>
                     </div>
                 </div>
             </div>
@@ -281,47 +281,11 @@ export default {
       pangolin_version: "",
       genomes_sequenced: "",
       barChartData: {
-        labels: [
-          "Arunachal Pradesh",
-          "2019-07",
-          "2019-08",
-          "2019-09",
-          "2019-10",
-          "2019-11",
-          "2019-12",
-          "2020-01",
-          "2020-02",
-          "2020-03",
-          "2019-06",
-          "2019-07",
-          "2019-08",
-          "2019-09",
-          "2019-10",
-          "2019-11",
-          "2019-12",
-          "2020-01",
-          "2020-02",
-          "2020-03",
-          "2019-11",
-          "2019-12",
-          "2020-01",
-          "2020-02",
-          "2020-03",
-          "2019-06",
-          "2019-07",
-          "2019-08",
-          "2019-09",
-          "2019-10",
-          "2019-11",
-          "2019-12",
-          "2020-01",
-          "2020-02",
-          "2020-03",
-        ],
+        labels: [],
         datasets: [
           {
             label: "Visualizaciones",
-            data: [2, 1, 6, 3, 4, 5, 10, 7, 4, 12, 2,2, 1, 16, 3, 4, 5, 10, 14, 4, 12, 2,2, 1, 16, 3, 4, 5, 10, 14, 4, 12, 2,2, 1, 16, 3, 4, 5],
+            data: [],
             backgroundColor: "rgba(20, 255, 0, 0.3)",
             borderColor: "rgba(100, 255, 0, 1)",
             borderWidth: 2,
@@ -367,16 +331,22 @@ export default {
       },
     } 
   },
+
+
+
+
+
   async asyncData() {
     const ip = await axios.get(`${process.env.baseUrl}/data/?page=${page}`)
-    const statedata = await axios.get(`${process.env.baseUrl}/statedata/`)
+    const sequences = await axios.get(`${process.env.baseUrl}/count/`)
+    
     const version_data = await axios.post(`https://research.nibmg.ac.in/insacog/api/files/landing-stats/`)
-      console.log(statedata.data.data)
+      
+      console.log(sequences.data[0].count)
       console.log(ip.data)
       console.log(version_data.data)
-      const labels = statedata.data
-      console.log(labels)
       const count = ip.data.count
+      const unisequences = sequences.data[0].count
       const last_updated = version_data.data.last_updated.toString().split(':').at(0)
       const nextclade_version = version_data.data.nextclade_version.toString().split(':').at(-1)
       const pango_designation_version = version_data.data.pango_designation_version.toString().split(':').at(-1)
@@ -384,7 +354,7 @@ export default {
       const constellation_version = version_data.data.constellation_version.toString().split(':').at(-1)
       const pangolin_version = version_data.data.pangolin_version.toString().split(':').at(-1)
       const genomes_sequenced = version_data.data.genomes_sequenced
-      return { ip,statedata, count, version_data, last_updated, nextclade_version, pango_designation_version, pangolearn_version, constellation_version, pangolin_version, genomes_sequenced }
+      return { ip,unisequences, count, version_data, last_updated, nextclade_version, pango_designation_version, pangolearn_version, constellation_version, pangolin_version, genomes_sequenced }
   },
   methods: {
     
