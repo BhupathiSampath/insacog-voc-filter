@@ -197,7 +197,7 @@
                   Showing
                   <span class="font-medium">{{ this.page }}</span>
                   of
-                  <span class="font-medium">{{ip.data.count/100+1 ^ 0}}</span>
+                  <span class="font-medium">{{ip.data.count/25+1 ^ 0}}</span>
                   pages
                 </p>
               </div>
@@ -225,7 +225,7 @@
                   <!-- <a v-else class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="fetchSomething(page=page+1)">
                     {{ page+1 }}
                   </a> -->
-                  <a v-if="page>=1 && page < ip.data.count/100" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" v-on:click="fetchSomething(page=page+1)">
+                  <a v-if="page>=1 && page < ip.data.count/25" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" v-on:click="fetchSomething(page=page+1)">
                     Next
                   </a>
                 </nav>
@@ -290,7 +290,7 @@ export default {
             label: "count",
             data: [],
             backgroundColor: "blue",
-            borderColor: "rgba(100, 255, 0, 1)",
+            borderColor: "rgba(blue)",
             borderWidth: 2,
           },
         ],
@@ -298,16 +298,16 @@ export default {
       barChartOptions: {
         responsive: true,
         legend: {
-          display: true,
+          display: false,
         },
         title: {
           display: true,
-          text: "Weekly frequency distribution of Sequences",
+          text: "State wise mutation distribution",
           fontSize: 18,
           fontColor: "#6b7280",
         },
         tooltips: {
-          backgroundColor: "#17BF62",
+          backgroundColor: "#1fhF62",
         },
         scales: {
           xAxes: [
@@ -336,20 +336,22 @@ export default {
   },
 
  async created() {
-    const mutationdistribution = await axios.get(`${process.env.baseUrl}/statesmutationdistribution/?start_date=${this.start_date}&end_date=${this.end_date}&strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`);
+    const mutationdistribution = await axios.get(`${process.env.baseUrl}/statesmutationdistribution/`);
     console.log(mutationdistribution.data)
     mutationdistribution.data.forEach(d => {
       const {
         state,
         mutation_deletion__count
       } = d;
+      
       this.arrMutations.push(mutation_deletion__count)
       this.arrStates.push(state)
     });
     this.random = 456789
     this.barChartData.labels = this.arrStates.slice(1,)
     this.barChartData.datasets[0].data = this.arrMutations.slice(1,)
-    console.log(this.arrStates)
+    console.log(this.arrStates.slice(1,))
+    console.log(this.arrMutations.slice(1,))
       
   },
 
@@ -386,23 +388,9 @@ export default {
     },
     async fetchSomething() {
 
-    const mutationdistribution = await axios.get(`${process.env.baseUrl}/statesmutationdistribution/?start_date=${this.start_date}&end_date=${this.end_date}&strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`);
-    console.log(mutationdistribution.data)
-    mutationdistribution.data.forEach(d => {
-      const {
-        state,
-        mutation_deletion__count
-      } = d;
-      this.arrMutations.push(mutation_deletion__count)
-      this.arrStates.push(state)
-    });
-    this.random = 456789
-    this.barChartData.labels = this.arrStates.slice(1,)
-    this.barChartData.datasets[0].data = this.arrMutations.slice(1,)
-    console.log(this.arrStates)
-    this.mutationdistribution
 
-
+    // this.arrStates.splice(0,)
+    // this.arrMutations.splice(0,)
       if (page > 1) {
 			const prev = page - 1;
 		}
@@ -410,7 +398,29 @@ export default {
       // const count = ip.data.count
       console.log(ip.data)
       this.ip = ip
+
+      const mutationdistribution = await axios.get(`${process.env.baseUrl}/statesmutationdistribution/?start_date=${this.start_date}&end_date=${this.end_date}&strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`);
+      console.log(mutationdistribution.data)
+      mutationdistribution.data.forEach(d => {
+        
+        const {
+          state,
+          mutation_deletion__count
+        } = d;
+        this.arrMutations.push(mutation_deletion__count)
+        this.arrStates.push(state)
+      });
+      this.random = 456789
+
+      
+      // this.barChartData.labels.splice(0,)
+      // this.barChartData.datasets[0].data.splice(0,)
+      this.barChartData.labels = this.arrStates.slice(1,)
+      this.barChartData.datasets[0].data = this.arrMutations.slice(1,)
+      console.log(this.barChartData.labels)
+      console.log(this.barChartData.datasets[0].data)
     },
+    
     async downloadFile() {
       const csv = await axios.get(`${process.env.baseUrl}/exportcsv/?days=${this.days}&start_date=${this.start_date}&end_date=${this.end_date}&strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`)
 				const file_name = csv.data.path;

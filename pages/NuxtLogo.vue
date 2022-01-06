@@ -34,7 +34,7 @@ export default {
       barChartOptions: {
         responsive: true,
         legend: {
-          display: true,
+          display: false,
         },
         title: {
           display: true,
@@ -78,11 +78,11 @@ export default {
       // console.log(weeks)
       // console.log(weeks)
       const {
-        Week_Number,
-        week_data
+        week_number,
+        strain__count
       } = d;
-      this.arrweekdata.push(week_data)
-      this.arrWeekNumber.push(Week_Number)
+      this.arrweekdata.push(strain__count)
+      this.arrWeekNumber.push(week_number)
       // this.arrweekdata.push(week_data)
       // this.arrWeekNumber.push(Week_Number)
     });
