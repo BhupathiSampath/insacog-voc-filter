@@ -124,9 +124,21 @@
   </div>
   <section>
     <div class="container mx-auto">
+      <Nuxtl />
+    </div>
+  </section>
+  <section>
+    <div class="container mx-auto">
+      <MonthDistribution />
+    </div>
+  </section>
+  <div class="box-content">
+  <section>
+    <div class="container mx-auto">
       <BarChart :key="random" :data="barChartData" :options="barChartOptions" :height="500" :width="2000" style="display: block; width: 1500px; height: 384px;"></BarChart>
     </div>
   </section>
+  </div>
   <div class="container mx-auto py-4">
     <div class="flex flex-col">
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -242,13 +254,15 @@
 </template>
 
 <script>
+import Nuxtl from '/home/nsm-07/Desktop/Bhupati/insacog-voc-filter/pages/NuxtLogo.vue'
+import MonthDistribution from '/home/nsm-07/Desktop/Bhupati/insacog-voc-filter/pages/monthlydistribution.vue'
 import $ from 'jquery'
 import axios from 'axios'
 import BarChart from "~/components/BarChart.vue";
 const page = 1
 
 export default {
-  components: { BarChart },
+  components: { BarChart, Nuxtl, MonthDistribution },
   
   data () {
     return {
@@ -274,7 +288,6 @@ export default {
       ip: {},
       mutationdistribution: {},
       prev: '',
-      // dfile: {},
       version_data: [],
       last_updated: "",
       nextclade_version: "",
@@ -289,7 +302,7 @@ export default {
           {
             label: "count",
             data: [],
-            backgroundColor: "blue",
+            backgroundColor: "#1E90FF",
             borderColor: "rgba(blue)",
             borderWidth: 2,
           },
@@ -326,7 +339,7 @@ export default {
                 // stepSize: 50,
               },
               gridLines: {
-                display: false,
+                display: true,
               },
             },
           ],
@@ -388,6 +401,10 @@ export default {
     },
     async fetchSomething() {
 
+      this.arrStates.splice(0,)
+      this.arrMutations.splice(0,)
+
+    
 
     // this.arrStates.splice(0,)
     // this.arrMutations.splice(0,)
@@ -399,26 +416,22 @@ export default {
       console.log(ip.data)
       this.ip = ip
 
-      const mutationdistribution = await axios.get(`${process.env.baseUrl}/statesmutationdistribution/?start_date=${this.start_date}&end_date=${this.end_date}&strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`);
+      const mutationdistribution = await axios.get(`${process.env.baseUrl}/statesmutationdistribution/?strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`);
       console.log(mutationdistribution.data)
       mutationdistribution.data.forEach(d => {
-        
         const {
           state,
           mutation_deletion__count
         } = d;
+        
         this.arrMutations.push(mutation_deletion__count)
         this.arrStates.push(state)
       });
-      this.random = 456789
-
-      
-      // this.barChartData.labels.splice(0,)
-      // this.barChartData.datasets[0].data.splice(0,)
+      this.random = Math.random()
       this.barChartData.labels = this.arrStates.slice(1,)
       this.barChartData.datasets[0].data = this.arrMutations.slice(1,)
-      console.log(this.barChartData.labels)
-      console.log(this.barChartData.datasets[0].data)
+      console.log(this.arrStates.slice(1,))
+      console.log(this.arrMutations.slice(1,))
     },
     
     async downloadFile() {
