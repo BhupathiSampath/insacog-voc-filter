@@ -27,7 +27,7 @@
                 <div class="sm:flex sm:items-start">
                     <div class="text-center sm:mt-0 sm:ml-2 sm:text-left">
                         <h3 class="text-sm leading-6 font-medium text-gray-400">Genomes Sequenced</h3>
-                        <p class="font-bold text-black">{{ genomes_sequenced }}</p>
+                        <p class="font-bold text-black">{{ unisequences }}</p>
                     </div>
                 </div>
             </div>
@@ -105,10 +105,14 @@
         <option value="365">This year</option>
       </select>
       <button class="bg-blue-500 hover:bg-blue-700 content-left text-white font-bold py-2 px-4 rounded" v-on:click="fetchSomething">Get Data</button>
+      <!-- <div class="fixed"> -->
+      <!-- <img class="fixed" src="https://img.icons8.com/dotty/80/000000/filter.png"/> -->
+      <!-- </div> -->
     </div>
     <div class="md:grid px-12 md:grid-cols-2 md:gap-20 py-1">
       <button class="bg-green-300 hover:bg-green-700 content-left text-white font-bold py-2 px-4 rounded" id="show" v-on:click="handlechange">Advance filter</button>
       <button class="bg-green-300 hover:bg-green-700 content-left text-white font-bold py-2 px-4 rounded" id="show" v-on:click="downloadFile">Download</button>
+    
     </div>
     <div id="book" hidden>
       <div  class="px-12">
@@ -122,11 +126,23 @@
       </div>
     </div>
   </div>
-  <!-- <section> -->
+  <section>
     <div class="container mx-auto">
-      <BarChart :data="barChartData" :options="barChartOptions" :height="200" :width="500" style="display: block; width: 1000px; height: 384px;"/>
+      <WeekDistribution />
     </div>
-  <!-- </section> -->
+  </section>
+  <section>
+    <div class="container mx-auto">
+      <MonthDistribution />
+    </div>
+  </section>
+  <div class="box-content">
+  <section>
+    <div class="container mx-auto">
+      <BarChart :key="random" :data="barChartData" :options="barChartOptions" :height="500" :width="2000" style="display: block; width: 1500px; height: 384px;"></BarChart>
+    </div>
+  </section>
+  </div>
   <div class="container mx-auto py-4">
     <div class="flex flex-col">
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -157,7 +173,7 @@
                     AA Position <a class="cursor-pointer" v-on:click="fetchSomething(ordering='amino_acid_position')">&#x2193;</a><a class="cursor-pointer" v-on:click="fetchSomething(ordering='-amino_acid_position')">&#x2191;</a>
                   </th>
                   <th scope="col" class="px-6 py-3 text-middle text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Mutaion <a class="cursor-pointer" v-on:click="fetchSomething(ordering='mutation')">&#x2193;</a><a class="cursor-pointer" v-on:click="fetchSomething(ordering='-mutation')">&#x2191;</a>
+                    Mutation <a class="cursor-pointer" v-on:click="fetchSomething(ordering='mutation')">&#x2193;</a><a class="cursor-pointer" v-on:click="fetchSomething(ordering='-mutation')">&#x2191;</a>
                   </th>
                 </tr>
               </thead>
@@ -197,7 +213,7 @@
                   Showing
                   <span class="font-medium">{{ this.page }}</span>
                   of
-                  <span class="font-medium">{{ip.data.count/100+1 ^ 0}}</span>
+                  <span class="font-medium">{{ip.data.count/25+1 ^ 0}}</span>
                   pages
                 </p>
               </div>
@@ -219,13 +235,13 @@
                   <a class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="fetchSomething(page=page+4)">
                     {{ page+4 }}
                   </a> -->
-                  <a v-if="page>1" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="fetchSomething(page=prev+1)">
+                  <!-- <a v-if="page>1" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="fetchSomething(page=prev+1)">
                     {{ page }}
-                  </a>
-                  <a v-else class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="fetchSomething(page=page+1)">
+                  </a> -->
+                  <!-- <a v-else class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="fetchSomething(page=page+1)">
                     {{ page+1 }}
-                  </a>
-                  <a v-if="page>=1 && page < ip.data.count/100" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" v-on:click="fetchSomething(page=page+1)">
+                  </a> -->
+                  <a v-if="page>=1 && page < ip.data.count/25" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" v-on:click="fetchSomething(page=page+1)">
                     Next
                   </a>
                 </nav>
@@ -237,22 +253,26 @@
       </div>
     </div>
   </div>
-  <p v-for="event in statedata.data.data" :key="event.id" :event="event">{{ event.state }}</p>
+  <!-- <p v-for="event in statedata.data.data" :key="event.id" :event="event">{{ event.state }}</p> -->
   </div>
 </template>
 
 <script>
+import WeekDistribution from '/home/nsm-07/Desktop/Bhupati/insacog-voc-filter/components/WeeklyDistribution.vue'
+import MonthDistribution from '/home/nsm-07/Desktop/Bhupati/insacog-voc-filter/components/MonthlyDistribution.vue'
 import $ from 'jquery'
 import axios from 'axios'
 import BarChart from "~/components/BarChart.vue";
 const page = 1
-const count = ''
 
 export default {
-  components: { BarChart },
+  components: { BarChart, WeekDistribution, MonthDistribution },
   
   data () {
     return {
+      random: 123456,
+      arrStates: [],
+      arrMutations: [],
       events: [],
       days: 36500,
       start_date: "",
@@ -270,8 +290,8 @@ export default {
       amino_acid_position: "",
       mutation: "",
       ip: {},
+      mutationdistribution: {},
       prev: '',
-      // dfile: {},
       version_data: [],
       last_updated: "",
       nextclade_version: "",
@@ -281,49 +301,13 @@ export default {
       pangolin_version: "",
       genomes_sequenced: "",
       barChartData: {
-        labels: [
-          "Arunachal Pradesh",
-          "2019-07",
-          "2019-08",
-          "2019-09",
-          "2019-10",
-          "2019-11",
-          "2019-12",
-          "2020-01",
-          "2020-02",
-          "2020-03",
-          "2019-06",
-          "2019-07",
-          "2019-08",
-          "2019-09",
-          "2019-10",
-          "2019-11",
-          "2019-12",
-          "2020-01",
-          "2020-02",
-          "2020-03",
-          "2019-11",
-          "2019-12",
-          "2020-01",
-          "2020-02",
-          "2020-03",
-          "2019-06",
-          "2019-07",
-          "2019-08",
-          "2019-09",
-          "2019-10",
-          "2019-11",
-          "2019-12",
-          "2020-01",
-          "2020-02",
-          "2020-03",
-        ],
+        labels: [],
         datasets: [
           {
-            label: "Visualizaciones",
-            data: [2, 1, 6, 3, 4, 5, 10, 7, 4, 12, 2,2, 1, 16, 3, 4, 5, 10, 14, 4, 12, 2,2, 1, 16, 3, 4, 5, 10, 14, 4, 12, 2,2, 1, 16, 3, 4, 5],
-            backgroundColor: "rgba(20, 255, 0, 0.3)",
-            borderColor: "rgba(100, 255, 0, 1)",
+            label: "count",
+            data: [],
+            backgroundColor: "#1E90FF",
+            borderColor: "rgba(blue)",
             borderWidth: 2,
           },
         ],
@@ -335,18 +319,18 @@ export default {
         },
         title: {
           display: true,
-          text: "State wise sequences",
-          fontSize: 24,
+          text: "State wise mutation distribution",
+          fontSize: 18,
           fontColor: "#6b7280",
         },
         tooltips: {
-          backgroundColor: "#17BF62",
+          backgroundColor: "#1fhF62",
         },
         scales: {
           xAxes: [
             {
               gridLines: {
-                display: true,
+                display: false,
               },
             },
           ],
@@ -354,9 +338,9 @@ export default {
             {
               ticks: {
                 beginAtZero: true,
-                max: 20,
+                // max: (this.arrMutations),
                 min: 0,
-                stepSize: 4,
+                // stepSize: 50,
               },
               gridLines: {
                 display: true,
@@ -367,16 +351,43 @@ export default {
       },
     } 
   },
+
+ async created() {
+    const mutationdistribution = await axios.get(`${process.env.baseUrl}/statesmutationdistribution/`);
+    console.log(mutationdistribution.data)
+    mutationdistribution.data.forEach(d => {
+      const {
+        state,
+        mutation_deletion__count
+      } = d;
+      
+      this.arrMutations.push(mutation_deletion__count)
+      this.arrStates.push(state)
+    });
+    this.random = 456789
+    this.barChartData.labels = this.arrStates
+    this.barChartData.datasets[0].data = this.arrMutations
+    console.log(this.arrStates)
+    console.log(this.arrMutations)
+      
+  },
+
+
+
+
   async asyncData() {
+    
+
     const ip = await axios.get(`${process.env.baseUrl}/data/?page=${page}`)
-    const statedata = await axios.get(`${process.env.baseUrl}/statedata/`)
+    const sequences = await axios.get(`${process.env.baseUrl}/count/`)
+    
     const version_data = await axios.post(`https://research.nibmg.ac.in/insacog/api/files/landing-stats/`)
-      console.log(statedata.data.data)
+      
+      console.log(sequences.data[0].count)
       console.log(ip.data)
       console.log(version_data.data)
-      const labels = statedata.data
-      console.log(labels)
       const count = ip.data.count
+      const unisequences = sequences.data[0].count
       const last_updated = version_data.data.last_updated.toString().split(':').at(0)
       const nextclade_version = version_data.data.nextclade_version.toString().split(':').at(-1)
       const pango_designation_version = version_data.data.pango_designation_version.toString().split(':').at(-1)
@@ -384,7 +395,7 @@ export default {
       const constellation_version = version_data.data.constellation_version.toString().split(':').at(-1)
       const pangolin_version = version_data.data.pangolin_version.toString().split(':').at(-1)
       const genomes_sequenced = version_data.data.genomes_sequenced
-      return { ip,statedata, count, version_data, last_updated, nextclade_version, pango_designation_version, pangolearn_version, constellation_version, pangolin_version, genomes_sequenced }
+      return { ip,unisequences, count, version_data, last_updated, nextclade_version, pango_designation_version, pangolearn_version, constellation_version, pangolin_version, genomes_sequenced }
   },
   methods: {
     
@@ -393,6 +404,14 @@ export default {
 			$('#book').toggle();
     },
     async fetchSomething() {
+
+      this.arrStates.splice(0,)
+      this.arrMutations.splice(0,)
+
+    
+
+    // this.arrStates.splice(0,)
+    // this.arrMutations.splice(0,)
       if (page > 1) {
 			const prev = page - 1;
 		}
@@ -400,7 +419,25 @@ export default {
       // const count = ip.data.count
       console.log(ip.data)
       this.ip = ip
+
+      const mutationdistribution = await axios.get(`${process.env.baseUrl}/statesmutationdistribution/?strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`);
+      console.log(mutationdistribution.data)
+      mutationdistribution.data.forEach(d => {
+        const {
+          state,
+          mutation_deletion__count
+        } = d;
+        
+        this.arrMutations.push(mutation_deletion__count)
+        this.arrStates.push(state)
+      });
+      this.random = Math.random()
+      this.barChartData.labels = this.arrStates
+      this.barChartData.datasets[0].data = this.arrMutations
+      console.log(this.arrStates)
+      console.log(this.arrMutations)
     },
+    
     async downloadFile() {
       const csv = await axios.get(`${process.env.baseUrl}/exportcsv/?days=${this.days}&start_date=${this.start_date}&end_date=${this.end_date}&strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`)
 				const file_name = csv.data.path;

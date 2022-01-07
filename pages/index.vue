@@ -105,10 +105,14 @@
         <option value="365">This year</option>
       </select>
       <button class="bg-blue-500 hover:bg-blue-700 content-left text-white font-bold py-2 px-4 rounded" v-on:click="fetchSomething">Get Data</button>
+      <!-- <div class="fixed"> -->
+      <!-- <img class="fixed" src="https://img.icons8.com/dotty/80/000000/filter.png"/> -->
+      <!-- </div> -->
     </div>
     <div class="md:grid px-12 md:grid-cols-2 md:gap-20 py-1">
       <button class="bg-green-300 hover:bg-green-700 content-left text-white font-bold py-2 px-4 rounded" id="show" v-on:click="handlechange">Advance filter</button>
       <button class="bg-green-300 hover:bg-green-700 content-left text-white font-bold py-2 px-4 rounded" id="show" v-on:click="downloadFile">Download</button>
+    
     </div>
     <div id="book" hidden>
       <div  class="px-12">
@@ -124,7 +128,7 @@
   </div>
   <section>
     <div class="container mx-auto">
-      <Nuxtl />
+      <WeekDistribution />
     </div>
   </section>
   <section>
@@ -169,7 +173,7 @@
                     AA Position <a class="cursor-pointer" v-on:click="fetchSomething(ordering='amino_acid_position')">&#x2193;</a><a class="cursor-pointer" v-on:click="fetchSomething(ordering='-amino_acid_position')">&#x2191;</a>
                   </th>
                   <th scope="col" class="px-6 py-3 text-middle text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Mutaion <a class="cursor-pointer" v-on:click="fetchSomething(ordering='mutation')">&#x2193;</a><a class="cursor-pointer" v-on:click="fetchSomething(ordering='-mutation')">&#x2191;</a>
+                    Mutation <a class="cursor-pointer" v-on:click="fetchSomething(ordering='mutation')">&#x2193;</a><a class="cursor-pointer" v-on:click="fetchSomething(ordering='-mutation')">&#x2191;</a>
                   </th>
                 </tr>
               </thead>
@@ -254,15 +258,15 @@
 </template>
 
 <script>
-import Nuxtl from '/home/nsm-07/Desktop/Bhupati/insacog-voc-filter/pages/NuxtLogo.vue'
-import MonthDistribution from '/home/nsm-07/Desktop/Bhupati/insacog-voc-filter/pages/monthlydistribution.vue'
+import WeekDistribution from '/home/nsm-07/Desktop/Bhupati/insacog-voc-filter/components/WeeklyDistribution.vue'
+import MonthDistribution from '/home/nsm-07/Desktop/Bhupati/insacog-voc-filter/components/MonthlyDistribution.vue'
 import $ from 'jquery'
 import axios from 'axios'
 import BarChart from "~/components/BarChart.vue";
 const page = 1
 
 export default {
-  components: { BarChart, Nuxtl, MonthDistribution },
+  components: { BarChart, WeekDistribution, MonthDistribution },
   
   data () {
     return {
@@ -361,10 +365,10 @@ export default {
       this.arrStates.push(state)
     });
     this.random = 456789
-    this.barChartData.labels = this.arrStates.slice(1,)
-    this.barChartData.datasets[0].data = this.arrMutations.slice(1,)
-    console.log(this.arrStates.slice(1,))
-    console.log(this.arrMutations.slice(1,))
+    this.barChartData.labels = this.arrStates
+    this.barChartData.datasets[0].data = this.arrMutations
+    console.log(this.arrStates)
+    console.log(this.arrMutations)
       
   },
 
@@ -428,10 +432,10 @@ export default {
         this.arrStates.push(state)
       });
       this.random = Math.random()
-      this.barChartData.labels = this.arrStates.slice(1,)
-      this.barChartData.datasets[0].data = this.arrMutations.slice(1,)
-      console.log(this.arrStates.slice(1,))
-      console.log(this.arrMutations.slice(1,))
+      this.barChartData.labels = this.arrStates
+      this.barChartData.datasets[0].data = this.arrMutations
+      console.log(this.arrStates)
+      console.log(this.arrMutations)
     },
     
     async downloadFile() {
