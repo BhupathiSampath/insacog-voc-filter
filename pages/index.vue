@@ -1,96 +1,57 @@
 <template>
   <div>
- <div class="max-w-full mx-2 py-1 sm:mx-auto sm:px-6 lg:px-10">
-    <div class="sm:flex sm:space-x-2">
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow transform transition-all mb-4 w-full sm:w-1/3 sm:my-8">
-            <div class="bg-gray-200 p-5">
-                <div class="sm:flex sm:items-start">
-                    <div class="text-center sm:mt-0 sm:ml-2 sm:text-left">
-                        <h3 class="text-sm leading-6 font-medium text-gray-400">Last Updated</h3>
-                        <p class="text-1xl font-bold text-black">{{ last_updated }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow transform transition-all mb-4 w-full sm:w-1/3 sm:my-8">
-            <div class="bg-gray-200 p-5">
-                <div class="sm:flex sm:items-start">
-                    <div class="text-center sm:mt-0 sm:ml-2 sm:text-left">
-                        <h3 class="text-sm leading-6 font-medium text-gray-400">Total Records:</h3>
-                        <p class="font-bold text-black"  v-for="event in ip" :key="event.id">{{ event.count }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow transform transition-all mb-4 w-full sm:w-1/3 sm:my-8">
-            <div class="bg-gray-200 p-5">
-                <div class="sm:flex sm:items-start">
-                    <div class="text-center sm:mt-0 sm:ml-2 sm:text-left">
-                        <h3 class="text-sm leading-6 font-medium text-gray-400">Genomes Sequenced</h3>
-                        <p class="font-bold text-black">{{ unisequences }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow transform transition-all mb-4 w-full sm:w-1/3 sm:my-8">
-            <div class="bg-gray-200 p-5">
-                <div class="sm:flex sm:items-start">
-                    <div class="text-center sm:mt-0 sm:ml-2 sm:text-left">
-                        <h3 class="text-sm leading-6 font-medium text-gray-400">Nextclade Version</h3>
-                        <p class="font-bold text-black">{{ nextclade_version }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow transform transition-all mb-4 w-full sm:w-1/3 sm:my-8">
-            <div class="bg-gray-200 p-5">
-                <div class="sm:flex sm:items-start">
-                    <div class="text-center sm:mt-0 sm:ml-2 sm:text-left">
-                        <h3 class="text-sm leading-6 font-medium text-gray-400">PangoDesignation</h3>
-                        <p class="font-bold text-black">{{ pango_designation_version }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow transform transition-all mb-4 w-full sm:w-1/3 sm:my-8">
-            <div class="bg-gray-200 p-5">
-                <div class="sm:flex sm:items-start">
-                    <div class="text-center sm:mt-0 sm:ml-2 sm:text-left">
-                        <h3 class="text-sm leading-6 font-medium text-gray-400">Pangolearn Version</h3>
-                        <p class="font-bold text-black">{{ pangolearn_version }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow transform transition-all mb-4 w-full sm:w-1/3 sm:my-8">
-            <div class="bg-gray-200 p-5">
-                <div class="sm:flex sm:items-start">
-                    <div class="text-center sm:mt-0 sm:ml-2 sm:text-left">
-                        <h3 class="text-sm leading-6 font-medium text-gray-400">Constellation Version</h3>
-                        <p class="font-bold text-black">{{ constellation_version }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow transform transition-all mb-4 w-full sm:w-1/3 sm:my-8">
-            <div class="bg-gray-200 p-5">
-                <div class="sm:flex sm:items-start">
-                    <div class="text-center sm:mt-0 sm:ml-2 sm:text-left">
-                        <h3 class="text-sm leading-6 font-medium text-gray-400">Pangolin Version</h3>
-                        <p class="font-bold text-black">{{ pangolin_version }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <h1 class="text-center">---------------------------------------------------------------------------Insacog DataHub Stats---------------------------------------------------------------------------</h1>
+
+    <!-- <div class="grid grid-cols-7 divide-x-2 divide-slate-400 p-4 mb-28 text-center divide-dashed text-sm">
+      <div 
+        :key="index"
+        :class="get_class(index)"
+        v-for="(stats, index) in insacog_datahub_stats"
+      >
+        <p class="font-medium">{{ stats.name }}</p>
+        <p>{{ stats.version }}</p>
+      </div>        
+    </div> -->
+
+
+    <div class="grid grid-cols-7 divide-x-2 divide-slate-400 p-2 mb-2 text-center divide-dashed text-sm">
+      <div class="p-4 text-gray-400 bg-white rounded-l-md drop-shadow-md">
+        <p class="font-medium">Last updated</p>
+        <p>{{ last_updated }}</p>
+      </div>
+      <div class="p-4 text-gray-400 bg-white drop-shadow-lg">
+        <p class="font-medium">Nextclade version</p>
+        <p>{{ nextclade_version }}</p>
+      </div>
+      <div class="p-4 text-gray-400 bg-white drop-shadow-lg">
+        <p class="font-medium">PangoDesignation version</p>
+        <p>{{ pango_designation_version }}</p>
+      </div>
+      <div class="p-4 text-gray-400 bg-white drop-shadow-lg">
+        <p class="font-medium">PangoLearn version</p>
+        <p>{{ pangolearn_version }}</p>
+      </div>
+      <div class="p-4 text-gray-400 bg-white drop-shadow-lg">
+        <p class="font-medium">Constellation version</p>
+        <p>{{ constellation_version }}</p>
+      </div>
+      <div class="p-4 text-gray-400 bg-white drop-shadow-lg">
+        <p class="font-medium">Pangolin version</p>
+        <p>{{ pangolin_version }}</p>
+      </div>
+      <div class="p-4 text-gray-400 bg-white rounded-r-md drop-shadow-md">
+        <p class="font-medium">Genomes sequenced</p>
+        <p>{{ unisequences }}</p>
+      </div>
     </div>
-</div>
-  <div class="max-w-full px-10 mx-2 sm:mx-auto sm:px-6 lg:px-10">
-    <div  class="px-12">
-      <input class="shadow appearance-none border rounded w-50 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="strain" type="text" placeholder="Strain" v-model="strain" v-on:keyup.enter="fetchSomething()"/>
-      <input class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="state" placeholder="State" v-model="state" v-on:keyup.enter="fetchSomething()"/>
-      <input v-model="lineage" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="lineage" type="text" placeholder="Lineage" v-on:keyup.enter="fetchSomething()">
-      <input v-model="mutation_deletion" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="mutation_deletion" type="text" placeholder="mutation_deletion" v-on:keyup.enter="fetchSomething()">
-      <input v-model="date" class="shadow appearance-none border w-40 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="date" type="text" placeholder="Date" v-on:keyup.enter="fetchSomething()">
+  <h1 class="text-center">---------------------------------------------------------------------------Insacog QueryHub Stats---------------------------------------------------------------------------</h1>
+  <div class="max-w-full mx-2 px-8 sm:mx-auto sm:px-6 lg:px-10">
+    <div>
+      <input class="shadow appearance-none border rounded w-48 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="strain" type="text" placeholder="Strain" v-model="strain" v-on:keyup.enter="fetchSomething()"/>
+      <input class="shadow appearance-none border rounded w-48 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="state" placeholder="State" v-model="state" v-on:keyup.enter="fetchSomething()"/>
+      <input v-model="lineage" class="shadow appearance-none border rounded w-48 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="lineage" type="text" placeholder="Lineage" v-on:keyup.enter="fetchSomething()">
+      <input v-model="mutation_deletion" class="shadow appearance-none border w-48 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="mutation_deletion" type="text" placeholder="mutation_deletion" v-on:keyup.enter="fetchSomething()">
+      <input v-model="date" class="shadow appearance-none border w-48 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="date" type="text" placeholder="Date" v-on:keyup.enter="fetchSomething()">
       <select class="shadow appearance-none border rounded w-50 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline cursor-pointer" v-on:keyup.enter="fetchSomething()" v-model="days" name="days">
         <option value="36500" name="days">All data</option>
         <option value="7">Last week</option>
@@ -108,35 +69,44 @@
       <!-- <div class="fixed"> -->
       <!-- <img class="fixed" src="https://img.icons8.com/dotty/80/000000/filter.png"/> -->
       <!-- </div> -->
-    </div>
-    <div class="md:grid px-12 md:grid-cols-2 md:gap-20 py-1">
-      <button class="bg-green-300 hover:bg-green-700 content-left text-white font-bold py-2 px-4 rounded" id="show" v-on:click="handlechange">Advance filter</button>
-      <button class="bg-green-300 hover:bg-green-700 content-left text-white font-bold py-2 px-4 rounded" id="show" v-on:click="downloadFile">Download</button>
-    
+      <button class="bg-blue-500 hover:bg-blue-700 content-left text-white font-bold w-30 h-10 py-2 px-4 rounded text-sm" id="show" v-on:click="handlechange">Advance filter</button>
+      <button class="bg-gray-400 hover:bg-gray-700 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-30 text-sm" v-on:click="downloadFile">
+        <svg class="fill-current w-2 h-2 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
+        <span>Download</span>
+      </button>
+      <!-- <button class="bg-blue-500 hover:bg-blue-700 content-left text-white font-bold py-2 px-4 rounded" id="show" v-on:click="downloadFile">Download</button> -->
     </div>
     <div id="book" hidden>
       <div  class="px-12">
-        <input class="shadow appearance-none border rounded w-50 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="gene" type="text" placeholder="gene" v-model="gene" v-on:keyup.enter="fetchSomething()"/>
-        <input class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="reference_id" placeholder="reference id" v-model="reference_id" v-on:keyup.enter="fetchSomething()"/>
-        <input v-model="amino_acid_position" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="amino_acid_position" type="text" placeholder="amino_acid_position" v-on:keyup.enter="fetchSomething()">
-        <input v-model="mutation" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="mutation" type="text" placeholder="mutation" v-on:keyup.enter="fetchSomething()">
-        <input v-model="start_date" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="start_date" type="date" placeholder="start_date" v-on:keyup.enter="fetchSomething()">
-        <input v-model="end_date" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="end_date" type="date" placeholder="end_date" v-on:keyup.enter="fetchSomething()">
+        <input class="shadow appearance-none border rounded w-48 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="gene" type="text" placeholder="gene" v-model="gene" v-on:keyup.enter="fetchSomething()"/>
+        <input class="shadow appearance-none border rounded w-48 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="reference_id" placeholder="reference id" v-model="reference_id" v-on:keyup.enter="fetchSomething()"/>
+        <input v-model="amino_acid_position" class="shadow appearance-none border rounded w-48 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="amino_acid_position" type="text" placeholder="amino_acid_position" v-on:keyup.enter="fetchSomething()">
+        <input v-model="mutation" class="shadow appearance-none border rounded w-48 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="mutation" type="text" placeholder="mutation" v-on:keyup.enter="fetchSomething()">
+        <input v-model="start_date" class="shadow appearance-none border rounded w-48 h-10 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="start_date" type="date" placeholder="start_date" v-on:keyup.enter="fetchSomething()">
+        <input v-model="end_date" class="shadow appearance-none border rounded w-48 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="end_date" type="date" placeholder="end_date" v-on:keyup.enter="fetchSomething()">
         <button  class="bg-blue-500 hover:bg-blue-700 content-left text-white font-bold py-2 px-4 rounded" v-on:click="fetchSomething">Get Data</button>
       </div>
     </div>
   </div>
+
+
+  <div class="box-border h-100 w-90 p-4 border-4 mt-2">
   <section>
     <div class="container mx-auto">
       <WeekDistribution />
     </div>
   </section>
+  </div>
+
+  <div class="box-border h-100 w-90 p-4 border-4 mt-2">
   <section>
     <div class="container mx-auto">
       <MonthDistribution />
     </div>
   </section>
-  <div class="box-content">
+  </div>
+
+  <div class="box-border h-100 w-90 p-4 border-4 mt-2">
   <section>
     <div class="container mx-auto">
       <BarChart :key="random" :data="barChartData" :options="barChartOptions" :height="500" :width="2000" style="display: block; width: 1500px; height: 384px;"></BarChart>
@@ -213,7 +183,7 @@
                   Showing
                   <span class="font-medium">{{ this.page }}</span>
                   of
-                  <span class="font-medium">{{ip.data.count/25+1 ^ 0}}</span>
+                  <span class="font-medium">{{ip.data.count/20+1 ^ 0}}</span>
                   pages
                 </p>
               </div>
@@ -241,7 +211,7 @@
                   <!-- <a v-else class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="fetchSomething(page=page+1)">
                     {{ page+1 }}
                   </a> -->
-                  <a v-if="page>=1 && page < ip.data.count/25" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" v-on:click="fetchSomething(page=page+1)">
+                  <a v-if="page>=1 && page < ip.data.count/20" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" v-on:click="fetchSomething(page=page+1)">
                     Next
                   </a>
                 </nav>
@@ -270,6 +240,17 @@ export default {
   
   data () {
     return {
+      insacog_datahub_stats:[
+        {name: 'Pangolin Version 1', version: []},
+        {name: 'Pangolin Version 2', version: '1.2.3'},
+        {name: 'Pangolin Version 3', version: '1.2.3'},
+        {name: 'Pangolin Version 4', version: '1.2.3'},
+        {name: 'Pangolin Version 5', version: '1.2.3'},
+        {name: 'Pangolin Version 6', version: '1.2.3'},
+        {name: 'Pangolin Version 7', version: '1.2.3'},
+      ],
+
+
       random: 123456,
       arrStates: [],
       arrMutations: [],
@@ -374,7 +355,7 @@ export default {
 
 
 
-
+  
   async asyncData() {
     
 
@@ -382,13 +363,12 @@ export default {
     const sequences = await axios.get(`${process.env.baseUrl}/count/`)
     
     const version_data = await axios.post(`https://research.nibmg.ac.in/insacog/api/files/landing-stats/`)
-      
       console.log(sequences.data[0].count)
       console.log(ip.data)
-      console.log(version_data.data)
+      console.log(version_data.data) 
       const count = ip.data.count
       const unisequences = sequences.data[0].count
-      const last_updated = version_data.data.last_updated.toString().split(':').at(0)
+      const last_updated = version_data.data.last_updated
       const nextclade_version = version_data.data.nextclade_version.toString().split(':').at(-1)
       const pango_designation_version = version_data.data.pango_designation_version.toString().split(':').at(-1)
       const pangolearn_version = version_data.data.pangolearn_version.toString().split(':').at(-1)
@@ -397,8 +377,18 @@ export default {
       const genomes_sequenced = version_data.data.genomes_sequenced
       return { ip,unisequences, count, version_data, last_updated, nextclade_version, pango_designation_version, pangolearn_version, constellation_version, pangolin_version, genomes_sequenced }
   },
+  
   methods: {
-    
+    // get_class(index) {
+    //   if(index == 0) {
+    //     return 'p-4 text-gray-400 bg-white rounded-l-md drop-shadow-md'
+    //   } else if((index+1) == this.insacog_datahub_stats.length) {
+    //     return 'p-4 text-gray-400 bg-white rounded-r-md drop-shadow-md'
+    //   } 
+    //   return 'p-4 text-gray-400 bg-white drop-shadow-lg'
+    // },
+
+
     handlechange()
     {
 			$('#book').toggle();
@@ -408,7 +398,7 @@ export default {
       this.arrStates.splice(0,)
       this.arrMutations.splice(0,)
 
-    
+      
 
     // this.arrStates.splice(0,)
     // this.arrMutations.splice(0,)
@@ -461,3 +451,21 @@ export default {
   }
 
 </script>
+
+<style scoped>
+  #button {
+    border: 1px solid;
+    border-radius: 50px 20px;
+    width: 200px;
+    /* background-color: silver; */
+    margin: 1px;
+    font-size: 13px;
+    height: 37px;
+    font-family: 'Times New Roman', Times, serif;
+  }
+  h1 {
+    font-size: 25px;
+    /* font-family: 'Times New Roman', Times, serif; */
+    font-family:sans-serif;
+  }
+</style>
