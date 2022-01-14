@@ -43,13 +43,14 @@
         <p class="font-medium">Genomes sequenced</p>
         <p>{{ unisequences }}</p>
       </div>
-      <!-- <div class="p-4 text-gray-400 bg-white rounded-r-md drop-shadow-md">
-        <p class="font-medium">Total records </p>
-        <p>{{ ip.data.count }}</p>
-      </div> -->
     </div>
+
+
+  
+
+
   <h1 class="text-center text-lg">---------------------------------------------------------------------------INSACOG QueryHub Stats---------------------------------------------------------------------------</h1>
-  <div class="grid grid-cols-7 divide-x-2 divide-slate-400 p-2 mb-2 text-center divide-dashed text-sm">
+  <div class="grid grid-cols-3 divide-x-2 divide-slate-400 p-2 mb-2 text-center divide-dashed text-sm">
     <div class="p-4 text-gray-400 bg-white rounded-l-md drop-shadow-md">
         <p class="font-medium">Total records </p>
         <p>{{ ip.data.count }}</p>
@@ -58,35 +59,24 @@
         <p class="font-medium">Unique sequenced </p>
         <p>{{ Genome_sequenced.data.count }}</p>
     </div>
+    <div class="relative hover-trigger p-4 text-gray-400 bg-white rounded-r-md drop-shadow-md cursor-pointer" v-on:click="handlechange1">
+      <div class="absolute bg-gray-200 border border-grey-100 px-10 hover-target w-60 rounded-md">
+          Click here to see lineage distribution with unique sequences
+        </div>
+        <p class="font-medium text-blue-400">Unique lineages <i id="lineage-list" class="relative hover-trigger fa fa-info-circle" v-on:click="handlechange1"></i></p>
+        <p>{{ lineagescount.data.count }}</p>
+    </div>
   </div>
   
+  <div class="inset-10 bg-white w-full pl-4 pb-2 hidden" id="lineage-model">
+    <div class="bg-green-100 inline-flex items-center text-sm rounded mt-2 mr-1 overflow-hidden" v-for="event in lineagestraindistribution.data.results" :key="event.id" :event="event">
+        <span class="ml-2 mr-1 leading-relaxed truncate max-w-xs px-1 text-gray-500">{{ event.lineage }}<span class="ml-2 mr-1 leading-relaxed truncate max-w-xs px-1 text-gray-900">{{ event.strain__count }}</span></span>
+    </div>
+  </div>
+
+
   <div>
-    <!-- <div> -->
-      <!-- <input class="shadow appearance-none border rounded w-48 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="strain" type="text" placeholder="Strain" v-model="strain" v-on:keyup.enter="fetchSomething()"/>
-      <input class="shadow appearance-none border rounded w-48 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="state" placeholder="State" v-model="state" v-on:keyup.enter="fetchSomething()"/>
-      <input v-model="lineage" class="shadow appearance-none border rounded w-48 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="lineage" type="text" placeholder="Lineage" v-on:keyup.enter="fetchSomething()">
-      <input v-model="mutation_deletion" class="shadow appearance-none border w-48 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="mutation_deletion" type="text" placeholder="mutation_deletion" v-on:keyup.enter="fetchSomething()">
-      <input v-model="date" class="shadow appearance-none border w-48 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="date" type="text" placeholder="Date" v-on:keyup.enter="fetchSomething()">
-      <select class="shadow appearance-none border rounded w-50 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline cursor-pointer" v-on:keyup.enter="fetchSomething()" v-model="days" name="days">
-        <option value="36500" name="days">All data</option>
-        <option value="7">Last week</option>
-        <option value="14" >Last 2 weeks</option>
-        <option value="21">Last 3 weeks</option>
-        <option value="30">Last month</option>
-        <option value="60">Last 2 months</option>
-        <option value="90">Last 3 months</option>
-        <option value="120">Last 4 months</option>
-        <option value="150">Last 5 months</option>
-        <option value="182">Last 6 months</option>
-        <option value="365">This year</option>
-      </select> -->
-      <!-- <button class="bg-blue-500 hover:bg-blue-700 content-left text-white font-bold py-2 px-4 rounded" v-on:click="fetchSomething">Get Data</button>
-      <button class="bg-blue-500 hover:bg-blue-700 content-left text-white font-bold w-30 h-10 py-2 px-4 rounded text-sm fixed" id="show" v-on:click="handlechange">Advance filter</button>
-      <button class="bg-gray-400 hover:bg-gray-700 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-30 text-sm" v-on:click="downloadFile">
-        <svg class="fill-current w-2 h-2 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
-        <span>Download</span>
-      </button> -->
-    <!-- </div> -->
+
     <div class="grid grid-cols-2 md:w-2/1 md:grid-cols-2 xl:grid-cols-2 gap-4 mt-4 flex justify-right">
       <div class="grid justify-items-start">
         <button class="bg-gray-400 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded inline-flex items-center w-30 text-sm" v-on:click="downloadFile">
@@ -98,21 +88,10 @@
         <button class="bg-blue-500 hover:bg-blue-700 content-left text-white font-bold w-30 h-10 py-2 px-4 rounded text-sm fixed" id="show" v-on:click="handlechange"><i class="fa fa-filter" style="font-size:24px"></i>Filter</button>
       </div>
     </div>
-    <!-- <div class="fixed hidden" id="book">
-      <div  class="px-12">
-        <input class="shadow appearance-none border rounded w-48 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="gene" type="text" placeholder="gene" v-model="gene" v-on:keyup.enter="fetchSomething()"/>
-        <input class="shadow appearance-none border rounded w-48 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="reference_id" placeholder="reference id" v-model="reference_id" v-on:keyup.enter="fetchSomething()"/>
-        <input v-model="amino_acid_position" class="shadow appearance-none border rounded w-48 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="amino_acid_position" type="text" placeholder="amino_acid_position" v-on:keyup.enter="fetchSomething()">
-        <input v-model="mutation" class="shadow appearance-none border rounded w-48 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="mutation" type="text" placeholder="mutation" v-on:keyup.enter="fetchSomething()">
-        <input v-model="start_date" class="shadow appearance-none border rounded w-48 h-10 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="start_date" type="date" placeholder="start_date" v-on:keyup.enter="fetchSomething()">
-        <input v-model="end_date" class="shadow appearance-none border rounded w-48 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="end_date" type="date" placeholder="end_date" v-on:keyup.enter="fetchSomething()">
-        <button  class="bg-blue-500 hover:bg-blue-700 content-left text-white font-bold py-2 px-4 rounded" v-on:click="fetchSomething">Get Data</button>
-      </div>
-    </div> -->
   </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-  <div class="fixed hidden inset-10 mt-16 w-1/2 py-16 mx-auto" id="my-modal">
+  <div class="fixed hidden inset-10 mt-16 w-2/3 py-16 mx-auto pt-48 pl-40 grid justify-end" id="my-modal">
   <div class="w-full shadow p-5 rounded-lg bg-white">
   <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-2 gap-4 pb-4">
     <div class="grid justify-items-start">
@@ -213,22 +192,44 @@
       <input v-model="mutation" class="shadow appearance-none border rounded w-48 py-2 px-3 bg-gray-100 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm" name="mutation" type="text" placeholder="ex. a or b..." v-on:keyup.enter="fetchSomething()">
       </div>
       <div class="text-gray-400 bg-white">
-        <p class="text-sm">Date <i class="fa fa-info-circle"></i></p>
+        <div class="grid grid-cols-2">
+
+        <p class="text-sm">Date <i class="relative hover-trigger fa fa-info-circle">
+        <div class="absolute bg-white border border-grey-100 px-4 py-2 hover-target w-40 rounded-md">
+          Switch the button to date range filter
+        </div>
+      </i>
+        </p>
+        <label 
+          for="toogleA"
+          class="flex items-center cursor-pointer grid justify-end pr-16"
+        >
+          <!-- toggle -->
+          <div class="relative">
+            <!-- input -->
+            <input id="toogleA" type="checkbox" class="sr-only" />
+            <!-- line -->
+            <div class="w-6 h-2 bg-gray-400 rounded-full shadow-inner"></div>
+            <!-- dot -->
+            <div class="dot absolute w-4 h-4 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+          </div>
+        </label>
+        </div>
       <input v-model="date" class="shadow appearance-none border w-48 rounded text-gray-700 py-2 px-3 bg-gray-100 leading-tight focus:outline-none focus:shadow-outline text-sm" name="date" type="text" placeholder="ex. 2021-01-02" v-on:keyup.enter="fetchSomething()">
       </div>
       <div class="text-gray-400 bg-white">
-        <p class="text-sm">From date <i class="fa fa-info-circle"></i></p>
+        <p class="text-sm">From  <i class="fa fa-info-circle"></i></p>
       <input v-model="start_date" class="shadow appearance-none border w-48 rounded py-2 px-3 bg-gray-100 text-gray-500 leading-tight focus:outline-none focus:shadow-outline text-sm" name="start_date" type="date" placeholder="start_date" v-on:keyup.enter="fetchSomething()">
       </div>
       <div class="text-gray-400 bg-white">
-        <p class="text-sm">To date <i class="fa fa-info-circle"></i></p>
+        <p class="text-sm">To  <i class="fa fa-info-circle"></i></p>
       <input v-model="end_date" class="shadow appearance-none border w-48 rounded py-2 px-3 bg-gray-100 text-gray-500 leading-tight focus:outline-none focus:shadow-outline text-sm" name="end_date" type="date" placeholder="end_date" v-on:keyup.enter="fetchSomething()">
       </div>
 
 
       <div class="text-gray-400 bg-white">
         <p class="text-sm">Choose recent data <i class="fa fa-info-circle"></i></p>
-        <select class="px-2 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm h-10" v-on:keyup.enter="fetchSomething()" v-model="days" name="days">
+        <select class="px-2 py-3 w-40 rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm h-10" v-on:keyup.enter="fetchSomething()" v-model="days" name="days">
           <option value="36500" name="days">All data</option>
             <option value="7">Last week</option>
             <option value="14" >Last 2 weeks</option>
@@ -248,29 +249,40 @@
         Apply filter
       </button>
       </div>
+      <div class="flex justify-center">
+</div>
 	</div>
   </div>
   </div>
 
+      <select class="shadow appearance-none border rounded w-50 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline cursor-pointer" v-on:keyup.enter="fetchSomething()" v-model="year" name="year">
+        <option value="202" name="year">2020, 2021, 2022</option>
+        <option value="2020">2020</option>
+        <option value="2021" >2021</option>
+        <option value="2022" >2022</option>
+      </select>
+      <button  class="bg-blue-500 hover:bg-blue-700 content-left text-white font-bold py-2 px-4 rounded" v-on:click="fetchSomething">Get graphs</button>
   
 
-  <div class="box-border h-100 w-90 p-4 border-4 mt-2">
+  <div id="lineage-model1" class="hidden box-border h-100 w-90 p-4 border-4 mt-2">
+   <div class="box-content">
   <section>
     <div class="container mx-auto">
-      <WeekDistribution />
+      <BarChart :key="random" :data="barChartDataWeek" :options="barChartOptionsWeek" :height="500" :width="2000" style="display: block; width: 1500px; height: 384px;"></BarChart>
+    </div>
+  </section>
+</div>
+  </div>
+
+  <div id="lineage-model2" class="hidden box-border h-100 w-90 p-4 border-4 mt-2">
+  <section>
+    <div class="container mx-auto">
+      <BarChart :key="random" :data="barChartDataMonth" :options="barChartOptionsMonth" :height="500" :width="2000" style="display: block; width: 1500px; height: 384px;"></BarChart>
     </div>
   </section>
   </div>
 
-  <div class="box-border h-100 w-90 p-4 border-4 mt-2">
-  <section>
-    <div class="container mx-auto">
-      <MonthDistribution />
-    </div>
-  </section>
-  </div>
-
-  <div class="box-border h-100 w-90 p-4 border-4 mt-2">
+  <div id="lineage-model3" class="hidden box-border h-100 w-90 p-4 border-4 mt-2">
   <section>
     <div class="container mx-auto">
       <BarChart :key="random" :data="barChartData" :options="barChartOptions" :height="500" :width="2000" style="display: block; width: 1500px; height: 384px;"></BarChart>
@@ -387,6 +399,7 @@
       </div>
     </div>
   </div>
+  <Lineage />
   <!-- <p v-for="event in statedata.data.data" :key="event.id" :event="event">{{ event.state }}</p> -->
   </div>
 </template>
@@ -394,13 +407,15 @@
 <script>
 import WeekDistribution from '/home/nsm-07/Desktop/Bhupati/insacog-voc-filter/components/WeeklyDistribution.vue'
 import MonthDistribution from '/home/nsm-07/Desktop/Bhupati/insacog-voc-filter/components/MonthlyDistribution.vue'
+import Lineage from "/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/Lineages.vue"
 import $ from 'jquery'
 import axios from 'axios'
 import BarChart from "~/components/BarChart.vue";
+import moment from "moment"
 const page = 1
-
+const year = '202'
 export default {
-  components: { BarChart, WeekDistribution, MonthDistribution },
+  components: { BarChart, WeekDistribution, MonthDistribution, Lineage  },
   
   data () {
     return {
@@ -436,6 +451,8 @@ export default {
       amino_acid_position: "",
       mutation: "",
       ip: {},
+      lineagescount: "",
+      lineagestraindistribution: {},
       Genome_sequenced: {},
       mutationdistribution: {},
       prev: '',
@@ -447,6 +464,120 @@ export default {
       constellation_version: "",
       pangolin_version: "",
       genomes_sequenced: "",
+
+
+      year: "202",
+
+
+      arrMonthNumber: [],
+      arrMonthdata: [],
+      barChartDataMonth: {
+        labels: [],
+        datasets: [
+          {
+            label: "count",
+            data: [],
+            backgroundColor: "#1E90FF",
+            borderColor: "rgba(blue)",
+            borderWidth: 2,
+          },
+        ],
+      },
+      barChartOptionsMonth: {
+        responsive: true,
+        legend: {
+          display: false,
+        },
+        title: {
+          display: true,
+          text: "Monthly frequency distribution of Sequences",
+          fontSize: 18,
+          fontColor: "#6b7280",
+        },
+        tooltips: {
+          backgroundColor: "blue",
+        },
+        scales: {
+          xAxes: [
+            {
+              gridLines: {
+                display: false,
+              },
+            },
+          ],
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+                // max: 5000,
+                min: 0,
+                // stepSize: 50,
+              },
+              gridLines: {
+                display: true,
+              },
+            },
+          ],
+        },
+      },
+
+
+
+      arrWeekNumber: [],
+      arrweekdata: [],
+      barChartDataWeek: {
+        labels: [],
+        datasets: [
+          {
+            label: "count",
+            data: [],
+            backgroundColor: "#1E90FF",
+            borderColor: "rgba(blue)",
+            borderWidth: 2,
+          },
+        ],
+      },
+      barChartOptionsWeek: {
+        responsive: true,
+        legend: {
+          display: false,
+        },
+        title: {
+          display: true,
+          text: "Weekly frequency distribution of Sequences",
+          fontSize: 18,
+          fontColor: "#6b7280",
+        },
+        tooltips: {
+          backgroundColor: "blue",
+        },
+        scales: {
+          xAxes: [
+            {
+              gridLines: {
+                display: false,
+              },
+            },
+          ],
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+                // max: 5000,
+                min: 0,
+                // stepSize: 50,
+              },
+              gridLines: {
+                display: false,
+              },
+            },
+          ],
+        },
+      },
+
+
+
+
       barChartData: {
         labels: [],
         datasets: [
@@ -499,9 +630,22 @@ export default {
     } 
   },
 
- async created() {
+
+async mounted() {
+    const { data } = await axios.get(`${process.env.baseUrl}/distribution/?year=${this.year}`);
+    data.forEach(d => {
+      const {
+        week_number,
+        strain__count
+      } = d;
+      this.arrweekdata.push(strain__count)
+      this.arrWeekNumber.push(week_number)
+    });
+    this.barChartDataWeek.labels = this.arrWeekNumber
+    this.barChartDataWeek.datasets[0].data = this.arrweekdata
+    this.random = 456789
+
     const mutationdistribution = await axios.get(`${process.env.baseUrl}/statesmutationdistribution/`);
-    console.log(mutationdistribution.data)
     mutationdistribution.data.forEach(d => {
       const {
         state,
@@ -514,36 +658,76 @@ export default {
     this.random = 456789
     this.barChartData.labels = this.arrStates
     this.barChartData.datasets[0].data = this.arrMutations
-    console.log(this.arrStates)
-    console.log(this.arrMutations)
+},
+
+//  async created() {
+//     const mutationdistribution = await axios.get(`${process.env.baseUrl}/statesmutationdistribution/`);
+//     mutationdistribution.data.forEach(d => {
+//       const {
+//         state,
+//         mutation_deletion__count
+//       } = d;
       
-  },
-
-
+//       this.arrMutations.push(mutation_deletion__count)
+//       this.arrStates.push(state)
+//     });
+//     this.random = 456789
+//     this.barChartData.labels = this.arrStates
+//     this.barChartData.datasets[0].data = this.arrMutations
+    
+//   },
 
   
+  
   async asyncData() {
+    // const { data } = await axios.get(`${process.env.baseUrl}/distribution/?year=${year}`);
+    // const data = await axios.get(`${process.env.baseUrl}/distribution/?year=${year}`)
+    // console.log(data)
+    // data.data.forEach(d => {
+    //   const {
+    //     week_number,
+    //     strain__count
+    //   } = d;
+    //   // let random = 12345
+    //   // let arrweekdata = []
+    //   // let arrWeekNumber = []
+    //   this.arrweekdata.push(strain__count)
+    //   this.arrWeekNumber.push(week_number)
+    //   // let barChartDataWeek = {
+    //   //     labels: [],
+    //   //     datasets: [
+    //   //       {
+    //   //         label: "count",
+    //   //         data: [],
+    //   //         backgroundColor: "#1E90FF",
+    //   //         borderColor: "rgba(blue)",
+    //   //         borderWidth: 2,
+    //   //       },
+    //   //     ],
+    //   //   }
+    //   this.barChartDataWeek.labels = this.arrWeekNumber
+    //   this.barChartDataWeek.datasets[0].data = this.arrweekdata
+    //   this.random = 456789
+    // });
     
-
+    const lineagescount = await axios.get(`${process.env.baseUrl}/uniqelineagecount/`)
+    const lineagestraindistribution = await axios.get(`${process.env.baseUrl}/uniquelineagestrain/`)
     const ip = await axios.get(`${process.env.baseUrl}/data/?page=${page}`)
     const sequences = await axios.get(`${process.env.baseUrl}/count/`)
     const Genome_sequenced = await axios.get(`${process.env.baseUrl}/genomesseqenced/`)
     const version_data = await axios.post(`https://research.nibmg.ac.in/insacog/api/files/landing-stats/`)
-
-      console.log(sequences.data[0].count)
-      console.log(ip.data)
-      console.log(version_data.data) 
+      console.log(ip)
       const count = ip.data.count
       const gen_count = Genome_sequenced.data.count
       const unisequences = sequences.data[0].count
-      const last_updated = version_data.data.last_updated
+      const last_updated = moment(version_data.data.last_updated, "YYYY-MM-DD hh:mm").format("YYYY-MM-DD hh:mm A")
       const nextclade_version = version_data.data.nextclade_version.toString().split(':').at(-1)
       const pango_designation_version = version_data.data.pango_designation_version.toString().split(':').at(-1)
       const pangolearn_version = version_data.data.pangolearn_version.toString().split(':').at(-1)
       const constellation_version = version_data.data.constellation_version.toString().split(':').at(-1)
       const pangolin_version = version_data.data.pangolin_version.toString().split(':').at(-1)
       const genomes_sequenced = version_data.data.genomes_sequenced
-      return { ip,Genome_sequenced, unisequences, count, version_data, last_updated, nextclade_version, pango_designation_version, pangolearn_version, constellation_version, pangolin_version, genomes_sequenced }
+      return { ip,Genome_sequenced,lineagestraindistribution,lineagescount, unisequences, count, version_data, last_updated, nextclade_version, pango_designation_version, pangolearn_version, constellation_version, pangolin_version, genomes_sequenced }
   },
 
   methods: {
@@ -555,16 +739,34 @@ export default {
     //   } 
     //   return 'p-4 text-gray-400 bg-white drop-shadow-lg'
     // },
+    get_graphs() {
+      $('#lineage-model1').show();
+    },
 
+
+    handlechange1() {
+      $('#lineage-model').toggle();
+      $('#lineage-model1').show();
+    },
 
     handlechange()
     {
 			$('#my-modal').toggle();
+      // $('#lineage-model').toggle();
     let modal = document.getElementById("my-modal");
 
     // let btn = document.getElementById("show");
 
     let button = document.getElementById("ok-btn");
+
+    let linmodel = document.getElementById("lineage-model")
+    let lin = document.getElementById("lineage-list")
+
+    lin.onclick = function() {
+    linmodel.style.display = "block";
+    }
+    
+    
     // btn.onclick = function() {
     // modal.style.display = "block";
     // }
@@ -577,8 +779,9 @@ export default {
         modal.style.display = "none";
     }
     }
+    $("template").click(function(){ $("#my-modal","#lineage-model").fadeOut(); });
+    // $("template").click(function(){ $("#lineage-model").fadeOut(); });
     },
-
     greet: function (event) {
       
       // `event` is the native DOM event
@@ -589,26 +792,26 @@ export default {
     },
     
     async fetchSomething() {
-
+      $('#lineage-model1').show();
+      $('#lineage-model2').show();
+      $('#lineage-model3').show();
       this.arrStates.splice(0,)
       this.arrMutations.splice(0,)
 
-
-
-    // this.arrStates.splice(0,)
-    // this.arrMutations.splice(0,)
       if (page > 1) {
 			const prev = page - 1;
 		}
       const ip = await axios.get(`${process.env.baseUrl}/data/?page=${this.page}&search=${this.search}&start_date=${this.start_date}&end_date=${this.end_date}&days=${this.days}&strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`)
-      // const count = ip.data.count
-      console.log(ip.data)
       this.ip = ip
+
+      const lineagescount = await axios.get(`${process.env.baseUrl}/uniqelineagecount/?search=${this.search}&start_date=${this.start_date}&end_date=${this.end_date}&strain=${this.strain}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`)
+      this.lineagescount = lineagescount
+      const lineagestraindistribution = await axios.get(`${process.env.baseUrl}/uniquelineagestrain/?search=${this.search}&start_date=${this.start_date}&end_date=${this.end_date}&strain=${this.strain}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`)
+      this.lineagestraindistribution = lineagestraindistribution
 
       const Genome_sequenced = await axios.get(`${process.env.baseUrl}/genomesseqenced/?search=${this.search}&start_date=${this.start_date}&end_date=${this.end_date}&strain=${this.strain}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`)
       this.Genome_sequenced = Genome_sequenced
       const mutationdistribution = await axios.get(`${process.env.baseUrl}/statesmutationdistribution/?strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`);
-      console.log(mutationdistribution.data)
       mutationdistribution.data.forEach(d => {
         const {
           state,
@@ -621,14 +824,48 @@ export default {
       this.random = Math.random()
       this.barChartData.labels = this.arrStates
       this.barChartData.datasets[0].data = this.arrMutations
-      console.log(this.arrStates)
-      console.log(this.arrMutations)
+
+
+
+
+      this.arrMonthNumber.splice(0,)
+      this.arrMonthdata.splice(0,)
+      const data1 = await axios.get(`${process.env.baseUrl}/monthlydistribution/?year=${this.year}&strain=${this.strain}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`);
+      console.log(data1.data)
+      data1.data.forEach(d => {
+        const {
+          month_number,
+          strain__count
+        } = d;
+        this.arrMonthdata.push(strain__count)
+        this.arrMonthNumber.push(month_number)
+      });
+      this.barChartDataMonth.labels = this.arrMonthNumber
+      this.barChartDataMonth.datasets[0].data = this.arrMonthdata
+      this.random = 456789
+
+      this.arrWeekNumber.splice(0,)
+      this.arrweekdata.splice(0,)
+    const { data } = await axios.get(`${process.env.baseUrl}/distribution/?year=${this.year}&strain=${this.strain}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`);
+    data.forEach(d => {
+      const {
+        week_number,
+        strain__count
+      } = d;
+      this.arrweekdata.push(strain__count)
+      this.arrWeekNumber.push(week_number)
+    });
+    this.barChartDataWeek.labels = this.arrWeekNumber
+    this.barChartDataWeek.datasets[0].data = this.arrweekdata
+    this.random = Math.random()
+
+
     },
+    
     
     async downloadFile() {
       const csv = await axios.get(`${process.env.baseUrl}/exportcsv/?days=${this.days}&search=${this.search}&start_date=${this.start_date}&end_date=${this.end_date}&strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`)
 				const file_name = csv.data.path;
-				console.log(file_name);
 				const download_path = `${process.env.downloadUrl}/${file_name}`;
         axios({
               url: download_path,
@@ -666,5 +903,10 @@ export default {
 
 .hover-trigger:hover .hover-target {
     display: block;
+}
+
+input:checked ~ .dot {
+  transform: translateX(100%);
+  background-color: #07021b;
 }
 </style>
