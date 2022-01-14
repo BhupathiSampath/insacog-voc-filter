@@ -90,15 +90,12 @@ export default {
     this.barChartData.labels = this.arrMonthNumber
     this.barChartData.datasets[0].data = this.arrMonthdata
     this.random = 456789
-    console.log(this.barChartData)
-    console.log(this.arrWeekNumber)
-    console.log(this.arrMonthdata)
       
   },
   
   methods: {
     async fetchSomething() {
-     const { data } = await axios.get(`${process.env.baseUrl}/monthlydistribution/?year=${this.year}`);
+    const { data } = await axios.get(`${process.env.baseUrl}/monthlydistribution/?year=${this.year}`);
     data.forEach(d => {
       const {
         month_number,
@@ -110,9 +107,6 @@ export default {
     this.barChartData.labels = this.arrMonthNumber
     this.barChartData.datasets[0].data = this.arrMonthdata
     this.random = 456789
-    console.log(this.barChartData)
-    console.log(this.arrMonthNumber)
-    console.log(this.arrMonthdata)
     }
   }
   }

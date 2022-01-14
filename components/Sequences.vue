@@ -354,7 +354,6 @@ export default {
 
  async created() {
     const mutationdistribution = await axios.get(`${process.env.baseUrl}/statesmutationdistribution/`);
-    console.log(mutationdistribution.data)
     mutationdistribution.data.forEach(d => {
       const {
         state,
@@ -367,8 +366,6 @@ export default {
     this.random = 456789
     this.barChartData.labels = this.arrStates
     this.barChartData.datasets[0].data = this.arrMutations
-    console.log(this.arrStates)
-    console.log(this.arrMutations)
       
   },
 
@@ -383,9 +380,6 @@ export default {
     
     const version_data = await axios.post(`https://research.nibmg.ac.in/insacog/api/files/landing-stats/`)
       
-      console.log(sequences.data[0].count)
-      console.log(ip.data)
-      console.log(version_data.data)
       const count = ip.data.count
       const unisequences = sequences.data[0].count
       const last_updated = version_data.data.last_updated.toString().split(':').at(0)
@@ -416,12 +410,11 @@ export default {
 			const prev = page - 1;
 		}
       const ip = await axios.get(`${process.env.baseUrl}/data/?page=${this.page}&start_date=${this.start_date}&end_date=${this.end_date}&days=${this.days}&strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`)
-      // const count = ip.data.count
-      console.log(ip.data)
+      
       this.ip = ip
 
       const mutationdistribution = await axios.get(`${process.env.baseUrl}/statesmutationdistribution/?strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`);
-      console.log(mutationdistribution.data)
+  
       mutationdistribution.data.forEach(d => {
         const {
           state,
@@ -434,14 +427,11 @@ export default {
       this.random = Math.random()
       this.barChartData.labels = this.arrStates
       this.barChartData.datasets[0].data = this.arrMutations
-      console.log(this.arrStates)
-      console.log(this.arrMutations)
     },
     
     async downloadFile() {
       const csv = await axios.get(`${process.env.baseUrl}/exportcsv/?days=${this.days}&start_date=${this.start_date}&end_date=${this.end_date}&strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`)
 				const file_name = csv.data.path;
-				console.log(file_name);
 				const download_path = `${process.env.downloadUrl}/${file_name}`;
         axios({
               url: download_path,
