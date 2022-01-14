@@ -1,37 +1,15 @@
 <template>
-    <nav>
-        <!-- Desktop menu -->
-        <div class="bg-indigo-600">
-            <div class="max-w-full mx-auto">
-                <div class="flex justify-center">
-                    <!-- menu -->
-                    <div>
-                        <!-- Logo -->
-                        <div class="flex items-start py-5 px-2 text-black">
-                            <img src="/home/nsm-07/Desktop/Bhupati/insacog-voc-filter/dist/INSACOG_Logo2.png" class="img-fluid"/>
-                            <a href="">dsfguysdgfuy</a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <!-- mOB MENU -->
-        <div>
-
-        </div>
-    <Logo />
-    </nav>
+    <nav class="md:flex space-x-10">
+    <div class="max-w-full mx-auto">
+      <div class="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
+          <a class="text-base font-medium text-gray-500 hover:text-gray-900">
+            <NuxtLink to="/">Sequences</NuxtLink>
+          </a>
+          <a class="text-base font-medium text-gray-500 hover:text-gray-900">
+            <NuxtLink to="/upload">Upload</NuxtLink>
+          </a>
+      </div>
+    </div>
+  </nav>
 </template>
-<script>
-import Logo from '@/components/NuxtLogo.vue'
 
-export default {
-  data: () =>({
-    input: ''
-  }),
-  components: {
-    Logo
-  },
-}
-</script>

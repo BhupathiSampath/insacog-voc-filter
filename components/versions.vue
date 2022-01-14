@@ -105,7 +105,6 @@ export default {
   },
   async asyncData() {
     const ip = await axios.post(`https://research.nibmg.ac.in/insacog/api/files/landing-stats/`)
-      console.log(ip.data)
       const count = ip.data.count
       const last_updated = version_data.data.last_updated.toString().split(':').at(0)
       const nextclade_version = version_data.data.nextclade_version.toString().split(':').at(-1)

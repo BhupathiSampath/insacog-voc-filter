@@ -22,15 +22,6 @@ export default {
   
   data () {
     return {
-      strain: "",
-      state: "",
-      lineage: "",
-      mutation_deletion: "",
-      date: "",
-      gene: "",
-      reference_id: "",
-      amino_acid_position: "",
-      mutation: "",
       year: "202",
       random: 123456,
       arrWeekNumber: [],
@@ -89,30 +80,21 @@ export default {
   async created() {
     const { data } = await axios.get(`${process.env.baseUrl}/distribution/?year=${this.year}`);
     data.forEach(d => {
-      // const weeks = (d.Week_Number);
-      // const count = (d.week_data)
-      // console.log(weeks)
-      // console.log(weeks)
       const {
         week_number,
         strain__count
       } = d;
       this.arrweekdata.push(strain__count)
       this.arrWeekNumber.push(week_number)
-      // this.arrweekdata.push(week_data)
-      // this.arrWeekNumber.push(Week_Number)
     });
-    // return arrweekdata
     this.barChartData.labels = this.arrWeekNumber
     this.barChartData.datasets[0].data = this.arrweekdata
     this.random = 456789
-    console.log(this.barChartData)
-    console.log(this.arrWeekNumber)
-    console.log(this.arrweekdata)
       
   },
   
   methods: {
+    
     async fetchSomething() {
       this.arrWeekNumber.splice(0,)
       this.arrweekdata.splice(0,)
@@ -128,9 +110,6 @@ export default {
     this.barChartData.labels = this.arrWeekNumber
     this.barChartData.datasets[0].data = this.arrweekdata
     this.random = Math.random()
-    console.log(this.barChartData)
-    console.log(this.arrWeekNumber)
-    console.log(this.arrweekdata)
     }
   }
   }
