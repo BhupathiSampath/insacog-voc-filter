@@ -25,12 +25,14 @@ export default {
   },
   async created() {
     const { data } = await axios.get(`${process.env.baseUrl}/stackbar/`);
+    console.log(data.slice(0,))
     console.log(Object.values(data))
     // console.log(Object.values(data)[0].slice(0,).lineage)
-    console.log(Object.values(data)[0])
-    const jan = Object.values(data)[0]
-
-    jan.forEach(d => {
+    // console.log(Object.values(data)[0])
+    // const jan = Object.values(data)
+    const brands = Object.values(data).map(({ lineage }) => lineage);
+    console.log(brands)
+    data.forEach(d => {
       const {
         lineage,
         strain__count
@@ -77,125 +79,125 @@ export default {
             hoverBackgroundColor: "#7E57C2",
             hoverBorderWidth: 0
           },
-          {
-            label: "Warning",
-            data: [10, 12, 7, 5, 4,12, 7, 5, 4,12, 7, 5],
-            backgroundColor: "#FFA000",
-            hoverBackgroundColor: "#FFCA28",
-            hoverBorderWidth: 0
-          },
-          {
-            label: "Error",
-            data: [17, 11, 22, 18, 12,17, 11, 22, 18, 12,17, 11, 22],
-            backgroundColor: "#D32F2F",
-            hoverBackgroundColor: "#EF5350",
-            hoverBorderWidth: 0
-          },
-          {
-            label: "Bad Style",
-            data: [40, 47, 44, 38, 27,17, 11, 22, 18, 12,17, 11, 22],
-            backgroundColor: "#512DA8",
-            hoverBackgroundColor: "#7E57C2",
-            hoverBorderWidth: 0
-          },
-          {
-            label: "Warning",
-            data: [10, 12, 7, 5, 4],
-            backgroundColor: "#FFA000",
-            hoverBackgroundColor: "#FFCA28",
-            hoverBorderWidth: 0
-          },
-          {
-            label: "Error",
-            data: [17, 11, 22, 18, 12],
-            backgroundColor: "#D32F2F",
-            hoverBackgroundColor: "#EF5350",
-            hoverBorderWidth: 0
-          },
-          {
-            label: "Bad Style",
-            data: [40, 47, 44, 38, 27],
-            backgroundColor: "#512DA8",
-            hoverBackgroundColor: "#7E57C2",
-            hoverBorderWidth: 0
-          },
-          {
-            label: "Warning",
-            data: [10, 12, 7, 5, 4],
-            backgroundColor: "#FFA000",
-            hoverBackgroundColor: "#FFCA28",
-            hoverBorderWidth: 0
-          },
-          {
-            label: "Error",
-            data: [17, 11, 22, 18, 12],
-            backgroundColor: "#D32F2F",
-            hoverBackgroundColor: "#EF5350",
-            hoverBorderWidth: 0
-          },
-          {
-            label: "Bad Style",
-            data: [40, 47, 44, 38, 27],
-            backgroundColor: "#512DA8",
-            hoverBackgroundColor: "#7E57C2",
-            hoverBorderWidth: 0
-          },
-          {
-            label: "Warning",
-            data: [10, 12, 7, 5, 4],
-            backgroundColor: "#FFA000",
-            hoverBackgroundColor: "#FFCA28",
-            hoverBorderWidth: 0
-          },
-          {
-            label: "Error",
-            data: [17, 11, 22, 18, 12],
-            backgroundColor: "#D32F2F",
-            hoverBackgroundColor: "#EF5350",
-            hoverBorderWidth: 0
-          },
-          {
-            label: "Bad Style",
-            data: [40, 47, 44, 38, 27],
-            backgroundColor: "#512DA8",
-            hoverBackgroundColor: "#7E57C2",
-            hoverBorderWidth: 0
-          },
-          {
-            label: "Warning",
-            data: [10, 12, 7, 5, 4],
-            backgroundColor: "#FFA000",
-            hoverBackgroundColor: "#FFCA28",
-            hoverBorderWidth: 0
-          },
-          {
-            label: "Error",
-            data: [17, 11, 22, 18, 12],
-            backgroundColor: "#D32F2F",
-            hoverBackgroundColor: "#EF5350",
-            hoverBorderWidth: 0
-          },
-          {
-            label: "Error",
-            data: [17, 11, 22, 18, 12],
-            backgroundColor: "#D32F2F",
-            hoverBackgroundColor: "#EF5350",
-            hoverBorderWidth: 0
-          },
-          {
-            label: "Error",
-            data: [17, 11, 22, 18, 12],
-            backgroundColor: "#D32F2F",
-            hoverBackgroundColor: "#EF5350",
-            hoverBorderWidth: 0
-          },
-          {
-            label: "Error",
-            data: [17, 11, 22, 18, 12],
-            backgroundColor: "#D32F2F",
-            hoverBackgroundColor: "#EF5350",
-            hoverBorderWidth: 0
-          }
+          // {
+          //   label: "Warning",
+          //   data: [10, 12, 7, 5, 4,12, 7, 5, 4,12, 7, 5],
+          //   backgroundColor: "#FFA000",
+          //   hoverBackgroundColor: "#FFCA28",
+          //   hoverBorderWidth: 0
+          // },
+          // {
+          //   label: "Error",
+          //   data: [17, 11, 22, 18, 12,17, 11, 22, 18, 12,17, 11, 22],
+          //   backgroundColor: "#D32F2F",
+          //   hoverBackgroundColor: "#EF5350",
+          //   hoverBorderWidth: 0
+          // },
+          // {
+          //   label: "Bad Style",
+          //   data: [40, 47, 44, 38, 27,17, 11, 22, 18, 12,17, 11, 22],
+          //   backgroundColor: "#512DA8",
+          //   hoverBackgroundColor: "#7E57C2",
+          //   hoverBorderWidth: 0
+          // },
+          // {
+          //   label: "Warning",
+          //   data: [10, 12, 7, 5, 4],
+          //   backgroundColor: "#FFA000",
+          //   hoverBackgroundColor: "#FFCA28",
+          //   hoverBorderWidth: 0
+          // },
+          // {
+          //   label: "Error",
+          //   data: [17, 11, 22, 18, 12],
+          //   backgroundColor: "#D32F2F",
+          //   hoverBackgroundColor: "#EF5350",
+          //   hoverBorderWidth: 0
+          // },
+          // {
+          //   label: "Bad Style",
+          //   data: [40, 47, 44, 38, 27],
+          //   backgroundColor: "#512DA8",
+          //   hoverBackgroundColor: "#7E57C2",
+          //   hoverBorderWidth: 0
+          // },
+          // {
+          //   label: "Warning",
+          //   data: [10, 12, 7, 5, 4],
+          //   backgroundColor: "#FFA000",
+          //   hoverBackgroundColor: "#FFCA28",
+          //   hoverBorderWidth: 0
+          // },
+          // {
+          //   label: "Error",
+          //   data: [17, 11, 22, 18, 12],
+          //   backgroundColor: "#D32F2F",
+          //   hoverBackgroundColor: "#EF5350",
+          //   hoverBorderWidth: 0
+          // },
+          // {
+          //   label: "Bad Style",
+          //   data: [40, 47, 44, 38, 27],
+          //   backgroundColor: "#512DA8",
+          //   hoverBackgroundColor: "#7E57C2",
+          //   hoverBorderWidth: 0
+          // },
+          // {
+          //   label: "Warning",
+          //   data: [10, 12, 7, 5, 4],
+          //   backgroundColor: "#FFA000",
+          //   hoverBackgroundColor: "#FFCA28",
+          //   hoverBorderWidth: 0
+          // },
+          // {
+          //   label: "Error",
+          //   data: [17, 11, 22, 18, 12],
+          //   backgroundColor: "#D32F2F",
+          //   hoverBackgroundColor: "#EF5350",
+          //   hoverBorderWidth: 0
+          // },
+          // {
+          //   label: "Bad Style",
+          //   data: [40, 47, 44, 38, 27],
+          //   backgroundColor: "#512DA8",
+          //   hoverBackgroundColor: "#7E57C2",
+          //   hoverBorderWidth: 0
+          // },
+          // {
+          //   label: "Warning",
+          //   data: [10, 12, 7, 5, 4],
+          //   backgroundColor: "#FFA000",
+          //   hoverBackgroundColor: "#FFCA28",
+          //   hoverBorderWidth: 0
+          // },
+          // {
+          //   label: "Error",
+          //   data: [17, 11, 22, 18, 12],
+          //   backgroundColor: "#D32F2F",
+          //   hoverBackgroundColor: "#EF5350",
+          //   hoverBorderWidth: 0
+          // },
+          // {
+          //   label: "Error",
+          //   data: [17, 11, 22, 18, 12],
+          //   backgroundColor: "#D32F2F",
+          //   hoverBackgroundColor: "#EF5350",
+          //   hoverBorderWidth: 0
+          // },
+          // {
+          //   label: "Error",
+          //   data: [17, 11, 22, 18, 12],
+          //   backgroundColor: "#D32F2F",
+          //   hoverBackgroundColor: "#EF5350",
+          //   hoverBorderWidth: 0
+          // },
+          // {
+          //   label: "Error",
+          //   data: [17, 11, 22, 18, 12],
+          //   backgroundColor: "#D32F2F",
+          //   hoverBackgroundColor: "#EF5350",
+          //   hoverBorderWidth: 0
+          // }
         ],
         options: {
           scales: {
