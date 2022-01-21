@@ -15,61 +15,58 @@
 </template>
 
 <script>
-import axios from 'axios'
 import BarChart from "~/components/BarChart.vue";
+import { mapState, mapGetters } from 'vuex'
 export default {
   components: { BarChart },
-  
+  // props: ["arrMonthNumber","arrMonthdata"],
   data () {
     return {
-      year: "202",
-      random: 123456,
-      arrMonthNumber: [],
-      arrMonthdata: [],
+      random: Math.random(),
       barChartData: {
-        labels: [],
+          labels: [],
         datasets: [
-          {
-            label: "count",
-            data: [],
-            backgroundColor: "#1E90FF",
-            borderColor: "rgba(blue)",
-            borderWidth: 2,
+            {
+              label: "count",
+              data: [],
+              backgroundColor: "#1E90FF",
+              borderColor: "rgba(blue)",
+              borderWidth: 2,
           },
         ],
       },
       barChartOptions: {
-        responsive: true,
+          responsive: true,
         legend: {
-          display: false,
+            display: false,
         },
         title: {
-          display: true,
+            display: true,
           text: "Monthly frequency distribution of Sequences",
           fontSize: 18,
           fontColor: "#6b7280",
         },
         tooltips: {
-          backgroundColor: "blue",
+            backgroundColor: "blue",
         },
         scales: {
-          xAxes: [
-            {
-              gridLines: {
-                display: false,
+            xAxes: [
+                {
+                    gridLines: {
+                        display: false,
               },
             },
           ],
           yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
+              {
+                  ticks: {
+                      beginAtZero: true,
                 // max: 5000,
                 min: 0,
                 // stepSize: 50,
               },
               gridLines: {
-                display: true,
+                  display: false,
               },
             },
           ],
@@ -77,44 +74,25 @@ export default {
       },
     } 
   },
-  async created() {
-    const { data } = await axios.get(`${process.env.baseUrl}/monthlydistribution/?year=${this.year}`);
-    data.forEach(d => {
-      const {
-        month_number,
-        strain__count
-      } = d;
-      this.arrMonthdata.push(strain__count)
-      this.arrMonthNumber.push(month_number)
-    });
-    this.barChartData.labels = this.arrMonthNumber
-    this.barChartData.datasets[0].data = this.arrMonthdata
-    this.random = 456789
-    console.log(this.barChartData)
-    console.log(this.arrWeekNumber)
-    console.log(this.arrMonthdata)
-      
+  computed: {
+    ...mapGetters({
+      getarrMonthData: 'getarrMonthData',
+      getarrMonthNumber: 'getarrMonthNumber'
+    })
   },
-  
-  methods: {
-    async fetchSomething() {
-     const { data } = await axios.get(`${process.env.baseUrl}/monthlydistribution/?year=${this.year}`);
-    data.forEach(d => {
-      const {
-        month_number,
-        strain__count
-      } = d;
-      this.arrMonthdata.push(strain__count)
-      this.arrMonthNumber.push(month_number)
-    });
-    this.barChartData.labels = this.arrMonthNumber
-    this.barChartData.datasets[0].data = this.arrMonthdata
-    this.random = 456789
-    console.log(this.barChartData)
-    console.log(this.arrMonthNumber)
-    console.log(this.arrMonthdata)
-    }
+
+  watch: {
+    getarrMonthNumber(value) {
+      this.barChartData.labels = value
+      },
+    getarrMonthData(value) {
+      this.barChartData.datasets[0].data = value
+      this.random = Math.random()
+      },
+    },
+  mounted() {
+        this.$store.dispatch("getPosts");
   }
-  }
+}
 
 </script>

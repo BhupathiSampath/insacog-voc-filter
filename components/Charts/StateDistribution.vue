@@ -2,7 +2,7 @@
 <div class="box-content">
   <section>
   <div>
-      <BarChart :key="random" :data="barChartData" :options="barChartOptions" :height="100" :width="2000" style="display: block; width: 1500px; height: 200px;"></BarChart>
+      <BarChart :key="random" :data="barChartData" :options="barChartOptions" :height="500" :width="2000" style="display: block; width: 1500px; height: 384px;"></BarChart>
     </div>
   </section>
 </div>
@@ -14,7 +14,7 @@ import BarChart from "~/components/BarChart.vue";
 import { mapState, mapGetters } from 'vuex'
 export default {
   components: { BarChart },
-  // props: ["arrWeekNumber","arrweekdata"],
+  // props: ["arrStates","arrStrainCount"],
   data () {
     return {
       random: 12345678,
@@ -24,8 +24,8 @@ export default {
             {
               label: "count",
               data: [],
-              backgroundColor: "#1E90FF",
-              borderColor: "rgba(blue)",
+              backgroundColor: "#009B77",
+              borderColor: "#009B77",
               borderWidth: 2,
           },
         ],
@@ -37,12 +37,12 @@ export default {
         },
         title: {
             display: true,
-          text: "Weekly frequency distribution of Sequences",
+          text: "Strain frequency distribution states wise",
           fontSize: 18,
           fontColor: "#6b7280",
         },
         tooltips: {
-            backgroundColor: "blue",
+            backgroundColor: "#009B77",
         },
         scales: {
             xAxes: [
@@ -71,36 +71,23 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getarrweekdata: 'getarrweekdata',
-      getarrWeekNumber: 'getarrWeekNumber'
+      getarrStrainCount: 'getarrStrainCount',
+      getarrState: 'getarrState'
     })
   },
 
   watch: {
-    getarrWeekNumber(value) {
+    getarrState(value) {
       this.barChartData.labels = value
-      // console.log("labels",this.barChartData.labels)
       },
-    getarrweekdata(value) {
+    getarrStrainCount(value) {
       this.barChartData.datasets[0].data = value
-      // console.log("data", this.barChartData.datasets[0].data)
       this.random = Math.random()
       },
     },
   mounted() {
-        this.barChartData.labels.push(this.getarrWeekNumber)
-        this.barChartData.datasets[0].data = this.getarrweekdata
-        // this.random = Math.random()
         this.$store.dispatch("getPosts");
-        // console.log("data2", this.barChartData.datasets[0].data)
   }
-
-  // methods: {
-  //     openMenu () {
-        
-  //           this.$store.dispatch('getPosts')
-  //       },
-  //   }
 }
   
 

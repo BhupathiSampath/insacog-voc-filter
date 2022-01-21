@@ -14,6 +14,7 @@
     "@syncfusion/ej2-vue-buttons": "^19.4.38",
     "@syncfusion/ej2-vue-calendars": "^19.4.38",
     "@tadashi/fd": "^1.0.3",
+    "animated-number-vue": "^1.0.0",
     "axios": "^0.24.0",
     "chart.js": "^2.9.4",
     "core-js": "^3.19.3",
@@ -27,6 +28,8 @@
     "vue-server-renderer": "^2.6.14",
     "vue-template-compiler": "^2.6.14",
     "vue2-datepicker": "^3.10.4",
+    "vuex": "^3.6.2",
+    "vuex-map-fields": "^1.4.1",
     "webpack": "^4.46.0"
   },
   "devDependencies": {

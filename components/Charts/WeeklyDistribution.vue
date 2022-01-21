@@ -2,7 +2,7 @@
 <div class="box-content">
   <section>
   <div>
-      <BarChart :key="random" :data="barChartData" :options="barChartOptions" :height="100" :width="2000" style="display: block; width: 1500px; height: 200px;"></BarChart>
+      <BarChart :key="random" :data="barChartData" :options="barChartOptions" :height="400" :width="2000" style="display: block; width: 1500px; height: 384px;"></BarChart>
     </div>
   </section>
 </div>
@@ -24,8 +24,8 @@ export default {
             {
               label: "count",
               data: [],
-              backgroundColor: "#1E90FF",
-              borderColor: "rgba(blue)",
+              backgroundColor: "#34568B",
+              borderColor: "#34568B",
               borderWidth: 2,
           },
         ],
@@ -42,7 +42,7 @@ export default {
           fontColor: "#6b7280",
         },
         tooltips: {
-            backgroundColor: "blue",
+            backgroundColor: "#34568B",
         },
         scales: {
             xAxes: [
@@ -79,20 +79,14 @@ export default {
   watch: {
     getarrWeekNumber(value) {
       this.barChartData.labels = value
-      // console.log("labels",this.barChartData.labels)
       },
     getarrweekdata(value) {
       this.barChartData.datasets[0].data = value
-      // console.log("data", this.barChartData.datasets[0].data)
       this.random = Math.random()
       },
     },
   mounted() {
-        this.barChartData.labels.push(this.getarrWeekNumber)
-        this.barChartData.datasets[0].data = this.getarrweekdata
-        // this.random = Math.random()
         this.$store.dispatch("getPosts");
-        // console.log("data2", this.barChartData.datasets[0].data)
   }
 
   // methods: {
