@@ -78,7 +78,23 @@ export default () => new Vuex.Store({
             if (this.state.page > 1) {
                 const prev = this.state.page - 1;
             }
-
+            await axios.get(`${process.env.baseUrl}/data/?page=${this.state.page}&days=${this.state.days}&year=${this.state.year}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
+                .then(response => {
+                    commit('SET_DataTable', response.data)
+            }),
+            await axios.get(`${process.env.baseUrl}/monthlydistribution/?days=${this.state.days}&year=${this.state.year}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
+                .then(response => {
+                    commit('SET_MonthDistribution', response.data)
+            }),
+            
+            await axios.get(`${process.env.baseUrl}/distribution/?days=${this.state.days}&year=${this.state.year}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
+                .then(response => {
+                    commit('SET_WeekDistribution', response.data)
+            }),
+            await axios.get(`${process.env.baseUrl}/statesequencesdistribution/?days=${this.state.days}&year=${this.state.year}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
+                .then(response => {
+                    commit('SET_StateDistribution', response.data)
+            }),
             await axios.get(`${process.env.baseUrl}/uniqelineagecount/?days=${this.state.days}&year=${this.state.year}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
                 .then(response => {
                     commit('SET_UniqueLineages', response.data)
@@ -90,25 +106,9 @@ export default () => new Vuex.Store({
             await axios.get(`${process.env.baseUrl}/genomesseqenced/?days=${this.state.days}&year=${this.state.year}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
                 .then(response => {
                     commit('SET_UniqueSequences', response.data)
-            }),
-
-            await axios.get(`${process.env.baseUrl}/data/?page=${this.state.page}&days=${this.state.days}&year=${this.state.year}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
-                .then(response => {
-                    commit('SET_DataTable', response.data)
-            }),
-            
-            await axios.get(`${process.env.baseUrl}/distribution/?days=${this.state.days}&year=${this.state.year}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
-                .then(response => {
-                    commit('SET_WeekDistribution', response.data)
-            }),
-            await axios.get(`${process.env.baseUrl}/monthlydistribution/?days=${this.state.days}&year=${this.state.year}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
-                .then(response => {
-                    commit('SET_MonthDistribution', response.data)
-            }),
-            await axios.get(`${process.env.baseUrl}/statesequencesdistribution/?days=${this.state.days}&year=${this.state.year}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
-                .then(response => {
-                    commit('SET_StateDistribution', response.data)
             })
+
+            
         },
         async downloadFile() {
             const csv = await axios.get(`${process.env.baseUrl}/exportcsv/?days=${this.state.days}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&strain=${this.state.strain}&ordering=${this.state.ordering}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&amino_acid_position=${this.state.amino_acid_position}&mutation=${this.state.mutation}`)

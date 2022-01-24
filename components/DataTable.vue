@@ -80,13 +80,13 @@
                     Previous
                   </a>
                   <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
-                  <a v-if="$store.state.page>=1 && $store.state.page < datatable.count/20" aria-current="page" class="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="openMenu($store.state.page)">
+                  <a aria-current="page" class="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="openMenu($store.state.page)">
                     {{ $store.state.page }}
                   </a>
                   <a v-if="$store.state.page>=1 && $store.state.page < datatable.count/20" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="openMenu($store.state.page=$store.state.page+1)">
                     {{ $store.state.page+1 }}
                   </a>
-                  <a v-if="$store.state.page>=1 && $store.state.page < datatable.count/20" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="openMenu($store.state.page=$store.state.page+2)">
+                  <a v-if="$store.state.page>=1 && $store.state.page < datatable.count/20-1" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="openMenu($store.state.page=$store.state.page+2)">
                     {{ $store.state.page+2 }}
                   </a>
                   <!-- <a class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" v-on:click="fetchSomething(page=page+4)">
