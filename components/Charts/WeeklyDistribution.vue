@@ -85,14 +85,14 @@ export default {
       this.random = Math.random()
       },
     },
-  mounted() {
-        this.$store.dispatch("getPosts");
-  }
+  // mounted() {
+  //       this.$store.dispatch("getWeeklyDistribution");
+  // },
 
   // methods: {
   //     openMenu () {
         
-  //           this.$store.dispatch('getPosts')
+  //           this.$store.dispatch('getWeeklyDistribution')
   //       },
   //   }
 }

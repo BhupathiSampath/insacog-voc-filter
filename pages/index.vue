@@ -85,6 +85,14 @@
       Show graphs
     </button>
     <div id="graphs" hidden>
+    <div class="box-border">
+      <section>
+        <div class="content-start">
+              <LineageClassification />
+        </div>
+      </section>
+    </div>
+
     <div class="box-border h-80 w-90 p-4 border-4 mt-2">
       <section>
         <div class="container mx-auto">
@@ -118,6 +126,7 @@ import WeekDistribution from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filte
 import MonthDistribution from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/Charts/MonthlyDistribution.vue'
 import StatesDistribution from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/Charts/StateDistribution.vue'
 import InsacogQueryHub from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/InsacogQueryHub.vue'
+import LineageClassification from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/Charts/LineageClassification.vue'
 import DataTable from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/DataTable.vue'
 import $ from 'jquery'
 import axios from 'axios'
@@ -136,7 +145,8 @@ export default {
     StatesDistribution,
     InsacogQueryHub,
     DataTable,
-    AnimatedNumber
+    AnimatedNumber,
+    LineageClassification
   },
 
  
@@ -279,27 +289,27 @@ export default {
       // console.log(this.arrMutations)
     },
 
-    async downloadFile() {
-      const csv = await axios.get(
-        `${process.env.baseUrl}/exportcsv/?days=${this.days}&start_date=${this.start_date}&end_date=${this.end_date}&strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`,
-      )
-      const file_name = csv.data.path
-      console.log(file_name)
-      const download_path = `${process.env.downloadUrl}/${file_name}`
-      axios({
-        url: download_path,
-        method: 'GET',
-        responseType: 'blob',
-      }).then((response) => {
-        var fileURL = window.URL.createObjectURL(new Blob([response.data]))
-        var fileLink = document.createElement('a')
+    // async downloadFile() {
+    //   const csv = await axios.get(
+    //     `${process.env.baseUrl}/exportcsv/?days=${this.days}&start_date=${this.start_date}&end_date=${this.end_date}&strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`,
+    //   )
+    //   const file_name = csv.data.path
+    //   console.log(file_name)
+    //   const download_path = `${process.env.downloadUrl}/${file_name}`
+    //   axios({
+    //     url: download_path,
+    //     method: 'GET',
+    //     responseType: 'blob',
+    //   }).then((response) => {
+    //     var fileURL = window.URL.createObjectURL(new Blob([response.data]))
+    //     var fileLink = document.createElement('a')
 
-        fileLink.href = fileURL
-        fileLink.setAttribute('download', file_name)
-        document.body.appendChild(fileLink)
-        fileLink.click()
-      })
-    },
+    //     fileLink.href = fileURL
+    //     fileLink.setAttribute('download', file_name)
+    //     document.body.appendChild(fileLink)
+    //     fileLink.click()
+    //   })
+    // },
   },
 }
 </script>

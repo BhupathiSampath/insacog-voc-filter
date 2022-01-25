@@ -39,6 +39,10 @@ export default () => new Vuex.Store({
         arrMonthData: [],
         arrMonthNumber: [],
 
+        LineageClassification: [],
+        arrClass: [],
+        arrClassCount: [],
+
         arrStates:[],
         arrStrainCount: [],
         barChartData: {
@@ -63,7 +67,10 @@ export default () => new Vuex.Store({
         getarrMonthNumber: state => state.arrMonthNumber,
 
         getarrState: state => state.arrStates,
-        getarrStrainCount: state => state.arrStrainCount
+        getarrStrainCount: state => state.arrStrainCount,
+
+        getarrClass: state => state.arrClass,
+        getarrClassCount: state => state.arrClassCount
         // gertarrweekdata: (state) => {
         //     return state.gertarrweekdata
         // },
@@ -110,6 +117,30 @@ export default () => new Vuex.Store({
 
             
         },
+
+        async getLineageClassification({ commit }) {
+            await axios.get(`${process.env.baseUrl}/linclassification/`)
+                .then(response => {
+                    commit('SET_LineageClassification', response.data)
+            })
+        },
+
+        // async getWeeklyDistribution({ commit }) {
+        //     await axios.get(`${process.env.baseUrl}/distribution/?days=${this.state.days}&year=${this.state.year}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
+        //         .then(response => {
+        //             commit('SET_WeekDistribution', response.data)
+        //     })
+        // },
+
+
+        // async getMonthlyDistribution({ commit }) {
+        //     await axios.get(`${process.env.baseUrl}/monthlydistribution/?days=${this.state.days}&year=${this.state.year}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
+        //         .then(response => {
+        //             commit('SET_MonthDistribution', response.data)
+        //     })
+        // },
+
+
         async downloadFile() {
             const csv = await axios.get(`${process.env.baseUrl}/exportcsv/?days=${this.state.days}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&strain=${this.state.strain}&ordering=${this.state.ordering}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&amino_acid_position=${this.state.amino_acid_position}&mutation=${this.state.mutation}`)
                       const file_name = csv.data.path;
@@ -132,6 +163,21 @@ export default () => new Vuex.Store({
     
     //to handle mutations
     mutations: {
+        SET_LineageClassification(state, value) {
+            state.LineageClassification = value
+            this.state.arrClass.splice(0,)
+            this.state.arrClassCount.splice(0,)
+            value.forEach(d => {
+                const {
+                    Class,
+                    strain__count
+                } = d;
+                this.state.arrClass.push(Class)
+                this.state.arrClassCount.push(strain__count)
+            });
+            // console.log(this.state.arrClass)
+        },
+
         SET_UniqueLineages(state, value) {
             state.UniqueLineages = value
         },

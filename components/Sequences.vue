@@ -25,11 +25,11 @@ export default {
     }
   },
   
-  mounted() {
-    // console.log(this.$store.state.arrWeekNumber)
-    // console.log(this.$store.state.random)
-    this.$store.dispatch("getPosts");
-  },
+  // mounted() {
+  //   // console.log(this.$store.state.arrWeekNumber)
+  //   // console.log(this.$store.state.random)
+  //   this.$store.dispatch("getPosts");
+  // },
   methods: {
         openMenu () {
             // console.log(this.$store.state.random)

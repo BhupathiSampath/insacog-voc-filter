@@ -130,15 +130,15 @@
     }
   },
   
-  mounted() {
-    this.$store.dispatch("getPosts");
-  },
-  methods: {
-      openMenu () {
+  // mounted() {
+  //   this.$store.dispatch("getPosts");
+  // },
+  // methods: {
+  //     openMenu () {
         
-            this.$store.dispatch('getPosts')
-        },
-    }
+  //           this.$store.dispatch('getPosts')
+  //       },
+  //   }
 }
 
 </script>

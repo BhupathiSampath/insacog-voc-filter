@@ -95,18 +95,18 @@ export default {
     }
   },
   
-  mounted() {
-    this.$store.dispatch("getPosts");
-  },
+  // mounted() {
+  //   this.$store.dispatch("getPosts");
+  // },
 
   methods: {
     formatnumber(x) {
 			return x.toLocaleString('en-IN')
 		},
-      openMenu () {
+      // openMenu () {
         
-            this.$store.dispatch('getPosts')
-        },
+      //       this.$store.dispatch('getPosts')
+      //   },
       handlechange1() {
         $('#lineage-model').toggle()
         $('#lineage-model1').show()

@@ -94,9 +94,9 @@ export default {
       const genomes_sequenced = version_data.data.genomes_sequenced
       return { unisequences, sequences, version_data, last_updated, nextclade_version, pango_designation_version, pangolearn_version, constellation_version, pangolin_version, genomes_sequenced }
   },
-mounted() {
-  this.asyncData
-},
+// mounted() {
+//   this.asyncData
+// },
 }
 
 </script>

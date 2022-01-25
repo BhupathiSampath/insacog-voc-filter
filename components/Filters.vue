@@ -383,15 +383,8 @@ export default {
   },
   
   mounted() {
-    // console.log(this.$store.state.arrWeekNumber)
-    // console.log(this.$store.state.random)
     this.$store.dispatch("getPosts");
   },
-  // methods: {
-  //     DownloadData () {
-  //           this.$store.dispatch('downloadFile')
-  //       },
-  //   },
   methods: {
     async downloadFile() {
             const csv = await axios.get(`${process.env.baseUrl}/exportcsv/?days=${this.$store.state.days}&start_date=${this.$store.state.start_date}&end_date=${this.$store.state.end_date}&strain=${this.$store.state.strain}&ordering=${this.$store.state.ordering}&state=${this.$store.state.state}&lineage=${this.$store.state.lineage}&mutation_deletion=${this.$store.state.mutation_deletion}&date=${this.$store.state.date}&gene=${this.$store.state.gene}&reference_id=${this.$store.state.reference_id}&amino_acid_position=${this.$store.state.amino_acid_position}&mutation=${this.$store.state.mutation}`)
@@ -427,7 +420,6 @@ export default {
       this.$store.state.amino_acid_position = "";
     },
     openMenu () {
-        // console.log(this.$store.state.random)
         this.$store.dispatch('getPosts')
         console.log(this.$store.state.arrWeekNumber)
     },
