@@ -93,10 +93,10 @@
       </section>
     </div>
 
-    <div class="box-border h-80 w-90 p-4 border-4 mt-2">
+    <div>
       <section>
         <div class="container mx-auto">
-          <WeekDistribution />
+          <apexBarChart />
         </div>
       </section>
     </div>
@@ -122,6 +122,7 @@
 </template>
 
 <script>
+import apexBarChart from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/ThirdpartyGraphs/apexBarChart.vue'
 import WeekDistribution from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/Charts/WeeklyDistribution.vue'
 import MonthDistribution from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/Charts/MonthlyDistribution.vue'
 import StatesDistribution from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/Charts/StateDistribution.vue'
@@ -146,7 +147,8 @@ export default {
     InsacogQueryHub,
     DataTable,
     AnimatedNumber,
-    LineageClassification
+    LineageClassification,
+    apexBarChart
   },
 
  
@@ -194,6 +196,7 @@ export default {
 
     const version_data = await axios.post(
       `https://research.nibmg.ac.in/insacog/api/files/landing-stats/`,)
+    console.log(version_data)
     const count = ip.data.count
     const unisequences = sequences.data[0].count
     const last_updated = moment(

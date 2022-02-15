@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <div class="Chart">
       <DoughnutExample
         :key="random"
@@ -36,7 +36,7 @@ const options = {
             return previousValue + currentValue;
           });
           var currentValue = dataset.data[tooltipItem.index];
-          var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+          var percentage = Math.floor(((currentValue/total) * 100)+0.5); 
           return currentValue + "," + "Percentage :" +percentage + "%";
         }
       }
@@ -48,15 +48,13 @@ export default {
   components: { DoughnutExample },
   data() {
     return {
-        random: Math.random(),
+      random: 5684,
       options, 
-        chartData: {
-        // labels: ['Alpha', 'Beta', 'Delta', 'FMV', 'Gamma', 'Lambda', 'None', 'Omicron', 'Other', 'VUM'],
+      chartData: {
         labels: [],
         datasets: [
           {
-            backgroundColor: [randomColor(),randomColor(),randomColor(),randomColor(),randomColor(),randomColor(),randomColor(),randomColor(),randomColor(),randomColor(),],
-            // data: [4954, 275, 68143, 5874, 8, 15, 9253, 4960, 16729, 18]
+            backgroundColor: ['#32CD32','#ADD8E6','#DAA520','#8B0000','#800080','#A9A9A9','#DDA0DD','#0000FF','#DAA50','#5F9EA0',],
             data: []
           }
         ]
@@ -81,7 +79,7 @@ export default {
     },
 
     mounted() {
-        this.$store.dispatch("getLineageClassification");
+        this.$store.dispatch("getPosts");
   }
 };
 </script>

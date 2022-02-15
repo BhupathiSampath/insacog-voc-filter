@@ -133,12 +133,12 @@
   // mounted() {
   //   this.$store.dispatch("getPosts");
   // },
-  // methods: {
-  //     openMenu () {
+  methods: {
+      openMenu () {
         
-  //           this.$store.dispatch('getPosts')
-  //       },
-  //   }
+            this.$store.dispatch('getPosts')
+        },
+    }
 }
 
 </script>

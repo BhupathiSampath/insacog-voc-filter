@@ -1,111 +1,89 @@
 <template>
-<div class="box-content">
-  <section>
-    <div class="container mx-auto">
-      <!-- <select class="shadow appearance-none border rounded w-50 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline cursor-pointer" v-on:keyup.enter="fetchSomething()" v-model="year" name="year">
-        <option value="202" name="year">Both 2020 && 2021</option>
-        <option value="2020">2020</option>
-        <option value="2021" >2021</option>
-      </select> -->
-      <!-- <button  class="bg-blue-500 hover:bg-blue-700 content-left text-white font-bold py-2 px-4 rounded" v-on:click="fetchSomething">Get Graph</button> -->
-      <BarChart :key="random" :data="barChartData" :options="barChartOptions" :height="500" :width="2000" style="display: block; width: 1500px; height: 384px;"></BarChart>
-    </div>
-  </section>
-</div>
+  <v-chart class="chart" :option="option" :loading="chart_loader"/>
 </template>
 
 <script>
 import axios from 'axios'
-import BarChart from "/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/Charts/StackedBar.vue";
-import moment from 'moment'
-export default {
-  components: { BarChart },
-  
-  data () {
-    return {
-      year: "202",
-      random: 123456,
-      arrMonthNumber: [],
-      arrMonthdata: [],
-      barChartData: {
-    labels: [
-      moment(new Date(2020, 0, 1)).format('YYYY-MM-DD'),
-      moment(new Date(2020, 0, 2)).format('YYYY-MM-DD'),
-      moment(new Date(2020, 0, 3)).format('YYYY-MM-DD')
-    ],
-    datasets: [{
-        label: '# of Green Votes',
-        data: [12, 19, 13],
-        borderWidth: 1,
-        backgroundColor: ['green', 'green', 'green']
-      },
-      {
-        label: '# of Pink Votes',
-        data: [15, 9, 19],
-        borderWidth: 1,
-        backgroundColor: ['pink', 'pink', 'pink']
-      }
-    ]
-  },
-  barChartOptions: {
-    scales: {
-      xAxes: [{
-        stacked: true,
-        gridLines: {
-                display: false,
-        }
-      }],
-      yAxes: [{
-        stacked: true
-      }]
-    }
-  }
-    } 
-  },
-  async created() {
-    const { data } = await axios.get(`${process.env.baseUrl}/stackbar/?year=${this.year}`);
-    // Object.entries(data).forEach(([value]) => {
-    //   console.log(value);
-    //   });
-    const values = Object.values(data)
-    console.log(values)
-    console.log(Object.keys(values))
-    console.log(Object.values(data).keys(Object.values(data)))
-    // console.log(Object.keys(data).map((key) => [Number(key), data[key]]))
-    data.forEach(d => {
-      const {
-        month_number,
-        // ["B.1.1.306"],
-        B,
-        
-      } = d;
-      this.arrMonthdata.push(B)
-      this.arrMonthNumber.push(month_number)
-    });
-    console.log(this.arrMonthNumber)
-    // console.log(this.arrMonthdata)
-    this.barChartData.labels = this.arrMonthNumber
-    // this.barChartData.datasets[0].data = this.arrMonthdata
-    this.random = 456789
-      
-  },
-  
-  // methods: {
-  //   async fetchSomething() {
-  //   const { data } = await axios.get(`${process.env.baseUrl}/monthlydistribution/?year=${this.year}`);
-  //   data.forEach(d => {
-  //     const {
-  //       month_number,
-  //       strain__count
-  //     } = d;
-  //     this.arrMonthdata.push(strain__count)
-  //     this.arrMonthNumber.push(month_number)
-  //   });
-  //   this.barChartData.labels = this.arrMonthNumber
-  //   this.barChartData.datasets[0].data = this.arrMonthdata
-  //   this.random = 456789
-  //   }
-  // }
-  }
+import { map } from 'lodash'
+import {
+	GridComponent,
+	TitleComponent,
+	LegendComponent,
+	ToolboxComponent,
+	TooltipComponent,
+} from 'echarts/components'
+import { use } from 'echarts/core'
+import { BarChart } from 'echarts/charts'
+import VChart, { THEME_KEY } from 'vue-echarts'
+import { CanvasRenderer } from 'echarts/renderers'
+use([
+	BarChart,
+	GridComponent,
+	TitleComponent,
+	CanvasRenderer,
+	LegendComponent,
+	ToolboxComponent,
+	TooltipComponent,
+])
 
+export default ({
+  
+  data: () => ({
+      chart_loader: true,
+      option: {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow',
+          },
+        },
+        legend: {},
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true,
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: ["2020-Jan","2020-Feb","2020-Mar","2020-Apr","2020-May","2020-Jun","2020-Jul","2020-Aug","2020-Sep","2020-Oct","2020-Nov","2020-Dec","2021-Jan","2021-Feb","2021-Mar","2021-Apr","2021-May","2021-Jun","2021-Jul","2021-Aug","2021-Sep","2021-Oct","2021-Nov","2021-Dec","2022-Jan","2022-Feb"],
+          },
+        ],
+        yAxis: [
+          {
+            type: 'value',
+          },
+        ],
+        series: [],
+      },
+  }),
+  components: {
+    VChart,
+  },
+  provide: {
+		[THEME_KEY]: 'light',
+	},
+	async created() {
+    const data = await axios.get(`http://127.0.0.1:8000/api/monthlylinclassification/`);
+    this.option.xAxis.data = data.data.month.month_number
+      let s = map(data.data.lineage, (d) => ({
+        name: d.Class,
+        type: 'bar',
+        stack: 'Ad',
+        emphasis: {
+            focus: 'series'
+        },
+        data: d.value,
+      }))
+      this.option.series = s
+    console.log(this.option.series)
+    }
+})
 </script>
+
+<style scoped>
+.chart {
+  height: 500px;
+}
+</style>

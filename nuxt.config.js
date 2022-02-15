@@ -62,5 +62,15 @@ export default {
 },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+		transpile: [
+			/echarts/,
+			/zrender/
+		],
+		babel: {
+			plugins: [
+				["@babel/plugin-proposal-optional-chaining", { loose: true }],
+				["@babel/plugin-proposal-nullish-coalescing-operator", { loose: true }],
+			]
+		}
   }
 }

@@ -1,12 +1,22 @@
 <template>
-  <div class="hello">
-  <pieChart />
-  </div>
+<div>
+  <InsacogQueryHub />
+      <div class="container mx-auto">
+        <apexBarChart />
+      </div>
+      <div class="container mx-auto">
+        <StackedBar />
+      </div>
+    </div>
 </template>
-
 <script>
-import pieChart from "/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/Charts/LineageClassification.vue"
+import StackedBar from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/Charts/StackedBar.vue'
+import apexBarChart from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/ThirdpartyGraphs/apexBarChart.vue'
 export default {
-    components: {pieChart },
+  components: {
+    apexBarChart,StackedBar,
+  },
+
 }
 </script>
+

@@ -42,7 +42,19 @@ export default {
           fontColor: "#6b7280",
         },
         tooltips: {
-            backgroundColor: "#34568B",
+          backgroundColor: "#34568B",
+          callbacks: {
+            label: function(tooltipItem, data) {
+              var dataset = data.datasets[tooltipItem.datasetIndex];
+              var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                // console.log(previousValue)
+                return previousValue + currentValue;
+              });
+              var currentValue = dataset.data[tooltipItem.index];
+              var percentage = Math.floor(((currentValue/total) * 100)+0.5); 
+              return currentValue + "," + "Percentage :" +percentage + "%";
+            }
+          }
         },
         scales: {
             xAxes: [
