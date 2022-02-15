@@ -122,17 +122,17 @@
 </template>
 
 <script>
-import apexBarChart from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/ThirdpartyGraphs/apexBarChart.vue'
-import WeekDistribution from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/Charts/WeeklyDistribution.vue'
-import MonthDistribution from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/Charts/MonthlyDistribution.vue'
-import StatesDistribution from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/Charts/StateDistribution.vue'
-import InsacogQueryHub from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/InsacogQueryHub.vue'
-import LineageClassification from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/Charts/LineageClassification.vue'
-import DataTable from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/DataTable.vue'
+import apexBarChart from '@/components/ThirdpartyGraphs/apexBarChart.vue'
+import WeekDistribution from '@/components/Charts/WeeklyDistribution.vue'
+import MonthDistribution from '@/components/Charts/MonthlyDistribution.vue'
+import StatesDistribution from '@/components/Charts/StateDistribution.vue'
+import InsacogQueryHub from '@/components/InsacogQueryHub.vue'
+import LineageClassification from '@/components/Charts/LineageClassification.vue'
+import DataTable from '@/components/DataTable.vue'
 import $ from 'jquery'
 import axios from 'axios'
 import BarChart from '~/components/Charts/BarChart.vue'
-import Filtering from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/Filters.vue'
+import Filtering from '@/components/Filters.vue'
 import AnimatedNumber from 'animated-number-vue'
 import moment from 'moment'
 const page = 1

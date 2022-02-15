@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import DoughnutExample from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/Charts/PieChart.vue'
+import DoughnutExample from '@/components/Charts/PieChart.vue'
 import randomColor from 'randomcolor';
 import { mapState, mapGetters } from 'vuex'
 

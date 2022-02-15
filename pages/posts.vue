@@ -10,8 +10,8 @@
     </div>
 </template>
 <script>
-import StackedBar from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/Charts/StackedBar.vue'
-import apexBarChart from '/home/nsm-07/Desktop/Bhupati/dev/insacog-voc-filter/components/ThirdpartyGraphs/apexBarChart.vue'
+import StackedBar from '@/components/Charts/StackedBar.vue'
+import apexBarChart from '@/components/ThirdpartyGraphs/apexBarChart.vue'
 export default {
   components: {
     apexBarChart,StackedBar,
