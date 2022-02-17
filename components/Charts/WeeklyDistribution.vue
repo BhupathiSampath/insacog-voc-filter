@@ -37,7 +37,7 @@ export default {
         },
         title: {
             display: true,
-          text: "Weekly frequency distribution of Sequences",
+          text: "Weekly distribution of Sequences",
           fontSize: 18,
           fontColor: "#6b7280",
         },

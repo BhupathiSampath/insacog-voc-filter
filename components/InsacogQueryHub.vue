@@ -19,7 +19,7 @@
 										/></p>
       </div>
       <div class="p-4 text-gray-400 bg-white rounded-r-md drop-shadow-md">
-        <p class="font-medium">Unique sequenced</p>
+        <p class="font-medium">Sequences Found</p>
         <p><animated-number
 											:value="
 												uniquesequences.count
@@ -38,7 +38,7 @@
           Click here to see lineage distribution with unique sequences
         </div>
         <p class="font-medium text-blue-400">
-          Unique lineages
+          Lineages Found
           <i
             id="lineage-list"
             class="relative hover-trigger fa fa-info-circle"

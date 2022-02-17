@@ -37,7 +37,7 @@ export default {
         },
         title: {
             display: true,
-          text: "Strain frequency distribution states wise",
+          text: "Strain distribution states wise",
           fontSize: 18,
           fontColor: "#6b7280",
         },

@@ -2,7 +2,7 @@
 import axios from 'axios'
 import Vuex from 'vuex'
 import Vue from 'vue'
-
+import { map } from 'lodash'
 
 Vue.use(Vuex);
 const page = 1
@@ -40,6 +40,13 @@ export default () => new Vuex.Store({
         arrweekdata: [],
         arrWeekNumber: [],
 
+        WeekLineageClassification: [],
+        weeklineageClassArr: [],
+        lineageClassArr: [],
+
+        monthlineageClassArr: [],
+        monthnamelineageClassArr: [],
+
         arrMonthData: [],
         arrMonthNumber: [],
 
@@ -56,6 +63,13 @@ export default () => new Vuex.Store({
     getters: {
         getarrweekdata: state => state.arrweekdata,
         getarrWeekNumber: state => state.arrWeekNumber,
+        
+        getweeklineageClassArr: state => state.weeklineageClassArr,
+        getlineageClassArr: state => state.lineageClassArr,
+
+        getmonthlineageClassArr: state => state.monthlineageClassArr,
+        getmonthnamelineageClassArr: state => state.monthnamelineageClassArr,
+
 
         getarrMonthData: state => state.arrMonthData,
         getarrMonthNumber: state => state.arrMonthNumber,
@@ -66,12 +80,6 @@ export default () => new Vuex.Store({
 
         getarrClass: state => state.arrClass,
         getarrClassCount: state => state.arrClassCount
-        // gertarrweekdata: (state) => {
-        //     return state.gertarrweekdata
-        // },
-        // getarrWeekNumber: (state) => {
-        //     return state.arrWeekNumber
-        // }
     },
     
     
@@ -87,6 +95,10 @@ export default () => new Vuex.Store({
             await axios.get(`${process.env.baseUrl}/data/?page=${this.state.page}&amino_acid_position=${this.state.amino_acid_position}&days=${this.state.days}&year=${this.state.year}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
                 .then(response => {
                     commit('SET_DataTable', response.data)
+            }),
+            await axios.get(`http://127.0.0.1:8000/api/lineageclassificationweekly/?days=${this.state.days}&amino_acid_position=${this.state.amino_acid_position}&year=${this.state.year}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
+            .then(response => {
+                commit('SET_WeekLineageClassification', response.data)
             }),
             await axios.get(`${process.env.baseUrl}/monthlydistribution/?days=${this.state.days}&amino_acid_position=${this.state.amino_acid_position}&year=${this.state.year}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
                 .then(response => {
@@ -113,15 +125,7 @@ export default () => new Vuex.Store({
                 .then(response => {
                     commit('SET_UniqueSequences', response.data)
             })
-
             
-        },
-
-        async getLineageClassification({ commit }) {
-            await axios.get(`${process.env.baseUrl}/linclassification/`)
-                .then(response => {
-                    commit('SET_LineageClassification', response.data)
-            })
         },
 
         async getLineageClassification({ commit }) {
@@ -258,6 +262,26 @@ export default () => new Vuex.Store({
                 this.state.arrStates.push(state)
                 this.state.arrStrainCount.push(strain__count)
                 });
+        },
+        SET_WeekLineageClassification(state, value) {
+            state.WeekLineageClassification = value
+            this.state.weeklineageClassArr.splice(0,)
+            this.state.lineageClassArr.splice(0,)
+            this.state.monthlineageClassArr.splice(0,)
+            this.state.monthnamelineageClassArr.splice(0,)
+            this.state.weeklineageClassArr = value.week.week.week_number
+            this.state.monthnamelineageClassArr = value.month.month.month_number
+            let s = map(value.week.weekly_lineage, (d) => ({
+                name: d.Class,
+                data: d.value,
+              }))
+            this.state.lineageClassArr = s
+            let l = map(value.month.lineage, (d) => ({
+                name: d.Class,
+                data: d.value,
+              }))
+            this.state.monthlineageClassArr = l
+              console.log(this.state.monthlineageClassArr)
         },
     }
 })

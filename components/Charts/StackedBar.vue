@@ -62,7 +62,7 @@ export default {
       this.barChartData.datasets = s
       this.barChartData.labels = data.data.month.month_number
       this.random = Math.random()
-    console.log(this.barChartData.datasets)
+    // console.log(this.barChartData.datasets)
     }
 }
 </script>

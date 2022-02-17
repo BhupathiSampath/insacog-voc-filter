@@ -25,7 +25,7 @@ export default {
       random: Math.random(),
       chartOptions: {
         title: {
-            text: "Weekly frequency distribution of Sequences",
+            text: "Weekly distribution of Sequences",
         },
         chart: {
           id: 'basic-bar',
@@ -64,16 +64,13 @@ export default {
   watch: {
     getarrWeekNumber(value) {
       this.chartOptions.xaxis.categories = value
-      console.log(this.chartOptions.xaxis.categories)
+      // console.log(this.chartOptions.xaxis.categories)
     },
     getarrweekdata(value) {
       this.series[0].data = value
       this.random = Math.random()
-      console.log(this.series[0].data)
+      // console.log(this.series[0].data)
     },
-  },
-  mounted() {
-    this.$store.dispatch('getPosts')
   },
 }
 </script>

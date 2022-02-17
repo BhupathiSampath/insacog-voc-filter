@@ -48,7 +48,7 @@ export default {
   components: { DoughnutExample },
   data() {
     return {
-      random: 5684,
+      random: Math.random(),
       options, 
       chartData: {
         labels: [],
@@ -71,6 +71,7 @@ export default {
   watch: {
     getarrClass(value) {
       this.chartData.labels = value
+      this.random = Math.random()
       },
     getarrClassCount(value) {
       this.chartData.datasets[0].data = value
@@ -78,9 +79,9 @@ export default {
       },
     },
 
-    mounted() {
-        this.$store.dispatch("getPosts");
-  }
+  //   mounted() {
+  //       this.$store.dispatch("getPosts");
+  // }
 };
 </script>
 

@@ -49,7 +49,7 @@ export default {
         },
         title: {
           display: true,
-          text: 'Monthly frequency distribution of Sequences',
+          text: 'Monthly distribution of Sequences',
           fontSize: 18,
           fontColor: '#6b7280',
         },

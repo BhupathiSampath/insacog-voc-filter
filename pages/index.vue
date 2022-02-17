@@ -92,7 +92,26 @@
         </div>
       </section>
     </div>
-
+    <div class="box-border h-82 w-90 p-4 border-4 mt-2">
+      <div
+          class="grid grid-cols-2 md:w-2/1 md:grid-cols-2 xl:grid-cols-2 gap-4 mt-4 flex justify-right"
+        >
+        <div>
+          <section>
+            <div class="container mx-auto">
+              <apex-stackedbar />
+            </div>
+          </section>
+        </div>
+        <div>
+          <section>
+            <div class="container mx-auto">
+              <month-lineage-classification />
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
     <div>
       <section>
         <div class="container mx-auto">
@@ -100,7 +119,6 @@
         </div>
       </section>
     </div>
-
     <div class="box-border h-80 w-90 p-4 border-4 mt-2">
       <section>
         <div class="container mx-auto">
@@ -108,7 +126,6 @@
         </div>
       </section>
     </div>
-
     <div class="box-border h-100 w-90 p-4 border-4 mt-2">
       <section>
         <div class="container mx-auto">
@@ -135,6 +152,8 @@ import BarChart from '~/components/Charts/BarChart.vue'
 import Filtering from '@/components/Filters.vue'
 import AnimatedNumber from 'animated-number-vue'
 import moment from 'moment'
+import ApexStackedbar from '../components/ThirdpartyGraphs/apexStackedbar.vue'
+import MonthLineageClassification from '../components/ThirdpartyGraphs/monthLineageClassification.vue'
 const page = 1
 const year = '202'
 export default {
@@ -148,7 +167,9 @@ export default {
     DataTable,
     AnimatedNumber,
     LineageClassification,
-    apexBarChart
+    apexBarChart,
+    ApexStackedbar,
+    MonthLineageClassification,
   },
 
  
