@@ -79,9 +79,9 @@ export default {
       },
     },
 
-  //   mounted() {
-  //       this.$store.dispatch("getPosts");
-  // }
+    mounted() {
+        this.$store.dispatch("getPosts");
+  }
 };
 </script>
 

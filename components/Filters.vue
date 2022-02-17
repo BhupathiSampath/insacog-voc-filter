@@ -19,7 +19,7 @@
             <span>Download</span>
           </button>
         </div>
-        <div class="grid justify-items-end">
+        <div class="grid justify-items-end z-30">
           <button
             class="bg-blue-500 hover:bg-blue-700 content-left text-white font-bold w-30 h-10 py-2 px-4 rounded text-sm fixed"
             id="show"
@@ -37,10 +37,10 @@
     />
 
     <div
-      class="fixed hidden inset-10 mt-16 w-2/3 py-16 mx-auto pt-48 pl-40 grid justify-end"
+      class="fixed hidden inset-10 mt-16 w-2/3 py-16 mx-auto pt-48 pl-40 grid justify-end z-30"
       id="my-modal"
     >
-      <div class="w-full shadow p-5 rounded-lg bg-white">
+      <div class="w-full shadow p-5 rounded-lg bg-white z-30">
         <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-2 gap-4 pb-4">
           <div class="grid justify-items-start">
             <p class="font-medium font-sans">Search based on:</p>
@@ -335,7 +335,7 @@
                 v-model="$store.state.days"
                 name="days"
               >
-                <option value="36500" name="days">All data</option>
+                <option value="36500" name="days" @change="onChange(openMenu)">All data</option>
                 <option value="7">Last week</option>
                 <option value="14">Last 2 weeks</option>
                 <option value="21">Last 3 weeks</option>
@@ -386,6 +386,9 @@ export default {
     this.$store.dispatch("getPosts");
   },
   methods: {
+    openMenu () {
+            this.$store.dispatch('getPosts')
+        },
     async downloadFile() {
             const csv = await axios.get(`${process.env.baseUrl}/exportcsv/?days=${this.$store.state.days}&start_date=${this.$store.state.start_date}&end_date=${this.$store.state.end_date}&strain=${this.$store.state.strain}&ordering=${this.$store.state.ordering}&state=${this.$store.state.state}&lineage=${this.$store.state.lineage}&mutation_deletion=${this.$store.state.mutation_deletion}&date=${this.$store.state.date}&gene=${this.$store.state.gene}&reference_id=${this.$store.state.reference_id}&amino_acid_position=${this.$store.state.amino_acid_position}&mutation=${this.$store.state.mutation}`)
                       const file_name = csv.data.path;

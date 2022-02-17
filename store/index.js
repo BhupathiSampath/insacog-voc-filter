@@ -57,6 +57,11 @@ export default () => new Vuex.Store({
         arrStates:[],
         arrStrainCount: [],
 
+        StateLineageClassification: [],
+        arrStatesClass: [],
+        arrStateLineages: [],
+
+
         dataSets: []
     },
     
@@ -74,6 +79,9 @@ export default () => new Vuex.Store({
         getarrMonthData: state => state.arrMonthData,
         getarrMonthNumber: state => state.arrMonthNumber,
         getarrdataSets: state => state.dataSets,
+
+        getarrStatesClass: state => state.arrStatesClass,
+        getarrStateLineages: state => state.arrStateLineages,
 
         getarrState: state => state.arrStates,
         getarrStrainCount: state => state.arrStrainCount,
@@ -108,6 +116,10 @@ export default () => new Vuex.Store({
             await axios.get(`${process.env.baseUrl}/distribution/?days=${this.state.days}&amino_acid_position=${this.state.amino_acid_position}&year=${this.state.year}&strain=${this.state.strain}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
                 .then(response => {
                     commit('SET_WeekDistribution', response.data)
+            }),
+            await axios.get(`${process.env.baseUrl}/stateslineageclassification/?days=${this.state.days}&amino_acid_position=${this.state.amino_acid_position}&year=${this.state.year}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
+                .then(response => {
+                    commit('SET_StateLineageClassification', response.data)
             }),
             await axios.get(`${process.env.baseUrl}/statesequencesdistribution/?days=${this.state.days}&amino_acid_position=${this.state.amino_acid_position}&year=${this.state.year}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
                 .then(response => {
@@ -249,6 +261,17 @@ export default () => new Vuex.Store({
                 this.state.arrMonthNumber.push(month_number)
                 this.state.arrMonthData.push(strain__count)
             });
+        },
+        SET_StateLineageClassification(state, value) {
+            state.StateLineageClassification = value
+            this.state.arrStatesClass.splice(0,)
+            this.state.arrStateLineages.splice(0,)
+            this.state.arrStatesClass = value.state.state
+            let s = map(value.lineage, (d) => ({
+                name: d.Class,
+                data: d.value,
+              }))
+            this.state.arrStateLineages = s
         },
         SET_StateDistribution(state, value) {
             state.StateDistribution = value

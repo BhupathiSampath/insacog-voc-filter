@@ -32,9 +32,6 @@ export default {
         },
       ],
       chartOptions: {
-        labels: {
-            show: false
-        },
         legend: {
             show: false
         },
@@ -52,7 +49,7 @@ export default {
           colors: ['#fff'],
         },
         title: {
-          text: 'Lineage classification distribution month wise',
+          text: 'Lineage classification distribution week wise',
         },
         xaxis: {
           categories: [],
@@ -75,20 +72,33 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getmonthnamelineageClassArr: 'getmonthnamelineageClassArr',
-      getmonthlineageClassArr: 'getmonthlineageClassArr',
+      getarrStatesClass: 'getarrStatesClass',
+      getarrStateLineages: 'getarrStateLineages',
     }),
   },
 
   watch: {
-    getmonthnamelineageClassArr(value) {
+    getarrStatesClass(value) {
       this.chartOptions.xaxis.categories = value
       console.log("week",this.chartOptions.xaxis)
     },
-    getmonthlineageClassArr(value) {
+    getarrStateLineages(value) {
       this.series = value
       this.random = Math.random()
     },
   },
+//   async created() {
+//     const data = await axios.get(`http://127.0.0.1:8000/api/extrafilter/?days=${this.$store.state.days}&end_date=${this.$store.state.end_date}&strain=${this.$store.state.strain}&ordering=${this.$store.state.ordering}&state=${this.$store.state.state}&lineage=${this.$store.state.lineage}&mutation_deletion=${this.$store.state.mutation_deletion}&date=${this.$store.state.date}&gene=${this.$store.state.gene}&reference_id=${this.$store.state.reference_id}&amino_acid_position=${this.$store.state.amino_acid_position}&mutation=${this.$store.state.mutation}`);
+//     // this.weekNumbers.push(data.data.month.week_number)
+//     this.chartOptions.xaxis.categories = data.data.month.week_number
+//     console.log(this.chartOptions.xaxis.categories)
+//       let s = map(data.data.lineage, (d) => ({
+//         name: d.Class,
+//         data: d.value,
+//       }))
+//       this.series = s
+//       this.random = Math.random()
+//     console.log(this.chartOptions)
+//     }
 }
 </script>

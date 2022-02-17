@@ -1,95 +1,76 @@
 <template>
-<div class="box-content">
-  <section>
-  <div>
-      <BarChart :key="random" :data="barChartData" :options="barChartOptions" :height="500" :width="2000" style="display: block; width: 1500px; height: 384px;"></BarChart>
-    </div>
-  </section>
-</div>
-
+  <div class="example">
+    <apexcharts
+      width="100%"
+      height="350"
+      type="bar"
+      :key="random"
+      :options="chartOptions"
+      :series="series"
+    ></apexcharts>
+  </div>
 </template>
 
 <script>
-import BarChart from "~/components/BarChart.vue";
+import VueApexCharts from 'vue-apexcharts'
 import { mapState, mapGetters } from 'vuex'
+
 export default {
-  components: { BarChart },
-  // props: ["arrStates","arrStrainCount"],
-  data () {
+  name: 'Chart',
+  components: {
+    apexcharts: VueApexCharts,
+  },
+  data: function () {
     return {
-      random: 12345678,
-      barChartData: {
-          labels: [],
-        datasets: [
-            {
-              label: "count",
-              data: [],
-              backgroundColor: "#009B77",
-              borderColor: "#009B77",
-              borderWidth: 2,
-          },
-        ],
-      },
-      barChartOptions: {
-          responsive: true,
-        legend: {
-            display: false,
-        },
+      random: Math.random(),
+      chartOptions: {
         title: {
-            display: true,
-          text: "Strain distribution states wise",
-          fontSize: 18,
-          fontColor: "#6b7280",
+            text: "Sequence distribution state wise",
         },
-        tooltips: {
-            backgroundColor: "#009B77",
+        chart: {
+          id: 'basic-bar',
+          animations: {
+            speed: 200,
+          },
         },
-        scales: {
-            xAxes: [
-                {
-                    gridLines: {
-                        display: false,
-              },
-            },
-          ],
-          yAxes: [
-              {
-                  ticks: {
-                      beginAtZero: true,
-                // max: 5000,
-                min: 0,
-                // stepSize: 50,
-              },
-              gridLines: {
-                  display: false,
-              },
-            },
-          ],
+        dataLabels: {
+          enabled: false,
+        },
+        plotOptions: {
+          bar: {
+            distributed: false,
+          },
+        },
+        xaxis: {
+          name: "Weeks",
+          categories: [],
         },
       },
-    } 
+      series: [
+        {
+          name: 'Value',
+          data: [],
+        },
+      ],
+    }
   },
   computed: {
     ...mapGetters({
       getarrStrainCount: 'getarrStrainCount',
-      getarrState: 'getarrState'
-    })
+      getarrState: 'getarrState',
+    }),
   },
 
   watch: {
     getarrState(value) {
-      this.barChartData.labels = value
-      },
-    getarrStrainCount(value) {
-      this.barChartData.datasets[0].data = value
-      this.random = Math.random()
-      },
+      this.chartOptions.xaxis.categories = value
+      // console.log(this.chartOptions.xaxis.categories)
     },
-  // mounted() {
-  //       this.$store.dispatch("getStateyDistribution");
-  // }
+    getarrStrainCount(value) {
+      this.series[0].data = value
+      this.random = Math.random()
+      // console.log(this.series[0].data)
+    },
+  },
 }
-  
-
-
 </script>
