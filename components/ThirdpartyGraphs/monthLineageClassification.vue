@@ -83,7 +83,6 @@ export default {
   watch: {
     getmonthnamelineageClassArr(value) {
       this.chartOptions.xaxis.categories = value
-      console.log("week",this.chartOptions.xaxis)
     },
     getmonthlineageClassArr(value) {
       this.series = value

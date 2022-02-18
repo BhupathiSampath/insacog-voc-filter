@@ -77,14 +77,12 @@
     >
       Get graphs
     </button>
-    <button
-      id="show1"
-      class="bg-blue-500 hover:bg-blue-700 content-left text-white font-bold py-2 px-4 rounded"
-      v-on:click="handlechange"
+    <button class="bg-blue-500 hover:bg-blue-700 content-left text-white font-bold py-2 px-4 rounded"
+      @click="isShowing ^= true"
     >
       Show graphs
     </button>
-    <div id="graphs" hidden>
+    <div v-show="isShowing">
     <div class="box-border">
       <section>
         <div class="content-start">
@@ -186,7 +184,6 @@ export default {
     MonthLineageClassification,
     StatesLineageClassification,
   },
-
  
   computed: {
     getters() {
@@ -212,7 +209,7 @@ export default {
         { name: 'Pangolin Version 6', version: '1.2.3' },
         { name: 'Pangolin Version 7', version: '1.2.3' },
       ],
-
+      isShowing:false,
       ip: {},
       lineagescount: '',
       lineagestraindistribution: {},
@@ -235,7 +232,6 @@ export default {
 
     const version_data = await axios.post(
       `https://research.nibmg.ac.in/insacog/api/files/landing-stats/`,)
-    console.log(version_data)
     const count = ip.data.count
     const unisequences = sequences.data[0].count
     const last_updated = moment(
@@ -310,14 +306,11 @@ export default {
       const ip = await axios.get(
         `${process.env.baseUrl}/data/?page=${this.page}&start_date=${this.start_date}&end_date=${this.end_date}&days=${this.days}&strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`,
       )
-      // const count = ip.data.count
-      // console.log(ip.data)
       this.ip = ip
 
       const mutationdistribution = await axios.get(
         `${process.env.baseUrl}/statesmutationdistribution/?strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`,
       )
-      // console.log(mutationdistribution.data)
       mutationdistribution.data.forEach((d) => {
         const { state, mutation_deletion__count } = d
 
@@ -327,8 +320,6 @@ export default {
       this.random = Math.random()
       this.barChartData.labels = this.arrStates
       this.barChartData.datasets[0].data = this.arrMutations
-      // console.log(this.arrStates)
-      // console.log(this.arrMutations)
     },
 
     // async downloadFile() {
@@ -336,7 +327,6 @@ export default {
     //     `${process.env.baseUrl}/exportcsv/?days=${this.days}&start_date=${this.start_date}&end_date=${this.end_date}&strain=${this.strain}&ordering=${this.ordering}&state=${this.state}&lineage=${this.lineage}&mutation_deletion=${this.mutation_deletion}&date=${this.date}&gene=${this.gene}&reference_id=${this.reference_id}&amino_acid_position=${this.amino_acid_position}&mutation=${this.mutation}`,
     //   )
     //   const file_name = csv.data.path
-    //   console.log(file_name)
     //   const download_path = `${process.env.downloadUrl}/${file_name}`
     //   axios({
     //     url: download_path,

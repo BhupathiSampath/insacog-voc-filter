@@ -64,12 +64,10 @@ export default {
   watch: {
     getarrWeekNumber(value) {
       this.chartOptions.xaxis.categories = value
-      // console.log(this.chartOptions.xaxis.categories)
     },
     getarrweekdata(value) {
       this.series[0].data = value
       this.random = Math.random()
-      // console.log(this.series[0].data)
     },
   },
 }

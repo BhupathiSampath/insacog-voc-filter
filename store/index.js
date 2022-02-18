@@ -44,6 +44,7 @@ export default () => new Vuex.Store({
         weeklineageClassArr: [],
         lineageClassArr: [],
 
+        MonthLineageClassification: [],
         monthlineageClassArr: [],
         monthnamelineageClassArr: [],
 
@@ -104,9 +105,13 @@ export default () => new Vuex.Store({
                 .then(response => {
                     commit('SET_DataTable', response.data)
             }),
-            await axios.get(`http://127.0.0.1:8000/api/lineageclassificationweekly/?days=${this.state.days}&amino_acid_position=${this.state.amino_acid_position}&year=${this.state.year}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
+            await axios.get(`${process.env.baseUrl}/lineageclassificationweekly/?days=${this.state.days}&amino_acid_position=${this.state.amino_acid_position}&year=${this.state.year}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
             .then(response => {
                 commit('SET_WeekLineageClassification', response.data)
+            }),
+            await axios.get(`${process.env.baseUrl}/lineageclassificationmonth/?days=${this.state.days}&amino_acid_position=${this.state.amino_acid_position}&year=${this.state.year}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
+            .then(response => {
+                commit('SET_MonthLineageClassification', response.data)
             }),
             await axios.get(`${process.env.baseUrl}/monthlydistribution/?days=${this.state.days}&amino_acid_position=${this.state.amino_acid_position}&year=${this.state.year}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
                 .then(response => {
@@ -206,7 +211,7 @@ export default () => new Vuex.Store({
                 barPercentage: 1
             });
             }
-            console.log("data",this.state.dataSets)
+            // console.log("data",this.state.dataSets)
         },
         SET_LineageClassification(state, value) {
             state.LineageClassification = value
@@ -290,24 +295,26 @@ export default () => new Vuex.Store({
             state.WeekLineageClassification = value
             this.state.weeklineageClassArr.splice(0,)
             this.state.lineageClassArr.splice(0,)
-            this.state.monthlineageClassArr.splice(0,)
-            this.state.monthnamelineageClassArr.splice(0,)
+            // this.state.monthlineageClassArr.splice(0,)
+            // this.state.monthnamelineageClassArr.splice(0,)
             this.state.weeklineageClassArr = value.week.week.week_number
-            this.state.monthnamelineageClassArr = value.month.month.month_number
+            // this.state.monthnamelineageClassArr = value.month.month.month_number
             let s = map(value.week.weekly_lineage, (d) => ({
                 name: d.Class,
                 data: d.value,
               }))
             this.state.lineageClassArr = s
+        },
+        SET_MonthLineageClassification(state, value) {
+            state.MonthLineageClassification = value
+            this.state.monthlineageClassArr.splice(0,)
+            this.state.monthnamelineageClassArr.splice(0,)
+            this.state.monthnamelineageClassArr = value.month.month.month_number
             let l = map(value.month.lineage, (d) => ({
                 name: d.Class,
                 data: d.value,
               }))
             this.state.monthlineageClassArr = l
-              console.log(this.state.monthlineageClassArr)
         },
     }
 })
-
-
-

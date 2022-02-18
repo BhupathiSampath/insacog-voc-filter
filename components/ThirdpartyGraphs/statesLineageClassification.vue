@@ -80,7 +80,6 @@ export default {
   watch: {
     getarrStatesClass(value) {
       this.chartOptions.xaxis.categories = value
-      console.log("week",this.chartOptions.xaxis)
     },
     getarrStateLineages(value) {
       this.series = value

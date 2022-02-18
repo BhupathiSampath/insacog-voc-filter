@@ -80,7 +80,6 @@ export default {
   watch: {
     getweeklineageClassArr(value) {
       this.chartOptions.xaxis.categories = value
-      console.log("week",this.chartOptions.xaxis)
     },
     getlineageClassArr(value) {
       this.series = value
