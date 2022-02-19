@@ -1,76 +1,22 @@
 export default {
-  env: {
-    baseUrl: process.env.BASE_URL || 'http://10.10.6.87/api',
-    downloadUrl: process.env.downloadUrl || 'http://10.10.6.87/download'
-  },
-  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
-
-  // Global page headers: https://go.nuxtjs.dev/config-head
-  head: {
-    title: 'insacog-voc-filter',
-    htmlAttrs: {
-      lang: 'en'
-    },
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
-    ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
-  },
-
-  // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
-
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-  ],
-
-  // Auto import components: https://go.nuxtjs.dev/config-components
-  components: true,
-
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-    // https://go.nuxtjs.dev/tailwindcss
-    '@nuxtjs/tailwindcss',
-
-  ],
-  tailwindcss: {
-    // Options
-    mode: 'jit',
-  },
-  // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
-    '@nuxtjs/toast',
-  ],
-  toast: {
-    position: 'bottom-center',
-    register: [ // Register custom toasts
-      {
-        name: 'my-error',
-        message: 'Oops...Something went wrong',
-        options: {
-          type: 'error'
-        }
-      }
-    ]
-},
-  // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-		transpile: [
-			/echarts/,
-			/zrender/
+	css: [],
+	axios: {},
+	build: {},
+	plugins: [],
+	loading: false,
+	components: true,
+	tailwindcss: { mode: 'jit' },
+	buildModules: ['@nuxtjs/tailwindcss'],
+	modules: ['@nuxtjs/axios', '@nuxtjs/toast', '@nuxtjs/dayjs'],
+	head: {
+		title: 'INSACOG-QueryHub',
+		htmlAttrs: { lang: 'en' },
+		meta: [
+			{ charset: 'utf-8' },
+			{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
+			{ hid: 'description', name: 'description', content: '' },
+			{ name: 'format-detection', content: 'telephone=no' },
 		],
-		babel: {
-			plugins: [
-				["@babel/plugin-proposal-optional-chaining", { loose: true }],
-				["@babel/plugin-proposal-nullish-coalescing-operator", { loose: true }],
-			]
-		}
-  }
+		link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+	},
 }
