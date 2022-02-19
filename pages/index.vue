@@ -209,6 +209,8 @@ export default {
         { name: 'Pangolin Version 6', version: '1.2.3' },
         { name: 'Pangolin Version 7', version: '1.2.3' },
       ],
+      isLoading: false,
+      delayLoading: 2,
       isShowing:false,
       ip: {},
       lineagescount: '',
@@ -287,6 +289,10 @@ export default {
     //   }
     //   return 'p-4 text-gray-400 bg-white drop-shadow-lg'
     // },
+    load() {
+      this.isLoading = true;
+      setTimeout(() => { this.isLoading = false; }, this.delayLoading * 1000)
+    },
     openMenu () {
             this.$store.dispatch('getPosts')
         },

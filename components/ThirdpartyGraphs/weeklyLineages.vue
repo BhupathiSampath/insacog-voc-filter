@@ -32,9 +32,9 @@ export default {
         },
       ],
       chartOptions: {
-        // legend: {
-        //     show: false
-        // },
+        legend: {
+            show: false
+        },
         chart: {
           type: 'bar',
           stacked: true,
@@ -70,8 +70,26 @@ export default {
       },
     }
   },
+  // computed: {
+  //   ...mapGetters({
+  //     getlineagesxAxis: 'getlineagesxAxis',
+  //     getlineagesyAxis: 'getlineagesyAxis',
+  //   }),
+  // },
+
+  // watch: {
+  //   getlineagesxAxis(value) {
+  //     this.chartOptions.xaxis.categories = value
+  //   },
+  //   getlineagesyAxis(value) {
+  //     this.series = value
+  //     console.log(this.series)
+  //     this.random = Math.random()
+  //   },
+  // },
   async created() {
-    const data = await axios.get(`http://127.0.0.1:8000/api/weeklystackbar/`);
+    const data = await axios.get(`http://127.0.0.1:8000/api/weeklylineages/?days=${this.$store.state.days}&end_date=${this.$store.state.end_date}&strain=${this.$store.state.strain}&ordering=${this.$store.state.ordering}&state=${this.$store.state.state}&lineage=${this.$store.state.lineage}&mutation_deletion=${this.$store.state.mutation_deletion}&date=${this.$store.state.date}&gene=${this.$store.state.gene}&reference_id=${this.$store.state.reference_id}&amino_acid_position=${this.$store.state.amino_acid_position}&mutation=${this.$store.state.mutation}`);
+    // this.weekNumbers.push(data.data.month.week_number)
     this.chartOptions.xaxis.categories = data.data.week.week_number
     console.log(this.chartOptions.xaxis.categories)
       let s = map(data.data.lineage, (d) => ({

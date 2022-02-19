@@ -3,6 +3,7 @@ import axios from 'axios'
 import Vuex from 'vuex'
 import Vue from 'vue'
 import { map } from 'lodash'
+import { leastIndex } from 'd3';
 
 Vue.use(Vuex);
 const page = 1
@@ -62,6 +63,10 @@ export default () => new Vuex.Store({
         arrStatesClass: [],
         arrStateLineages: [],
 
+        weeklyLineages: [],
+        lineagesxAxis: [],
+        lineagesyAxis:[],
+
 
         dataSets: []
     },
@@ -88,7 +93,10 @@ export default () => new Vuex.Store({
         getarrStrainCount: state => state.arrStrainCount,
 
         getarrClass: state => state.arrClass,
-        getarrClassCount: state => state.arrClassCount
+        getarrClassCount: state => state.arrClassCount,
+
+        getlineagesxAxis: state => state.lineagesxAxis,
+        getlineagesyAxis: state => state.lineagesyAxis
     },
     
     
@@ -97,6 +105,9 @@ export default () => new Vuex.Store({
             if (this.state.page > 1) {
                 const prev = this.state.page - 1;
             }
+            // if (this.state.lineage === "") {
+            //     this.state.lineage = "B.1.1.7,B.1.351,B.1.617.2,AY.1,B.1.351,P.1,B.1.1.318,B.1.1.529,BA.1,BA.2"
+            // }
             await axios.get(`${process.env.baseUrl}/linclassification/?days=${this.state.days}&amino_acid_position=${this.state.amino_acid_position}&year=${this.state.year}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
             .then(response => {
                 commit('SET_LineageClassification', response.data)
@@ -104,7 +115,7 @@ export default () => new Vuex.Store({
             await axios.get(`${process.env.baseUrl}/data/?page=${this.state.page}&amino_acid_position=${this.state.amino_acid_position}&days=${this.state.days}&year=${this.state.year}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
                 .then(response => {
                     commit('SET_DataTable', response.data)
-            }),
+            })
             await axios.get(`${process.env.baseUrl}/lineageclassificationweekly/?days=${this.state.days}&amino_acid_position=${this.state.amino_acid_position}&year=${this.state.year}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
             .then(response => {
                 commit('SET_WeekLineageClassification', response.data)
@@ -113,15 +124,19 @@ export default () => new Vuex.Store({
             .then(response => {
                 commit('SET_MonthLineageClassification', response.data)
             }),
+            await axios.get(`${process.env.baseUrl}/weeklylineages/?days=${this.state.days}&amino_acid_position=${this.state.amino_acid_position}&year=${this.state.year}&strain=${this.state.strain}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
+                .then(response => {
+                    commit('SET_weeklyLineages', response.data)
+            }),
+            await axios.get(`${process.env.baseUrl}/distribution/?days=${this.state.days}&amino_acid_position=${this.state.amino_acid_position}&year=${this.state.year}&strain=${this.state.strain}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
+                .then(response => {
+                    commit('SET_WeekDistribution', response.data)
+            }),
             await axios.get(`${process.env.baseUrl}/monthlydistribution/?days=${this.state.days}&amino_acid_position=${this.state.amino_acid_position}&year=${this.state.year}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
                 .then(response => {
                     commit('SET_MonthDistribution', response.data)
             }),
             
-            await axios.get(`${process.env.baseUrl}/distribution/?days=${this.state.days}&amino_acid_position=${this.state.amino_acid_position}&year=${this.state.year}&strain=${this.state.strain}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
-                .then(response => {
-                    commit('SET_WeekDistribution', response.data)
-            }),
             await axios.get(`${process.env.baseUrl}/stateslineageclassification/?days=${this.state.days}&amino_acid_position=${this.state.amino_acid_position}&year=${this.state.year}&start_date=${this.state.start_date}&end_date=${this.state.end_date}&strain=${this.state.strain}&state=${this.state.state}&lineage=${this.state.lineage}&mutation_deletion=${this.state.mutation_deletion}&date=${this.state.date}&gene=${this.state.gene}&reference_id=${this.state.reference_id}&mutation=${this.state.mutation}`)
                 .then(response => {
                     commit('SET_StateLineageClassification', response.data)
@@ -241,6 +256,17 @@ export default () => new Vuex.Store({
         SET_DataTable(state, value) {
             state.DataTable = value
         },
+        SET_weeklyLineages(state, value) {
+            state.weeklyLineages = value
+            this.state.lineagesxAxis.splice(0,)
+            this.state.lineagesyAxis.splice(0,)
+            this.state.lineagesxAxis.push(value.week.week_number)
+            let s = map(value.lineage, (d) => ({
+                name: d.lineage,
+                data: d.value,
+              }))
+            this.state.lineagesyAxis = s
+        },
         SET_WeekDistribution(state, value) {
             state.WeekDistribution = value
             this.state.arrWeekNumber.splice(0,)
@@ -295,8 +321,6 @@ export default () => new Vuex.Store({
             state.WeekLineageClassification = value
             this.state.weeklineageClassArr.splice(0,)
             this.state.lineageClassArr.splice(0,)
-            // this.state.monthlineageClassArr.splice(0,)
-            // this.state.monthnamelineageClassArr.splice(0,)
             this.state.weeklineageClassArr = value.week.week.week_number
             // this.state.monthnamelineageClassArr = value.month.month.month_number
             let s = map(value.week.weekly_lineage, (d) => ({

@@ -13,9 +13,7 @@
 
 <script>
 import VueApexCharts from 'vue-apexcharts'
-import axios from 'axios'
 import { mapState, mapGetters } from 'vuex'
-import { map } from 'lodash'
 
 export default {
   name: 'Chart',
@@ -24,6 +22,18 @@ export default {
   },
   data: function () {
     return {
+      isLoading: false,
+      delayLoading: 1,
+      chart_loader: true,
+		  loader_option: {
+        lineWidth: 3,
+        fontSize: 14,
+        text: 'Loading',
+        fontWeight: 500,
+        color: '#c23531',
+        maskColor: '#f6f8f9',
+        fontFamily: 'Averta',
+		  },
       random: Math.random(),
       series: [
         {
@@ -79,12 +89,14 @@ export default {
 
   watch: {
     getweeklineageClassArr(value) {
+      this.isLoading = true;
       this.chartOptions.xaxis.categories = value
     },
     getlineageClassArr(value) {
       this.series = value
       this.random = Math.random()
-    },
+      this.isLoading = false;
+    }
   },
 //   async created() {
 //     const data = await axios.get(`http://127.0.0.1:8000/api/extrafilter/?days=${this.$store.state.days}&end_date=${this.$store.state.end_date}&strain=${this.$store.state.strain}&ordering=${this.$store.state.ordering}&state=${this.$store.state.state}&lineage=${this.$store.state.lineage}&mutation_deletion=${this.$store.state.mutation_deletion}&date=${this.$store.state.date}&gene=${this.$store.state.gene}&reference_id=${this.$store.state.reference_id}&amino_acid_position=${this.$store.state.amino_acid_position}&mutation=${this.$store.state.mutation}`);
