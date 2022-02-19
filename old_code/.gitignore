@@ -4,8 +4,6 @@
 # Sublime
 *.sublime*
 
-bash_script_git
-
 # Logs
 /logs
 *.log

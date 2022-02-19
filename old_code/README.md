@@ -1,4 +1,4 @@
-# INSACOG-QueryHub
+# insacog-voc-filter
 
 ## Build Setup
 

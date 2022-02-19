@@ -1,5 +1,5 @@
 {
-  "name": "insacog-voc-filter",
+  "name": "INSACOG-QueryHub",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -10,44 +10,21 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/dayjs": "^1.4.1",
     "@nuxtjs/toast": "^3.3.1",
-    "@syncfusion/ej2-vue-buttons": "^19.4.38",
-    "@syncfusion/ej2-vue-calendars": "^19.4.38",
-    "@tadashi/fd": "^1.0.3",
-    "@vue/composition-api": "^1.4.5",
     "animated-number-vue": "^1.0.0",
-    "apexcharts": "^3.33.0",
-    "axios": "^0.24.0",
-    "c3": "^0.7.20",
-    "chart.js": "^2.9.4",
-    "chartkick": "^4.1.1",
-    "core-js": "^3.19.3",
-    "d3": "^7.3.0",
-    "echarts": "5.2.0",
-    "fusioncharts": "^3.18.0",
-    "highcharts": "^9.3.3",
-    "jquery": "^3.6.0",
-    "jquery-ui": "^1.13.0",
-    "nuxt": "^2.15.8",
-    "nuxt-d3": "^0.0.0-alpha-005",
-    "randomcolor": "^0.6.2",
-    "vue": "^2.6.14",
-    "vue-apexcharts": "^1.6.2",
-    "vue-c3": "^1.2.11",
-    "vue-chartjs": "^3.5.1",
-    "vue-d3-charts": "^0.2.8",
-    "vue-echarts": "*",
-    "vue-fusioncharts": "^3.2.0",
-    "vue-range-slider": "^0.6.0",
-    "vue-server-renderer": "^2.6.14",
-    "vue-template-compiler": "^2.6.14",
-    "vue2-datepicker": "^3.10.4",
-    "vuex": "^3.6.2",
-    "vuex-map-fields": "^1.4.1",
-    "webpack": "^4.46.0"
+    "core-js": "^3.15.1",
+    "echarts": "^5.3.0",
+    "lodash": "^4.17.21",
+    "nuxt": "^2.15.7",
+    "vue-echarts": "^6.0.2",
+    "vuex-map-fields": "^1.4.1"
   },
   "devDependencies": {
-    "@nuxtjs/tailwindcss": "^4.2.1",
-    "postcss": "^8.4.4"
+    "@nuxtjs/composition-api": "^0.31.0",
+    "@nuxtjs/tailwindcss": "^4.2.0",
+    "eslint-config-prettier": "^8.3.0",
+    "postcss": "^8.3.5",
+    "prettier": "^2.3.2"
   }
 }

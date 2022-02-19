@@ -1,22 +1,21 @@
 <template>
-  <div class="bg-gray-100">
-  <NavBar />
-  <div class="container mx-auto">
-    <Nuxt/>
-  </div>
-
-  </div>
+	<div class="p-6">
+		<Nuxt />
+	</div>
 </template>
 
 <script>
-import NavBar from '@/components/NavBar.vue'
-
 export default {
-  data: () =>({
-    input: ''
-  }),
-  components: {
-    NavBar
-  },
+	name: 'default',
+	data: () => ({}),
+	created() {
+		this.$store.dispatch('base/CallINSACOGDataHubStats')
+		this.$store.dispatch('base/CallLineageClassification')
+	},
+	mounted() {
+		this.$nextTick(() => {})
+	},
 }
 </script>
+
+<style scoped></style>
