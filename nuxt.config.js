@@ -1,13 +1,13 @@
 export default {
 	css: [],
 	axios: {},
-	build: {},
 	plugins: [],
 	loading: false,
 	components: true,
 	tailwindcss: { mode: 'jit' },
-	buildModules: ['@nuxtjs/tailwindcss'],
+	build: { transpile: [/echarts/, /zrender/] },
 	modules: ['@nuxtjs/axios', '@nuxtjs/toast', '@nuxtjs/dayjs'],
+	buildModules: ['@nuxtjs/tailwindcss', '@nuxtjs/composition-api/module'],
 	head: {
 		title: 'INSACOG-QueryHub',
 		htmlAttrs: { lang: 'en' },
