@@ -10,6 +10,7 @@ export default {
 	data: () => ({}),
 	created() {
 		this.$store.dispatch('base/CallINSACOGDataHubStats')
+		this.$store.dispatch('base/CallLineageClassification')
 	},
 	mounted() {
 		this.$nextTick(() => {})
