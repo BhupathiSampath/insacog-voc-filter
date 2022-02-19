@@ -49,7 +49,7 @@ export default {
 		VChart,
 	},
 	provide: {
-		[THEME_KEY]: 'light',
+		[THEME_KEY]: 'dark',
 	},
 	watch: {
 		chartdata(value) {
