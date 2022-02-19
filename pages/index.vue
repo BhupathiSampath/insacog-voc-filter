@@ -46,6 +46,10 @@
 			<ElementDropdown :options="options" class="mr-2" />
 			<ElementDropdown :options="options2" class="mr-2" />
 		</div>
+
+		<div>
+			<ChartsBarChart />
+		</div>
 	</div>
 </template>
 
