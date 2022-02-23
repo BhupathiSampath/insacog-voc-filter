@@ -1,10 +1,10 @@
 <template>
 	<!-- <div class="min-h-screen p-10 bg-gray-100"> -->
 		<div class="max-w-md inline-block">
-			<label for="select" class="font-semibold block py-2">Select Input:</label>
+			<!-- <label for="select" class="font-semibold block py-2">Select Input:</label> -->
 
 			<div class="relative">
-				<div class="h-10 bg-white flex border border-gray-200 rounded items-center">
+				<div class="h-10 w-full bg-white flex border border-gray-200 rounded items-center">
 					<input
 						checked
 						id="select"
@@ -70,6 +70,13 @@ export default {
 	data: () => ({
 		selected: '',
 		dropdown: false,
+		options: [
+          { name: 'Python', active: false },
+          { name: 'Javascript', active: false },
+          { name: 'Node', active: false },
+          { name: 'PHP', active: false },
+        ],
+      // isShowing : false,
 	}),
 	props: {
 		options: { type: Array, required: true },
