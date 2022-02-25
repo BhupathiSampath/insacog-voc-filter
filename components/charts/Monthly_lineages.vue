@@ -1,5 +1,11 @@
 <template>
-	<v-chart class="chart" :loading="chart_loader" :loading-options="loader_option" :key="random" :option="option" />
+	<v-chart
+		class="chart"
+		:loading="chart_loader"
+		:loading-options="loader_option"
+		:key="random"
+		:option="option"
+	/>
 </template>
 
 <script>
@@ -8,10 +14,22 @@ import { use } from 'echarts/core'
 import { mapFields } from 'vuex-map-fields'
 import { CanvasRenderer } from 'echarts/renderers'
 import { BarChart } from 'echarts/charts'
-import { TitleComponent, TooltipComponent, LegendComponent, GridComponent, } from 'echarts/components'
+import {
+	TitleComponent,
+	TooltipComponent,
+	LegendComponent,
+	GridComponent,
+} from 'echarts/components'
 import VChart, { THEME_KEY } from 'vue-echarts'
 
-use([CanvasRenderer, BarChart, TitleComponent, TooltipComponent, LegendComponent, GridComponent,])
+use([
+	CanvasRenderer,
+	BarChart,
+	TitleComponent,
+	TooltipComponent,
+	LegendComponent,
+	GridComponent,
+])
 
 export default {
 	data: () => ({
@@ -31,34 +49,33 @@ export default {
 			// 	text: 'Lineage classification weekly basis',
 			// 	top: 'top',
 			// },
-	        tooltip: {
-	          trigger: 'axis',
-	          axisPointer: {
-	            type: 'shadow',
-	          },
-	        },
-	        legend: {
-	        },
-	        grid: {
-		      	left: '0%',
+			tooltip: {
+				trigger: 'axis',
+				axisPointer: {
+					type: 'shadow',
+				},
+			},
+			legend: {},
+			grid: {
+				left: '0%',
 				right: '0%',
 				bottom: '0%',
 				containLabel: true,
 			},
-	        xAxis: [
-	          {
-	            type: 'category',
-	            data: [],
-	          },
-	        ],
-	        yAxis: [
-	          {
-	            type: 'value',
-	          },
-	        ],
-	        series: [],
-	      },
-		}),
+			xAxis: [
+				{
+					type: 'category',
+					data: [],
+				},
+			],
+			yAxis: [
+				{
+					type: 'value',
+				},
+			],
+			series: [],
+		},
+	}),
 	components: {
 		VChart,
 	},
@@ -69,22 +86,43 @@ export default {
 		chartdata(value) {
 			this.option.xAxis[0].data = value.month.month_number
 			let s = map(value.lineage, (d) => ({
-		        name: d.lineage,
-		        type: 'bar',
-		        stack: 'Ad',
-		        emphasis: {
-		            focus: 'series'
-		        },
-		        data: d.value,
-		      }))
-		      this.option.series = s
+				name: d.lineage,
+				type: 'bar',
+				stack: 'Ad',
+				emphasis: {
+					focus: 'series',
+				},
+				data: d.value,
+			}))
+			this.option.series = s
 			this.random = Math.random()
-		this.chart_loader = false
+			this.chart_loader = false
 		},
 	},
-	computed: { ...mapFields('base', ['monthly_lineage.chartdata', 'monthly_lineage.loaded']) },
+	computed: {
+		...mapFields('base', [
+			'monthly_lineage.chartdata',
+			'monthly_lineage.loaded',
+		]),
+	},
 	mounted() {
-		this.$nextTick(() => {})
+		this.$nextTick(() => {
+			if (Object.keys(this.chartdata).length > 0) {
+				this.option.xAxis[0].data = this.chartdata.month.month_number
+				let s = map(this.chartdata.lineage, (d) => ({
+					name: d.lineage,
+					type: 'bar',
+					stack: 'Ad',
+					emphasis: {
+						focus: 'series',
+					},
+					data: d.value,
+				}))
+				this.option.series = s
+				this.random = Math.random()
+				this.chart_loader = false
+			}
+		})
 	},
 }
 </script>

@@ -1,5 +1,11 @@
 <template>
-	<v-chart class="chart" :loading="chart_loader" :loading-options="loader_option" :key="random" :option="option" />
+	<v-chart
+		class="chart"
+		:loading="chart_loader"
+		:loading-options="loader_option"
+		:key="random"
+		:option="option"
+	/>
 </template>
 
 <script>
@@ -8,10 +14,22 @@ import { use } from 'echarts/core'
 import { mapFields } from 'vuex-map-fields'
 import { CanvasRenderer } from 'echarts/renderers'
 import { BarChart } from 'echarts/charts'
-import { TitleComponent, TooltipComponent, LegendComponent, GridComponent, } from 'echarts/components'
+import {
+	TitleComponent,
+	TooltipComponent,
+	LegendComponent,
+	GridComponent,
+} from 'echarts/components'
 import VChart, { THEME_KEY } from 'vue-echarts'
 
-use([CanvasRenderer, BarChart, TitleComponent, TooltipComponent, LegendComponent, GridComponent,])
+use([
+	CanvasRenderer,
+	BarChart,
+	TitleComponent,
+	TooltipComponent,
+	LegendComponent,
+	GridComponent,
+])
 
 export default {
 	data: () => ({
@@ -27,41 +45,41 @@ export default {
 			fontFamily: 'Averta',
 		},
 		option: {
-		  tooltip: {
-		    trigger: 'axis',
-		    axisPointer: {
-		      type: 'shadow'
-		    }
-		  },
-		  grid: {
-		    left: '0%',
-		    right: '0%',
-		    bottom: '0%',
-		    containLabel: true
-		  },
-		  xAxis: [
-		    {
-		      type: 'category',
-		      data: [],
-		      axisTick: {
-		        alignWithLabel: true
-		      }
-		    }
-		  ],
-		  yAxis: [
-		    {
-		      type: 'value',
-		    }
-		  ],
-		  series: [
-		    {
-		      name: 'Sequences',
-		      type: 'bar',
-		      barWidth: '60%',
-		      data: []
-		    }
-		  ]
-		}
+			tooltip: {
+				trigger: 'axis',
+				axisPointer: {
+					type: 'shadow',
+				},
+			},
+			grid: {
+				left: '0%',
+				right: '0%',
+				bottom: '0%',
+				containLabel: true,
+			},
+			xAxis: [
+				{
+					type: 'category',
+					data: [],
+					axisTick: {
+						alignWithLabel: true,
+					},
+				},
+			],
+			yAxis: [
+				{
+					type: 'value',
+				},
+			],
+			series: [
+				{
+					name: 'Sequences',
+					type: 'bar',
+					barWidth: '60%',
+					data: [],
+				},
+			],
+		},
 	}),
 	components: {
 		VChart,
@@ -71,16 +89,35 @@ export default {
 	},
 	watch: {
 		chartdata(value) {
-			let temp = value.map((d) => ({ name: d.month_number, value: d.strain__count }))
+			let temp = value.map((d) => ({
+				name: d.month_number,
+				value: d.strain__count,
+			}))
 			this.option.xAxis[0].data = temp.map((d) => d.name)
 			this.option.series[0].data = temp.map((d) => d.value)
 			this.random = Math.random()
-		this.chart_loader = false
+			this.chart_loader = false
 		},
 	},
-	computed: { ...mapFields('base', ['monthly_sequence.chartdata', 'monthly_sequence.loaded']) },
+	computed: {
+		...mapFields('base', [
+			'monthly_sequence.chartdata',
+			'monthly_sequence.loaded',
+		]),
+	},
 	mounted() {
-		this.$nextTick(() => {})
+		this.$nextTick(() => {
+			if (Object.keys(this.chartdata).length > 0) {
+				let temp = this.chartdata.map((d) => ({
+					name: d.month_number,
+					value: d.strain__count,
+				}))
+				this.option.xAxis[0].data = temp.map((d) => d.name)
+				this.option.series[0].data = temp.map((d) => d.value)
+				this.random = Math.random()
+				this.chart_loader = false
+			}
+		})
 	},
 }
 </script>

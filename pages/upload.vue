@@ -60,7 +60,7 @@
       submitFile(){
             let formData = new FormData();
             formData.append('file', this.file);
-            axios.post( 'http://10.10.6.87/api/adddata/',
+            this.$axios.post( 'http://10.10.6.87/api/adddata/',
                 formData,
                 {
                 headers: {

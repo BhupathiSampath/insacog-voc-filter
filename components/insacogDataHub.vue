@@ -1,7 +1,11 @@
 <template>
 	<div>
-		<div class="relative flex justify-center items-center w-full border-b-2 border-gray-300 my-20 mt-6 mb-6">
-			<h1 class="absolute bg-white px-2 text-xl font-semibold">INSACOG DataHub Stats</h1>
+		<div
+			class="relative flex justify-center items-center w-full border-b-2 border-gray-300 my-20 mt-6 mb-6"
+		>
+			<h1 class="absolute bg-white px-2 text-xl font-semibold">
+				INSACOG DataHub Stats
+			</h1>
 		</div>
 
 		<div
@@ -10,26 +14,44 @@
 		>
 			<div class="p-4 text-gray-400 bg-white rounded-l-md drop-shadow-md">
 				<h2 class="text-base font-medium">Last updated</h2>
-				<p>{{ $dayjs(datahub_stats.last_updated).format('DD-MM-YYYY hh:mm A') }}</p>
+				<p>
+					{{
+						$dayjs(datahub_stats.last_updated).format(
+							'DD-MM-YYYY hh:mm A',
+						)
+					}}
+				</p>
 			</div>
 			<div class="p-4 text-gray-400 bg-white drop-shadow-lg">
-				<h2 class="text-base font-medium">{{ datahub_stats.nextclade_version.split(':')[0] }}</h2>
+				<h2 class="text-base font-medium">
+					{{ datahub_stats.nextclade_version.split(':')[0] }}
+				</h2>
 				<p>{{ datahub_stats.nextclade_version.split(':')[1] }}</p>
 			</div>
 			<div class="p-4 text-gray-400 bg-white drop-shadow-lg">
-				<h2 class="text-base font-medium">{{ datahub_stats.pango_designation_version.split(':')[0] }}</h2>
-				<p>{{ datahub_stats.pango_designation_version.split(':')[1] }}</p>
+				<h2 class="text-base font-medium">
+					{{ datahub_stats.pango_designation_version.split(':')[0] }}
+				</h2>
+				<p>
+					{{ datahub_stats.pango_designation_version.split(':')[1] }}
+				</p>
 			</div>
 			<div class="p-4 text-gray-400 bg-white drop-shadow-lg">
-				<h2 class="text-base font-medium">{{ datahub_stats.pangolearn_version.split(':')[0] }}</h2>
+				<h2 class="text-base font-medium">
+					{{ datahub_stats.pangolearn_version.split(':')[0] }}
+				</h2>
 				<p>{{ datahub_stats.pangolearn_version.split(':')[1] }}</p>
 			</div>
 			<div class="p-4 text-gray-400 bg-white drop-shadow-lg">
-				<h2 class="text-base font-medium">{{ datahub_stats.constellation_version.split(':')[0] }}</h2>
+				<h2 class="text-base font-medium">
+					{{ datahub_stats.constellation_version.split(':')[0] }}
+				</h2>
 				<p>{{ datahub_stats.constellation_version.split(':')[1] }}</p>
 			</div>
 			<div class="p-4 text-gray-400 bg-white drop-shadow-lg">
-				<h2 class="text-base font-medium">{{ datahub_stats.pangolin_version.split(':')[0] }}</h2>
+				<h2 class="text-base font-medium">
+					{{ datahub_stats.pangolin_version.split(':')[0] }}
+				</h2>
 				<p>{{ datahub_stats.pangolin_version.split(':')[1] }}</p>
 			</div>
 			<div class="p-4 text-gray-400 bg-white rounded-r-md drop-shadow-md">
@@ -37,7 +59,7 @@
 				<animated-number
 					:duration="1000"
 					:formatValue="formatnumber"
-					:value="datahub_stats.genomes_sequenced"
+					:value="uniqueSequences.count"
 				/>
 			</div>
 		</div>
@@ -72,7 +94,14 @@ export default {
 		],
 	}),
 	components: { AnimatedNumber },
-	computed: { ...mapFields('base', ['datahub_stats', 'datahub_loaded']) },
+	computed: {
+		...mapFields('base', [
+			'datahub_stats',
+			'datahub_loaded',
+			'uniqueSequences',
+			'uniqueSequences_loaded',
+		]),
+	},
 	methods: {
 		formatnumber(value) {
 			return value.toLocaleString('en-IN')

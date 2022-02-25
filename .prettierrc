@@ -2,8 +2,8 @@
     "semi": false,
     "tabWidth": 4,
     "useTabs": true,
-    "printWidth": 115,
+    // "printWidth": 115,
     "singleQuote": true,
-    "trailingComma": all,
+    "trailingComma": "all",
     "htmlWhitespaceSensitivity": "css",
 }

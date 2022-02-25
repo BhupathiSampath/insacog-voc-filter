@@ -3,38 +3,33 @@
 		class="chart"
 		:loading="chart_loader"
 		:loading-options="loader_option"
-		:key="random"
 		:option="option"
-		:height="400"
 	/>
+	<!-- <p>{{ ReactiveProperty(1) }}</p> -->
 </template>
 
 <script>
-import { map } from 'lodash'
 import { use } from 'echarts/core'
-import { BarChart } from 'echarts/charts'
 import { mapFields } from 'vuex-map-fields'
 import { CanvasRenderer } from 'echarts/renderers'
+import { PieChart } from 'echarts/charts'
 import {
 	TitleComponent,
 	TooltipComponent,
 	LegendComponent,
-	GridComponent,
 } from 'echarts/components'
 import VChart, { THEME_KEY } from 'vue-echarts'
 
 use([
 	CanvasRenderer,
-	BarChart,
+	PieChart,
 	TitleComponent,
 	TooltipComponent,
 	LegendComponent,
-	GridComponent,
 ])
 
 export default {
 	data: () => ({
-		random: Math.random(),
 		chart_loader: true,
 		loader_option: {
 			lineWidth: 3,
@@ -47,30 +42,41 @@ export default {
 		},
 		option: {
 			tooltip: {
-				trigger: 'axis',
-				axisPointer: {
-					type: 'shadow',
-				},
+				trigger: 'item',
+				formatter: '{a} <br/>{b} : {c} ({d}%)',
 			},
-			legend: {},
-			grid: {
-				left: '0%',
-				right: '0%',
-				bottom: '0%',
-				containLabel: true,
+			legend: {
+				top: '5%',
+				left: 'center',
 			},
-			xAxis: [
+			series: [
 				{
+					name: 'Access From',
+					type: 'pie',
+					radius: ['40%', '70%'],
+					avoidLabelOverlap: false,
+					itemStyle: {
+						borderRadius: 10,
+						borderColor: 'rgb(245, 245, 245)',
+						borderWidth: 2,
+					},
+					label: {
+						show: false,
+						position: 'center',
+					},
+					emphasis: {
+						label: {
+							show: true,
+							fontSize: '40',
+							fontWeight: 'bold',
+						},
+					},
+					labelLine: {
+						show: false,
+					},
 					data: [],
-					type: 'category',
 				},
 			],
-			yAxis: [
-				{
-					type: 'value',
-				},
-			],
-			series: [],
 		},
 	}),
 	components: {
@@ -81,43 +87,35 @@ export default {
 	},
 	watch: {
 		chartdata(value) {
-			this.option.xAxis[0].data = value.month.month.month_number
-			let s = map(value.month.lineage, (d) => ({
+			let temp = value.map((d) => ({
 				name: d.Class,
-				type: 'bar',
-				stack: 'Ad',
-				emphasis: {
-					focus: 'series',
-				},
-				data: d.value,
+				value: d.strain__count,
 			}))
-			this.option.series = s
-			this.random = Math.random()
+			// this.option.legend.data = temp.map((d) => d.name)
+			this.option.series[0].data = temp
 			this.chart_loader = false
 		},
 	},
 	computed: {
 		...mapFields('base', [
-			'monthly_lineage_class.chartdata',
-			'monthly_lineage_class.loaded',
+			'lineage_class.chartdata',
+			'lineage_class.loaded',
 		]),
+	},
+	methods: {
+		// ReactiveProperty(index) {
+		// 	return `Hello_${this.chartdata}_${index}`
+		// },
 	},
 	mounted() {
 		this.$nextTick(() => {
 			if (Object.keys(this.chartdata).length > 0) {
-				this.option.xAxis[0].data =
-					this.chartdata.month.month.month_number
-				let s = map(this.chartdata.month.lineage, (d) => ({
+				let temp = this.chartdata.map((d) => ({
 					name: d.Class,
-					type: 'bar',
-					stack: 'Ad',
-					emphasis: {
-						focus: 'series',
-					},
-					data: d.value,
+					value: d.strain__count,
 				}))
-				this.option.series = s
-				this.random = Math.random()
+				// this.option.legend.data = temp.map((d) => d.name)
+				this.option.series[0].data = temp
 				this.chart_loader = false
 			}
 		})
@@ -127,6 +125,6 @@ export default {
 
 <style scoped>
 .chart {
-	height: 300px;
+	height: 400px;
 }
 </style>
