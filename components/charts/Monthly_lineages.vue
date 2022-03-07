@@ -288,7 +288,7 @@ export default {
 	},
 	mounted() {
 		this.$nextTick(() => {
-			if (this.active1 == true) {
+			if (this.active1 == false) {
 				if (Object.keys(this.chartdata1).length > 0) {
 					this.option.xAxis.data = this.chartdata1.week_number.week
 					let only_name = map(this.chartdata1.lineage, (d) => d.lineage)

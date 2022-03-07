@@ -291,11 +291,11 @@ export default {
 	},
 	mounted() {
 		this.$nextTick(() => {
-			if (this.active1 == true) {
+			if (this.active1 == false) {
 				if (Object.keys(this.chartdata).length > 0) {
-					this.option.xAxis.data = value.week_number.week_number
-					let only_name = map(value.Class, (d) => d.Class)
-					let s = map(value.Class, (d) => ({
+					this.option.xAxis.data = this.chartdata.week_number.week_number
+					let only_name = map(this.chartdata.Class, (d) => d.Class)
+					let s = map(this.chartdata.Class, (d) => ({
 						stack: true,
 						name: d.Class,
 						type: this.variable1,
