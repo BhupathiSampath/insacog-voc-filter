@@ -1,7 +1,10 @@
 <template>
-    <div class="p-6 bg-gray-100">
+    <div>
         <NavBar />
-        <Nuxt />
+        <div class="p-6 bg-gray-100">
+            <Nuxt />
+        </div>
+        <Footer />
     </div>
 </template>
 

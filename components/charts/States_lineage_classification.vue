@@ -70,6 +70,7 @@ export default {
 			],
 			yAxis: [
 				{
+					// max: 10000,
 					type: 'value',
 				},
 			],
@@ -85,7 +86,7 @@ export default {
 	watch: {
 		chartdata(value) {
 			this.option.xAxis[0].data = value.state.state
-			let s = map(value.lineage, (d) => ({
+			let s = map(value.Class, (d) => ({
 				name: d.Class,
 				type: 'bar',
 				stack: 'Ad',
@@ -109,7 +110,7 @@ export default {
 		this.$nextTick(() => {
 			if (Object.keys(this.chartdata).length > 0) {
 				this.option.xAxis[0].data = this.chartdata.state.state
-				let s = map(this.chartdata.lineage, (d) => ({
+				let s = map(this.chartdata.Class, (d) => ({
 					name: d.Class,
 					type: 'bar',
 					stack: 'Ad',

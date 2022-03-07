@@ -1,6 +1,7 @@
 import { getField, updateField } from 'vuex-map-fields'
 
 export const state = () => ({
+	url: process.env.BASE_URL,
 	page: 1,
 	days: 36500,
 	search: '',
@@ -10,7 +11,7 @@ export const state = () => ({
 	start_date: '',
 	end_date: '',
 	amino_acid_position: '',
-	year: '202',
+	year: '2021,2022',
 	state: '',
 	strain: '',
 	date: '',
@@ -20,8 +21,8 @@ export const state = () => ({
 
 	datahub_stats: {},
 	weekly_lineage: {
-		chartdata: {},
-		loaded: false,
+		chartdata1: {},
+		loaded1: false,
 	},
 	monthly_lineage: {
 		chartdata: {},
@@ -36,16 +37,16 @@ export const state = () => ({
 		loaded: false,
 	},
 	monthly_lineage_class: {
-		chartdata: {},
-		loaded: false,
+		chartdata1: {},
+		loaded1: false,
 	},
 	weekly_sequence: {
 		chartdata: {},
 		loaded: false,
 	},
 	monthly_sequence: {
-		chartdata: {},
-		loaded: false,
+		chartdata1: {},
+		loaded1: false,
 	},
 	state_lineage_class: {
 		chartdata: {},
@@ -100,16 +101,16 @@ export const mutations = {
 		state.weekly_lineage_class.loaded = true
 	},
 	SET_MonthLineageClassification(state, payload) {
-		state.monthly_lineage_class.chartdata = payload
-		state.monthly_lineage_class.loaded = true
+		state.monthly_lineage_class.chartdata1 = payload
+		state.monthly_lineage_class.loaded1 = true
 	},
 	SET_WeekDistribution(state, payload) {
 		state.weekly_sequence.chartdata = payload
 		state.weekly_sequence.loaded = true
 	},
 	SET_MonthDistribution(state, payload) {
-		state.monthly_sequence.chartdata = payload
-		state.monthly_sequence.loaded = true
+		state.monthly_sequence.chartdata1 = payload
+		state.monthly_sequence.loaded1 = true
 	},
 	SET_StateLineageClassification(state, payload) {
 		state.state_lineage_class.chartdata = payload
@@ -120,8 +121,8 @@ export const mutations = {
 		state.state_distribution.loaded = true
 	},
 	SET_Weeklylineage(state, payload) {
-		state.weekly_lineage.chartdata = payload
-		state.weekly_lineage.loaded = true
+		state.weekly_lineage.chartdata1 = payload
+		state.weekly_lineage.loaded1 = true
 	},
 	SET_Monthlylineage(state, payload) {
 		state.monthly_lineage.chartdata = payload
@@ -154,96 +155,99 @@ export const actions = {
 		// 	}
 		// })
 		// commit('SET_DATAHUB_STATS', response)
+		// const url = process.env.BASE_URL
+		// console.log(state.url)
+
 		this.$axios
 			.get(
-				`http://10.10.6.87/api/data/?page= ${state.page}&amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}&ordering=${state.ordering}`,
+				`http://127.0.0.1:8080/api/data/?page= ${state.page}&amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}&ordering=${state.ordering}`,
 			)
 			.then((response) => {
 				commit('SET_DataTable', response.data)
 			})
 		this.$axios
-			.get(
-				`http://10.10.6.87/api/linclassification/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
+			.$get(
+				`http://127.0.0.1:8080/api/linclassification/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
 			)
 			.then((response) => {
-				commit('SET_LINEAGE_CLASSIFICATION', response.data)
+				commit('SET_LINEAGE_CLASSIFICATION', response)
 			})
 		this.$axios
-			.get(
-				`http://10.10.6.87/api/uniqelineagecount/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
+			.$get(
+				`http://127.0.0.1:8080/api/uniqelineagecount/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
 			)
 			.then((response) => {
-				commit('SET_UniqueLineages', response.data)
+				commit('SET_UniqueLineages', response)
 			})
 		this.$axios
-			.get(
-				`http://10.10.6.87/api/distribution/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
+			.$get(
+				`http://127.0.0.1:8080/api/distribution/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
 			)
 			.then((response) => {
-				commit('SET_WeekDistribution', response.data)
+				commit('SET_WeekDistribution', response)
 			}),
-			this.$axios
-				.get(
-					`http://10.10.6.87/api/uniquelineagestrain/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
-				)
-				.then((response) => {
-					commit('SET_LineageDistribution', response.data)
-				})
 		this.$axios
-			.get(
-				`http://10.10.6.87/api/genomesseqenced/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
+			.$get(
+				`http://127.0.0.1:8080/api/uniquelineagestrain/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
 			)
 			.then((response) => {
-				commit('SET_UniqueSequences', response.data)
+				commit('SET_LineageDistribution', response)
 			})
 		this.$axios
-			.get(
-				`http://10.10.6.87/api/lineageclassificationweekly/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
+			.$get(
+				`http://127.0.0.1:8080/api/genomesseqenced/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
 			)
 			.then((response) => {
-				commit('SET_WeekLineageClassification', response.data)
+				commit('SET_UniqueSequences', response)
 			})
 		this.$axios
-			.get(
-				`http://10.10.6.87/api/lineageclassificationmonth/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
+			.$get(
+				`http://127.0.0.1:8080/api/lineageclassificationweekly/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
 			)
 			.then((response) => {
-				commit('SET_MonthLineageClassification', response.data)
+				commit('SET_WeekLineageClassification', response)
 			})
 		this.$axios
-			.get(
-				`http://10.10.6.87/api/stateslineageclassification/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
+			.$get(
+				`http://127.0.0.1:8080/api/lineageclassificationmonth/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
 			)
 			.then((response) => {
-				commit('SET_StateLineageClassification', response.data)
+				commit('SET_MonthLineageClassification', response)
 			})
 		this.$axios
-			.get(
-				`http://10.10.6.87/api/statesequencesdistribution/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
+			.$get(
+				`http://127.0.0.1:8080/api/stateslineageclassification/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
 			)
 			.then((response) => {
-				commit('SET_StateDistribution', response.data)
+				commit('SET_StateLineageClassification', response)
 			})
 		this.$axios
-			.get(
-				`http://10.10.6.87/api/weeklylineages/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
+			.$get(
+				`http://127.0.0.1:8080/api/statesequencesdistribution/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
 			)
 			.then((response) => {
-				commit('SET_Weeklylineage', response.data)
+				commit('SET_StateDistribution', response)
 			})
 		this.$axios
-			.get(
-				`http://10.10.6.87/api/monthlylineages/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
+			.$get(
+				`http://127.0.0.1:8080/api/weeklylineages/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
 			)
 			.then((response) => {
-				commit('SET_Monthlylineage', response.data)
+				commit('SET_Weeklylineage', response)
 			})
 		this.$axios
-			.get(
-				`http://10.10.6.87/api/monthlydistribution/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
+			.$get(
+				`http://127.0.0.1:8080/api/monthlylineages/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
 			)
 			.then((response) => {
-				commit('SET_MonthDistribution', response.data)
+				commit('SET_Monthlylineage', response)
+			})
+		this.$axios
+			.$get(
+				`http://127.0.0.1:8080/api/monthlydistribution/?amino_acid_position=${state.amino_acid_position}&days=${state.days}&year=${state.year}&start_date=${state.start_date}&end_date=${state.end_date}&strain=${state.strain}&state=${state.state}&lineage=${state.lineage}&mutation_deletion=${state.mutation_deletion}&date=${state.date}&gene=${state.gene}&reference_id=${state.reference_id}&mutation=${state.mutation}`,
+			)
+			.then((response) => {
+				commit('SET_MonthDistribution', response)
 			})
 	},
 	// async CallLineageClassification({ commit, dispatch }) {

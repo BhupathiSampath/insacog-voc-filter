@@ -80,9 +80,9 @@ export default {
 		[THEME_KEY]: 'light',
 	},
 	watch: {
-		chartdata(value) {
-			this.option.xAxis[0].data = value.month.month.month_number
-			let s = map(value.month.lineage, (d) => ({
+		chartdata1(value) {
+			this.option.xAxis[0].data = value.month_number.month_number
+			let s = map(value.Class, (d) => ({
 				name: d.Class,
 				type: 'bar',
 				stack: 'Ad',
@@ -98,16 +98,16 @@ export default {
 	},
 	computed: {
 		...mapFields('base', [
-			'monthly_lineage_class.chartdata',
-			'monthly_lineage_class.loaded',
+			'monthly_lineage_class.chartdata1',
+			'monthly_lineage_class.loaded1',
 		]),
 	},
 	mounted() {
 		this.$nextTick(() => {
-			if (Object.keys(this.chartdata).length > 0) {
+			if (Object.keys(this.chartdata1).length > 0) {
 				this.option.xAxis[0].data =
-					this.chartdata.month.month.month_number
-				let s = map(this.chartdata.month.lineage, (d) => ({
+					this.chartdata.month_number.month_number
+				let s = map(this.chartdata1.Class, (d) => ({
 					name: d.Class,
 					type: 'bar',
 					stack: 'Ad',

@@ -20,7 +20,7 @@
           </button>
         </div>
         <!-- <ElementDropdown :options="options" class="mr-2" /> -->
-        <div class="grid justify-items-end z-30">
+        <div class="grid justify-items-end z-30 h-10">
           <button
             class="bg-blue-500 hover:bg-blue-700 content-left text-white font-bold w-30 h-10 py-2 px-4 rounded text-sm fixed"
             id="show"
@@ -37,7 +37,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
 
-    <div v-show="isShowing"
+    <div
+      v-show="isShowing"
       class="fixed inset-10 mt-16 w-2/3 py-16 mx-auto pt-48 pl-40 grid justify-end z-30"
       id="my-modal"
     >
@@ -64,7 +65,7 @@
             >
               <path
                 d="M15.8898 15.0493L11.8588 11.0182C11.7869 10.9463 11.6932 10.9088 11.5932 10.9088H11.2713C12.3431 9.74952 12.9994 8.20272 12.9994 6.49968C12.9994 2.90923 10.0901 0 6.49968 0C2.90923 0 0 2.90923 0 6.49968C0 10.0901 2.90923 12.9994 6.49968 12.9994C8.20272 12.9994 9.74952 12.3431 10.9088 11.2744V11.5932C10.9088 11.6932 10.9495 11.7869 11.0182 11.8588L15.0493 15.8898C15.1961 16.0367 15.4336 16.0367 15.5805 15.8898L15.8898 15.5805C16.0367 15.4336 16.0367 15.1961 15.8898 15.0493ZM6.49968 11.9994C3.45921 11.9994 0.999951 9.54016 0.999951 6.49968C0.999951 3.45921 3.45921 0.999951 6.49968 0.999951C9.54016 0.999951 11.9994 3.45921 11.9994 6.49968C11.9994 9.54016 9.54016 11.9994 6.49968 11.9994Z"
-              ></path>
+              />
             </svg>
           </div>
           <input
@@ -82,24 +83,18 @@
           <button
             class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm font-medium rounded-md"
             v-on:click="resetInput"
-          >
-            Reset filter
-          </button>
+          >Reset filter</button>
         </div>
 
         <div>
-          <div
-            class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-4"
-          >
+          <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
             <div class="text-gray-400 bg-white">
               <p class="text-sm">
                 Strain
                 <i class="relative hover-trigger fa fa-info-circle">
                   <div
                     class="absolute bg-white border border-grey-100 px-4 py-2 hover-target w-40"
-                  >
-                    Partial match possible
-                  </div>
+                  >Partial match possible</div>
                 </i>
               </p>
               <input
@@ -117,9 +112,7 @@
                 <i class="relative hover-trigger fa fa-info-circle">
                   <div
                     class="absolute bg-white border border-grey-100 px-4 py-2 hover-target w-40"
-                  >
-                    Partial match possible
-                  </div>
+                  >Partial match possible</div>
                 </i>
               </p>
               <input
@@ -158,9 +151,7 @@
                 <i class="relative hover-trigger fa fa-info-circle">
                   <div
                     class="absolute bg-white border border-grey-100 px-4 py-2 hover-target w-40"
-                  >
-                    Partial match possible
-                  </div>
+                  >Partial match possible</div>
                 </i>
               </p>
               <input
@@ -178,9 +169,7 @@
                 <i class="relative hover-trigger fa fa-info-circle">
                   <div
                     class="absolute bg-white border border-grey-100 px-4 py-2 hover-target w-40"
-                  >
-                    Partial match possible
-                  </div>
+                  >Partial match possible</div>
                 </i>
               </p>
               <input
@@ -198,9 +187,7 @@
                 <i class="relative hover-trigger fa fa-info-circle">
                   <div
                     class="absolute bg-white border border-grey-100 px-4 py-2 hover-target w-40"
-                  >
-                    Partial match possible
-                  </div>
+                  >Partial match possible</div>
                 </i>
               </p>
               <input
@@ -218,9 +205,7 @@
                 <i class="relative hover-trigger fa fa-info-circle">
                   <div
                     class="absolute bg-white border border-grey-100 px-4 py-2 hover-target w-40"
-                  >
-                    Partial match possible
-                  </div>
+                  >Partial match possible</div>
                 </i>
               </p>
               <input
@@ -238,9 +223,7 @@
                 <i class="relative hover-trigger fa fa-info-circle">
                   <div
                     class="absolute bg-white border border-grey-100 px-4 py-2 hover-target w-40"
-                  >
-                    Partial match possible
-                  </div>
+                  >Partial match possible</div>
                 </i>
               </p>
               <input
@@ -259,9 +242,7 @@
                   <i class="relative hover-trigger fa fa-info-circle">
                     <div
                       class="absolute bg-white border border-grey-100 px-4 py-2 hover-target w-40 rounded-md"
-                    >
-                      Switch the button to date range filter
-                    </div>
+                    >Switch the button to date range filter</div>
                   </i>
                 </p>
                 <label
@@ -273,9 +254,7 @@
                     <!-- input -->
                     <input id="toogleA" type="checkbox" class="sr-only" />
                     <!-- line -->
-                    <div
-                      class="w-6 h-2 bg-gray-400 rounded-full shadow-inner"
-                    ></div>
+                    <div class="w-6 h-2 bg-gray-400 rounded-full shadow-inner"></div>
                     <!-- dot -->
                     <div
                       class="dot absolute w-4 h-4 bg-white rounded-full shadow -left-1 -top-1 transition"
@@ -303,7 +282,6 @@
                 name="start_date"
                 type="date"
                 placeholder="start_date"
-                
               />
             </div>
             <div class="text-gray-400 bg-white">
@@ -317,7 +295,6 @@
                 name="end_date"
                 type="date"
                 placeholder="end_date"
-                
               />
             </div>
 
@@ -328,7 +305,6 @@
               </p>
               <select
                 class="px-2 py-3 w-40 rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm h-10"
-                
                 v-model="days"
                 name="days"
               >
@@ -350,9 +326,7 @@
             <button
               class="mt-5 py-2 bg-green-500 hover:bg-green-400 text-white text-sm font-medium rounded-md h-10 w-80"
               @click="openMenu"
-            >
-              Apply filter
-            </button>
+            >Apply filter</button>
           </div>
           <div class="flex justify-center"></div>
         </div>
@@ -362,64 +336,66 @@
 </template>
 
 <script>
-  import { mapFields } from 'vuex-map-fields'
-  import AnimatedNumber from 'animated-number-vue'
-  import Dropdown from '@/components/element/Dropdown.vue'
-  export default {
-    components: { Dropdown, },
-    data: () => ({
-      options: [
-          { name: 'Python', active: false },
-          { name: 'Javascript', active: false },
-          { name: 'Node', active: false },
-          { name: 'PHP', active: false },
-        ],
-      isShowing : false,
-    }),
-    computed: { ...mapFields('base', ['page','lineage','strain','mutation','mutation_deletion','state','date','start_date','end_date','gene','reference_id','days','search','amino_acid_position',
-      'year']) },
-    methods: {
-      openMenu () {
-          this.$store.dispatch("base/getALLDATA")
-      },
-      async downloadFile() {
-              const csv = await this.$axios.get(`http://10.10.6.87/api/exportcsv/?days : ${this.$store.state.days}&start_date : ${this.$store.state.start_date}&end_date : ${this.$store.state.end_date}&strain : ${this.$store.state.strain}&ordering : ${this.$store.state.ordering}&state : ${this.$store.state.state}&lineage : ${this.$store.state.lineage}&mutation_deletion : ${this.$store.state.mutation_deletion}&date : ${this.$store.state.date}&gene : ${this.$store.state.gene}&reference_id : ${this.$store.state.reference_id}&amino_acid_position : ${this.$store.state.amino_acid_position}&mutation : ${this.$store.state.mutation}`)
-                        const file_name = csv.data.path;
-                        const download_path = `http://10.10.6.87/download/${file_name}` ;
-                this.$axios({
-                      url: download_path,
-                      method: 'GET',
-                      responseType: 'blob',
-                  }).then((response) => {
-                        var fileURL = window.URL.createObjectURL(new Blob([response.data]));
-                        var fileLink = document.createElement('a');
-        
-                        fileLink.href = fileURL;
-                        fileLink.setAttribute('download', file_name);
-                        document.body.appendChild(fileLink);
-                        fileLink.click();
-                  });
-                },
-      resetInput() {
-        // this.$store.state.days = "",
-        this.strain = "";
-        this.state = "";
-        this.date = "";
-        this.mutation_deletion = "";
-        this.gene = "";
-        this.reference_id = "";
-        this.mutation = "";
-        this.start_date = "";
-        this.end_date = "";
-        this.lineage = "";
-        this.amino_acid_position = "";
-      },
+import { mapFields } from 'vuex-map-fields'
+import AnimatedNumber from 'animated-number-vue'
+import Dropdown from '@/components/element/Dropdown.vue'
+export default {
+  components: { Dropdown, },
+  data: () => ({
+    options: [
+      { name: 'Python', active: false },
+      { name: 'Javascript', active: false },
+      { name: 'Node', active: false },
+      { name: 'PHP', active: false },
+    ],
+    isShowing: false,
+  }),
+  computed: {
+    ...mapFields('base', ['page', 'lineage', 'strain', 'mutation', 'mutation_deletion', 'state', 'date', 'start_date', 'end_date', 'gene', 'reference_id', 'days', 'search', 'amino_acid_position',
+      'year'])
+  },
+  methods: {
+    openMenu() {
+      this.$store.dispatch("base/getALLDATA")
     },
+    async downloadFile() {
+      const csv = await this.$axios.get(`http://10.10.6.87/api/exportcsv/?days : ${this.$store.state.days}&start_date : ${this.$store.state.start_date}&end_date : ${this.$store.state.end_date}&strain : ${this.$store.state.strain}&ordering : ${this.$store.state.ordering}&state : ${this.$store.state.state}&lineage : ${this.$store.state.lineage}&mutation_deletion : ${this.$store.state.mutation_deletion}&date : ${this.$store.state.date}&gene : ${this.$store.state.gene}&reference_id : ${this.$store.state.reference_id}&amino_acid_position : ${this.$store.state.amino_acid_position}&mutation : ${this.$store.state.mutation}`)
+      const file_name = csv.data.path;
+      const download_path = `http://10.10.6.87/download/${file_name}`;
+      this.$axios({
+        url: download_path,
+        method: 'GET',
+        responseType: 'blob',
+      }).then((response) => {
+        var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+        var fileLink = document.createElement('a');
 
-    mounted() {
-      this.$nextTick(() => {})
+        fileLink.href = fileURL;
+        fileLink.setAttribute('download', file_name);
+        document.body.appendChild(fileLink);
+        fileLink.click();
+      });
     },
-  }
+    resetInput() {
+      // this.$store.state.days = "",
+      this.strain = "";
+      this.state = "";
+      this.date = "";
+      this.mutation_deletion = "";
+      this.gene = "";
+      this.reference_id = "";
+      this.mutation = "";
+      this.start_date = "";
+      this.end_date = "";
+      this.lineage = "";
+      this.amino_acid_position = "";
+    },
+  },
+
+  mounted() {
+    this.$nextTick(() => { })
+  },
+}
 </script>
 
 

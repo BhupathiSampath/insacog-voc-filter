@@ -1,20 +1,52 @@
 <template>
-	<v-chart
-		class="chart"
-		:loading="chart_loader"
-		:loading-options="loader_option"
-		:key="random"
-		:option="option"
-	/>
+	<div>
+		<div class="grid grid-cols-2 md:w-2/1 md:grid-cols-2 xl:grid-cols-2 gap-4 mt-4 flex justify-right">
+			<div class="flex items-center m-2 cursor-pointer cm-toggle-wrapper">
+				<span class="font-semibold text-xs mr-1"> Area chart </span>
+				<div
+					@click="toggleCheckbox"
+					class="rounded-full w-8 h-4 p-0.5 bg-gray-300"
+					:class="{ 'bg-gray-600': active == false, 'bg-green-500': active == true }"
+				>
+					<div
+						class="rounded-full w-3 h-3 bg-white transform mx-auto duration-300 ease-in-out"
+						:class="{ '-translate-x-2': active == false, 'translate-x-2': active == true }"
+					></div>
+				</div>
+				<span class="font-semibold text-xs ml-1"> Bar chart </span>
+			</div>
+			<div class="flex justify-end m-2 cursor-pointer cm-toggle-wrapper">
+				<span class="font-semibold text-xs mr-1"> Weekly </span>
+				<div
+					@click="chartsdata"
+					class="rounded-full w-8 h-4 p-0.5 bg-gray-300"
+					:class="{ 'bg-gray-600': active1 == false, 'bg-green-500': active1 == true }"
+				>
+					<div
+						class="rounded-full w-3 h-3 bg-white transform mx-auto duration-300 ease-in-out"
+						:class="{ '-translate-x-2': active1 == false, 'translate-x-2': active1 == true }"
+					></div>
+				</div>
+				<span class="font-semibold text-xs ml-1"> Monthly </span>
+			</div>
+		</div>
+		<v-chart
+			class="chart"
+			:loading="chart_loader"
+			:loading-options="loader_option"
+			:key="random"
+			:option="option"
+		/>
+	</div>
 </template>
 
 <script>
-import { map } from 'lodash'
 import { use } from 'echarts/core'
 import { mapFields } from 'vuex-map-fields'
 import { CanvasRenderer } from 'echarts/renderers'
-import { BarChart } from 'echarts/charts'
+import { BarChart, LineChart } from 'echarts/charts'
 import {
+	ToolboxComponent,
 	TitleComponent,
 	TooltipComponent,
 	LegendComponent,
@@ -23,8 +55,10 @@ import {
 import VChart, { THEME_KEY } from 'vue-echarts'
 
 use([
+	ToolboxComponent,
 	CanvasRenderer,
 	BarChart,
+	LineChart,
 	TitleComponent,
 	TooltipComponent,
 	LegendComponent,
@@ -33,6 +67,9 @@ use([
 
 export default {
 	data: () => ({
+		active: false,
+		active1: false,
+		variable: 'bar',
 		random: Math.random(),
 		chart_loader: true,
 		loader_option: {
@@ -47,9 +84,6 @@ export default {
 		option: {
 			tooltip: {
 				trigger: 'axis',
-				axisPointer: {
-					type: 'shadow',
-				},
 			},
 			grid: {
 				left: '0%',
@@ -57,30 +91,86 @@ export default {
 				bottom: '0%',
 				containLabel: true,
 			},
-			xAxis: [
-				{
-					type: 'category',
-					data: [],
-					axisTick: {
-						alignWithLabel: true,
+			// title: {
+			// 	left: 'center',
+			// 	text: 'Sequence distribution based on timline',
+			// },
+			toolbox: {
+				feature: {
+					dataZoom: {
+						yAxisIndex: 'none',
 					},
+					restore: {},
+					saveAsImage: {},
 				},
-			],
-			yAxis: [
-				{
-					type: 'value',
+			},
+			xAxis: {
+				type: 'category',
+				// boundaryGap: false,
+				data: [],
+				axisTick: {
+					alignWithLabel: true,
 				},
-			],
+			},
+			yAxis: {
+				type: 'value',
+			},
+			// dataZoom: [
+			// 	{
+			// 		type: 'inside',
+			// 		start: 0,
+			// 		end: 20
+			// 	},
+			// 	{
+			// 		start: 0,
+			// 		end: 20
+			// 	}
+			// ],
 			series: [
 				{
 					name: 'Sequences',
-					type: 'bar',
-					barWidth: '60%',
+					type: 'line',
+					smooth: true,
+					symbol: 'none',
+					areaStyle: {},
 					data: [],
 				},
 			],
 		},
 	}),
+	methods: {
+		toggleCheckbox() {
+			this.active = !this.active
+			this.option.series[0].type = this.active ? 'bar' : 'line'
+		},
+		chartsdata() {
+			this.active1 = !this.active1
+			if (this.active1 == false) {
+				if (Object.keys(this.chartdata).length > 0) {
+					let temp = this.chartdata.map((d) => ({
+						name: d.week_number,
+						value: d.strain__count,
+					}))
+					this.option.xAxis.data = temp.map((d) => d.name)
+					this.option.series[0].data = temp.map((d) => d.value)
+					this.random = Math.random()
+					this.chart_loader = false
+				}
+			} else {
+				if (Object.keys(this.chartdata1).length > 0) {
+					let temp = this.chartdata1.map((d) => ({
+						name: d.month_number,
+						value: d.strain__count,
+					}))
+					this.option.xAxis.data = temp.map((d) => d.name)
+					this.option.series[0].data = temp.map((d) => d.value)
+					this.random = Math.random()
+					this.chart_loader = false
+				}
+			}
+			console.log(this.active1)
+		},
+	},
 	components: {
 		VChart,
 	},
@@ -93,7 +183,7 @@ export default {
 				name: d.week_number,
 				value: d.strain__count,
 			}))
-			this.option.xAxis[0].data = temp.map((d) => d.name)
+			this.option.xAxis.data = temp.map((d) => d.name)
 			this.option.series[0].data = temp.map((d) => d.value)
 			this.random = Math.random()
 			this.chart_loader = false
@@ -103,19 +193,24 @@ export default {
 		...mapFields('base', [
 			'weekly_sequence.chartdata',
 			'weekly_sequence.loaded',
+			'monthly_sequence.chartdata1',
+			'monthly_sequence.loaded1',
 		]),
 	},
 	mounted() {
 		this.$nextTick(() => {
-			if (Object.keys(this.chartdata).length > 0) {
-				let temp = this.chartdata.map((d) => ({
-					name: d.week_number,
-					value: d.strain__count,
-				}))
-				this.option.xAxis[0].data = temp.map((d) => d.name)
-				this.option.series[0].data = temp.map((d) => d.value)
-				this.random = Math.random()
-				this.chart_loader = false
+			if (this.active1 == true) {
+				if (Object.keys(this.chartdata).length > 0) {
+					// FuncationCall(this.chartdata)
+					let temp = this.chartdata.map((d) => ({
+						name: d.week_number,
+						value: d.strain__count,
+					}))
+					this.option.xAxis.data = temp.map((d) => d.name)
+					this.option.series[0].data = temp.map((d) => d.value)
+					this.random = Math.random()
+					this.chart_loader = false
+				}
 			}
 		})
 	},
@@ -126,4 +221,69 @@ export default {
 .chart {
 	height: 300px;
 }
+/*.switch {
+	position: relative;
+	display: inline-block;
+	width: 50px;
+	height: 24px;
+}
+
+.switch input {
+	display: none;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #66cdaa;
+	-webkit-transition: 0.4s;
+	transition: 0.4s;
+}
+
+.slider:before {
+	position: absolute;
+	content: '';
+	height: 16px;
+	width: 16px;
+	left: 4px;
+	bottom: 4px;
+	background-color: Beige;
+	-webkit-transition: 0.4s;
+	transition: 0.4s;
+}
+
+input:checked + .slider {
+	background-color: #008b8b;
+}
+
+input:focus + .slider {
+	box-shadow: 0 0 1px #101010;
+}
+
+input:checked + .slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+}
+
+.slider.round {
+	border-radius: 34px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
+}
+.toggle-checkbox:checked {
+	@apply: right-0 border-green-400;
+	right: 0;
+	border-color: #68d391;
+}
+.toggle-checkbox:checked + .toggle-label {
+	@apply: bg-green-400;
+	background-color: #68d391;
+}*/
 </style>

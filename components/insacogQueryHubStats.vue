@@ -3,9 +3,9 @@
         <div
             class="relative flex justify-center items-center w-full border-b-2 border-gray-300 my-20 mt-6 mb-6"
         >
-            <h1 class="absolute bg-white px-2 text-xl font-semibold">
-                INSACOG QueryHub Stats
-            </h1>
+            <h1
+                class="absolute bg-gray-100 px-2 text-xl font-semibold"
+            >INSACOG QueryHub Stats</h1>
         </div>
         <div
             v-if="datatable_loaded"
@@ -37,9 +37,7 @@
             >
                 <div
                     class="absolute bg-gray-200 border border-grey-100 px-10 hover-target w-60 rounded-md"
-                >
-                    Click here to see lineage distribution with unique sequences
-                </div>
+                >Click here to see lineage distribution with unique sequences</div>
                 <p class="font-medium text-blue-400">
                     Lineages Found
                     <i
@@ -74,9 +72,7 @@
                     {{ event.lineage }}
                     <span
                         class="ml-2 mr-1 leading-relaxed truncate max-w-xs px-1 text-gray-900"
-                    >
-                        {{ event.strain__count }}
-                    </span>
+                    >{{ event.strain__count }}</span>
                 </span>
             </div>
         </div>
@@ -109,7 +105,7 @@ export default {
         },
     },
     mounted() {
-        this.$nextTick(() => {})
+        this.$nextTick(() => { })
     },
 }
 </script>
@@ -125,7 +121,7 @@ export default {
     margin: 1px;
     font-size: 13px;
     height: 37px;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: "Times New Roman", Times, serif;
 }
 .hover-trigger .hover-target {
     display: none;

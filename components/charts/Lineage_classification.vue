@@ -5,7 +5,6 @@
 		:loading-options="loader_option"
 		:option="option"
 	/>
-	<!-- <p>{{ ReactiveProperty(1) }}</p> -->
 </template>
 
 <script>
@@ -102,11 +101,6 @@ export default {
 			'lineage_class.loaded',
 		]),
 	},
-	methods: {
-		// ReactiveProperty(index) {
-		// 	return `Hello_${this.chartdata}_${index}`
-		// },
-	},
 	mounted() {
 		this.$nextTick(() => {
 			if (Object.keys(this.chartdata).length > 0) {
@@ -114,7 +108,6 @@ export default {
 					name: d.Class,
 					value: d.strain__count,
 				}))
-				// this.option.legend.data = temp.map((d) => d.name)
 				this.option.series[0].data = temp
 				this.chart_loader = false
 			}

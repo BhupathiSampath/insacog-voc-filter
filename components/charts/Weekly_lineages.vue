@@ -83,8 +83,8 @@ export default {
 		[THEME_KEY]: 'light',
 	},
 	watch: {
-		chartdata(value) {
-			this.option.xAxis[0].data = value.week.week_number
+		chartdata1(value) {
+			this.option.xAxis[0].data = value.week_number.week_number
 			let s = map(value.lineage, (d) => ({
 				name: d.lineage,
 				type: 'bar',
@@ -101,15 +101,15 @@ export default {
 	},
 	computed: {
 		...mapFields('base', [
-			'weekly_lineage.chartdata',
-			'weekly_lineage.loaded',
+			'weekly_lineage.chartdata1',
+			'weekly_lineage.loaded1',
 		]),
 	},
 	mounted() {
 		this.$nextTick(() => {
-			if (Object.keys(this.chartdata).length > 0) {
-				this.option.xAxis[0].data = this.chartdata.week.week_number
-				let s = map(this.chartdata.lineage, (d) => ({
+			if (Object.keys(this.chartdata1).length > 0) {
+				this.option.xAxis[0].data = this.chartdata1.week_number.week_number
+				let s = map(this.chartdata1.lineage, (d) => ({
 					name: d.lineage,
 					type: 'bar',
 					stack: 'Ad',
