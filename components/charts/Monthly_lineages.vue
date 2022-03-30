@@ -2,7 +2,7 @@
 	<div>
 		<div class="grid grid-cols-2 md:w-2/1 md:grid-cols-2 xl:grid-cols-2 gap-4 mt-4 flex justify-right">
 			<div class="flex items-center m-2 cursor-pointer cm-toggle-wrapper">
-				<span class="font-semibold text-xs mr-1"> Area chart </span>
+				<span class="font-normal text-xs mr-1"> Area chart </span>
 				<div
 					@click="toggleCheckbox"
 					class="rounded-full w-8 h-4 p-0.5 bg-gray-300"
@@ -13,10 +13,10 @@
 						:class="{ '-translate-x-2': active == false, 'translate-x-2': active == true }"
 					></div>
 				</div>
-				<span class="font-semibold text-xs ml-1"> Bar chart </span>
+				<span class="font-normal text-xs ml-1"> Bar chart </span>
 			</div>
 			<div class="flex justify-end m-2 cursor-pointer cm-toggle-wrapper">
-				<span class="font-semibold text-xs mr-1"> Weekly </span>
+				<span class="font-normal text-xs mr-1"> Weekly </span>
 				<div
 					@click="chartsdata"
 					class="rounded-full w-8 h-4 p-0.5 bg-gray-300"
@@ -27,7 +27,7 @@
 						:class="{ '-translate-x-2': active1 == false, 'translate-x-2': active1 == true }"
 					></div>
 				</div>
-				<span class="font-semibold text-xs ml-1"> Monthly </span>
+				<span class="font-normal text-xs ml-1"> Monthly </span>
 			</div>
 		</div>
 		<v-chart
@@ -156,27 +156,27 @@ export default {
 			this.active = !this.active
 			this.variable1 = this.active ? 'bar' : 'line'
 			// if (this.active1 = false) {
-				if (Object.keys(this.chartdata1).length > 0) {
-					this.option.xAxis.data = this.chartdata1.week_number.week_number
-					let only_name = map(this.chartdata1.lineage, (d) => d.lineage)
-					let s = map(this.chartdata1.lineage, (d) => ({
-						stack: true,
-						name: d.lineage,
-						type: this.variable1,
-						smooth: true,
-						silent: true,
-						data: d.value,
-						showSymbol: false,
-						label: { show: false },
-						lineStyle: { width: 0 },
-						areaStyle: { opacity: 1 },
-					}))
-					this.option.series = s
-					console.log(this.option.series)
-					this.option.legend.data = only_name
-					this.random = Math.random()
-					this.chart_loader = false
-				}
+			if (Object.keys(this.chartdata1).length > 0) {
+				this.option.xAxis.data = this.chartdata1.week_number.week_number
+				let only_name = map(this.chartdata1.lineage, (d) => d.lineage)
+				let s = map(this.chartdata1.lineage, (d) => ({
+					stack: true,
+					name: d.lineage,
+					type: this.variable1,
+					smooth: true,
+					silent: true,
+					data: d.value,
+					showSymbol: false,
+					label: { show: false },
+					lineStyle: { width: 0 },
+					areaStyle: { opacity: 1 },
+				}))
+				this.option.series = s
+				console.log(this.option.series)
+				this.option.legend.data = only_name
+				this.random = Math.random()
+				this.chart_loader = false
+			}
 			// }
 			// else {
 			// 	if (Object.keys(this.chartdata).length > 0) {
@@ -226,8 +226,7 @@ export default {
 					this.random = Math.random()
 					this.chart_loader = false
 				}
-			}
-			else {
+			} else {
 				if (Object.keys(this.chartdata).length > 0) {
 					this.option.xAxis.data = this.chartdata.month_number.month_number
 					let only_name = map(this.chartdata.lineage, (d) => d.lineage)
@@ -283,14 +282,18 @@ export default {
 		},
 	},
 	computed: {
-		...mapFields('base', ['monthly_lineage.chartdata', 'monthly_lineage.loaded',
-			'weekly_lineage.chartdata1', 'weekly_lineage.loaded1']),
+		...mapFields('base', [
+			'monthly_lineage.chartdata',
+			'monthly_lineage.loaded',
+			'weekly_lineage.chartdata1',
+			'weekly_lineage.loaded1',
+		]),
 	},
 	mounted() {
 		this.$nextTick(() => {
 			if (this.active1 == false) {
 				if (Object.keys(this.chartdata1).length > 0) {
-					this.option.xAxis.data = this.chartdata1.week_number.week
+					this.option.xAxis.data = this.chartdata1.week_number.week_number
 					let only_name = map(this.chartdata1.lineage, (d) => d.lineage)
 					let s = map(this.chartdata1.lineage, (d) => ({
 						stack: true,

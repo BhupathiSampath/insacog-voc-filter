@@ -2,7 +2,7 @@
 	<div>
 		<div class="grid grid-cols-2 md:w-2/1 md:grid-cols-2 xl:grid-cols-2 gap-4 mt-4 flex justify-right">
 			<div class="flex items-center m-2 cursor-pointer cm-toggle-wrapper">
-				<span class="font-semibold text-xs mr-1"> Area chart </span>
+				<span class="font-normal text-xs mr-1"> Area chart </span>
 				<div
 					@click="toggleCheckbox"
 					class="rounded-full w-8 h-4 p-0.5 bg-gray-300"
@@ -13,10 +13,10 @@
 						:class="{ '-translate-x-2': active == false, 'translate-x-2': active == true }"
 					></div>
 				</div>
-				<span class="font-semibold text-xs ml-1"> Bar chart </span>
+				<span class="font-normal text-xs ml-1"> Bar chart </span>
 			</div>
 			<div class="flex justify-end m-2 cursor-pointer cm-toggle-wrapper">
-				<span class="font-semibold text-xs mr-1"> Weekly </span>
+				<span class="font-normal text-xs mr-1"> Weekly </span>
 				<div
 					@click="chartsdata"
 					class="rounded-full w-8 h-4 p-0.5 bg-gray-300"
@@ -27,7 +27,7 @@
 						:class="{ '-translate-x-2': active1 == false, 'translate-x-2': active1 == true }"
 					></div>
 				</div>
-				<span class="font-semibold text-xs ml-1"> Monthly </span>
+				<span class="font-normal text-xs ml-1"> Monthly </span>
 			</div>
 		</div>
 		<v-chart

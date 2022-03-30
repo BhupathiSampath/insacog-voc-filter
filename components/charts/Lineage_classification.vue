@@ -1,10 +1,5 @@
 <template>
-	<v-chart
-		class="chart"
-		:loading="chart_loader"
-		:loading-options="loader_option"
-		:option="option"
-	/>
+	<v-chart class="chart" :loading="chart_loader" :loading-options="loader_option" :option="option" />
 </template>
 
 <script>
@@ -12,20 +7,10 @@ import { use } from 'echarts/core'
 import { mapFields } from 'vuex-map-fields'
 import { CanvasRenderer } from 'echarts/renderers'
 import { PieChart } from 'echarts/charts'
-import {
-	TitleComponent,
-	TooltipComponent,
-	LegendComponent,
-} from 'echarts/components'
+import { TitleComponent, TooltipComponent, LegendComponent } from 'echarts/components'
 import VChart, { THEME_KEY } from 'vue-echarts'
 
-use([
-	CanvasRenderer,
-	PieChart,
-	TitleComponent,
-	TooltipComponent,
-	LegendComponent,
-])
+use([CanvasRenderer, PieChart, TitleComponent, TooltipComponent, LegendComponent])
 
 export default {
 	data: () => ({

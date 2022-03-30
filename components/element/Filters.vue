@@ -39,7 +39,7 @@
 
     <div
       v-show="isShowing"
-      class="fixed inset-10 mt-16 w-2/3 py-16 mx-auto pt-48 pl-40 grid justify-end z-30"
+      class="fixed inset-10 w-2/3 h-4 mx-auto pt-24 py-16 grid justify-center z-30"
       id="my-modal"
     >
       <div class="w-full shadow p-5 rounded-lg bg-white z-30">

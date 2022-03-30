@@ -1,24 +1,7 @@
 <template>
 	<div>
 		<label for="toggle" class="text-xs text-gray-700">Area chart</label>
-		<!-- <div
-				class="relative inline-block w-12 mr-2 align-middle select-none transition duration-1000 ease-in"
-			>
-				<input
-					@click="chartsdata"
-					type="checkbox"
-					name="toggle"
-					id="toggle"
-					class="toggle-checkbox absolute block w-8 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
-				/>
-				<label
-					for="toggle"
-					class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
-				></label>
-		</div>-->
-		<div
-			class="relative inline-block w-12 mr-2 align-middle select-none transition duration-1000 ease-in"
-		>
+		<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-1000 ease-in">
 			<input
 				@click="toggleCheckbox"
 				type="checkbox"
@@ -47,22 +30,10 @@ import { use } from 'echarts/core'
 import { mapFields } from 'vuex-map-fields'
 import { CanvasRenderer } from 'echarts/renderers'
 import { BarChart } from 'echarts/charts'
-import {
-	TitleComponent,
-	TooltipComponent,
-	LegendComponent,
-	GridComponent,
-} from 'echarts/components'
+import { TitleComponent, TooltipComponent, LegendComponent, GridComponent } from 'echarts/components'
 import VChart, { THEME_KEY } from 'vue-echarts'
 
-use([
-	CanvasRenderer,
-	BarChart,
-	TitleComponent,
-	TooltipComponent,
-	LegendComponent,
-	GridComponent,
-])
+use([CanvasRenderer, BarChart, TitleComponent, TooltipComponent, LegendComponent, GridComponent])
 
 export default {
 	data: () => ({
@@ -92,16 +63,16 @@ export default {
 			},
 			title: {
 				left: 'center',
-				text: 'Sequence distribution weekly basis'
+				text: 'Sequence distribution weekly basis',
 			},
 			toolbox: {
 				feature: {
 					dataZoom: {
-						yAxisIndex: 'none'
+						yAxisIndex: 'none',
 					},
 					restore: {},
-					saveAsImage: {}
-				}
+					saveAsImage: {},
+				},
 			},
 			xAxis: {
 				type: 'category',
@@ -132,18 +103,18 @@ export default {
 					smooth: true,
 					symbol: 'none',
 					areaStyle: {},
-					data: []
-				}
-			]
-		}
+					data: [],
+				},
+			],
+		},
 	}),
 	methods: {
 		toggleCheckbox() {
-			this.active = !this.active;
+			this.active = !this.active
 			this.option.series[0].type = this.active ? 'bar' : 'line'
 		},
 		chartsdata() {
-			this.active1 = !this.active1;
+			this.active1 = !this.active1
 			console.log(this.active1)
 		},
 	},
@@ -166,10 +137,7 @@ export default {
 		},
 	},
 	computed: {
-		...mapFields('base', [
-			'monthly_sequence.chartdata1',
-			'monthly_sequence.loaded1',
-		]),
+		...mapFields('base', ['monthly_sequence.chartdata1', 'monthly_sequence.loaded1']),
 	},
 	mounted() {
 		this.$nextTick(() => {

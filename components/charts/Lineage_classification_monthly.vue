@@ -15,22 +15,10 @@ import { use } from 'echarts/core'
 import { BarChart } from 'echarts/charts'
 import { mapFields } from 'vuex-map-fields'
 import { CanvasRenderer } from 'echarts/renderers'
-import {
-	TitleComponent,
-	TooltipComponent,
-	LegendComponent,
-	GridComponent,
-} from 'echarts/components'
+import { TitleComponent, TooltipComponent, LegendComponent, GridComponent } from 'echarts/components'
 import VChart, { THEME_KEY } from 'vue-echarts'
 
-use([
-	CanvasRenderer,
-	BarChart,
-	TitleComponent,
-	TooltipComponent,
-	LegendComponent,
-	GridComponent,
-])
+use([CanvasRenderer, BarChart, TitleComponent, TooltipComponent, LegendComponent, GridComponent])
 
 export default {
 	data: () => ({
@@ -97,16 +85,12 @@ export default {
 		},
 	},
 	computed: {
-		...mapFields('base', [
-			'monthly_lineage_class.chartdata1',
-			'monthly_lineage_class.loaded1',
-		]),
+		...mapFields('base', ['monthly_lineage_class.chartdata1', 'monthly_lineage_class.loaded1']),
 	},
 	mounted() {
 		this.$nextTick(() => {
 			if (Object.keys(this.chartdata1).length > 0) {
-				this.option.xAxis[0].data =
-					this.chartdata.month_number.month_number
+				this.option.xAxis[0].data = this.chartdata.month_number.month_number
 				let s = map(this.chartdata1.Class, (d) => ({
 					name: d.Class,
 					type: 'bar',

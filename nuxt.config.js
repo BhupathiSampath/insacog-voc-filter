@@ -8,6 +8,19 @@ export default {
 	build: { transpile: [/echarts/, /zrender/] },
 	modules: ['@nuxtjs/axios', '@nuxtjs/toast', '@nuxtjs/dayjs'],
 	buildModules: ['@nuxtjs/tailwindcss', '@nuxtjs/composition-api/module'],
+	toast: {
+      position: 'top-center',
+      duration: 3000,
+      register: [ // Register custom toasts
+        {
+          name: 'my-error',
+          message: 'Oops...Something went wrong',
+          options: {
+            type: 'error'
+          }
+        }
+      ]
+  	},
 	head: {
 		title: 'INSACOG-QueryHub',
 		htmlAttrs: { lang: 'en' },
