@@ -14,22 +14,10 @@ import { use } from 'echarts/core'
 import { mapFields } from 'vuex-map-fields'
 import { CanvasRenderer } from 'echarts/renderers'
 import { BarChart } from 'echarts/charts'
-import {
-	TitleComponent,
-	TooltipComponent,
-	LegendComponent,
-	GridComponent,
-} from 'echarts/components'
+import { TitleComponent, TooltipComponent, LegendComponent, GridComponent } from 'echarts/components'
 import VChart, { THEME_KEY } from 'vue-echarts'
 
-use([
-	CanvasRenderer,
-	BarChart,
-	TitleComponent,
-	TooltipComponent,
-	LegendComponent,
-	GridComponent,
-])
+use([CanvasRenderer, BarChart, TitleComponent, TooltipComponent, LegendComponent, GridComponent])
 
 export default {
 	data: () => ({
@@ -45,6 +33,9 @@ export default {
 			fontFamily: 'Averta',
 		},
 		option: {
+			// title: {
+			// 	text: 'Sequences vs Evaporation',
+			// },
 			tooltip: {
 				trigger: 'axis',
 				axisPointer: {
@@ -100,10 +91,7 @@ export default {
 		},
 	},
 	computed: {
-		...mapFields('base', [
-			'state_distribution.chartdata',
-			'state_distribution.loaded',
-		]),
+		...mapFields('base', ['state_distribution.chartdata', 'state_distribution.loaded']),
 	},
 	mounted() {
 		this.$nextTick(() => {
